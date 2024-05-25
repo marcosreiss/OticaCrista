@@ -1,0 +1,48 @@
+# Diretório do Visual Studio
+.vs/
+# Arquivos temporários
+*.suo
+*.suo.bak
+*.user
+*.usersettings
+*.tmp
+*.tmp.bak
+*.cache
+*.cache/*
+*.dll
+*.pdb
+*.log
+*.psql
+*.db
+*.obj
+*.bin
+# Arquivos de configuração do Visual Studio
+*.csproj.user
+*.vbproj.user
+*.fsxproj.user
+*.vcxproj.user
+*.resx
+*.xaml
+*.designer.cs
+*.designer.vb
+*.designer.fs
+*.designer.c
+# Arquivos de solução do Visual Studio
+*.sln
+*.filters
+*.resolutions
+*.vcxproj.filters
+# Arquivos IntelliSense
+*.intls
+*.dbmdl
+*.opendb
+*.ipch
+*.tlog
+# Pastas de pacotes NuGet
+packages/
+# Pastas de cache do NuGet
+NuGet/
+# Pastas de binários do NuGet
+bin/
+# Pastas de obj do NuGet
+obj/
