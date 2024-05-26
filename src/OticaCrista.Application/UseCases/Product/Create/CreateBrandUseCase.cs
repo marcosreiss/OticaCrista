@@ -12,9 +12,16 @@ namespace OticaCrista.Application.UseCases.Product.Create
         {
             _repository = repository;
         }
-        public BrandModel Execute(BrandRequestJson request) 
-        { 
-            
+        public async Task<BrandModel> Execute(BrandRequestJson request) 
+        {
+            Validate(request);
+            var newBrand = new BrandModel
+            {
+                Name = request.Name,
+                Products = null
+            };
+            await _repository.Add(newBrand);
+            return newBrand;
         }
 
         private void Validate(BrandRequestJson request)

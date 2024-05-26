@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OticaCrista.Api.Communication.Request.Product;
+using OticaCrista.Application.UseCases.Product.Create;
 using OticaCrista.communication.Requests.Product;
 using OticaCrista.Infra.DataBase.Repository;
 using SistOtica.Models.Product;
@@ -11,9 +11,11 @@ namespace OticaCrista.Api.Controllers
     public class BrandController : ControllerBase
     {
         private readonly IBrandRepository _brandRepository;
-        public BrandController(IBrandRepository brandRepository) 
+        private readonly CreateBrandUseCase _createBrandUseCase;
+        public BrandController(IBrandRepository brandRepository, CreateBrandUseCase createBrandUseCase) 
         { 
             _brandRepository = brandRepository;
+            _createBrandUseCase = createBrandUseCase;
         }
 
         [HttpGet]
@@ -33,8 +35,9 @@ namespace OticaCrista.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<BrandModel>> Post(BrandRequestJson request)
         {
+            var newBrand = await _createBrandUseCase.Execute(request);
             
-            return Created("", null);
+            return Created("", newBrand);
         }
 
         [HttpPut("{id}")]

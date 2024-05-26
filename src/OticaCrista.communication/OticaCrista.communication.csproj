@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OticaCrista.Model\OticaCrista.Model.csproj" />
+  </ItemGroup>
+
 </Project>
