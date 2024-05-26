@@ -1,36 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
 namespace OticaCrista.Infra.DataBase.Repository
 {
     public class BrandRepository : IBrandRepository
     {
-        private readonly OticaCristaContext _context;
-        public BrandRepository(OticaCristaContext context)
+        private readonly IDbContextFactory<OticaCristaContext> _contextFactory;
+        public BrandRepository(IDbContextFactory<OticaCristaContext> context)
         {
-            _context = context;
+            _contextFactory = context;
 
         }
         public async Task<List<BrandModel>> GetAll()
         {
-            return await _context.Brands.ToListAsync();
+            using var context = _contextFactory.CreateDbContext();
+            return await context.Brands.ToListAsync();
         }
 
         public async Task<BrandModel> GetById(int id)
         {
-            return await _context.Brands.FirstOrDefaultAsync(x => x.Id == id);
+            using var context = _contextFactory.CreateDbContext();
+            return await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<BrandModel> Add(BrandModel brand)
         {
-            await _context.Brands.AddAsync(brand);
-            await _context.SaveChangesAsync();
+            using var context = _contextFactory.CreateDbContext();
+            await context.Brands.AddAsync(brand);
+            await context.SaveChangesAsync();
             return brand;
         }
 
         public async Task<BrandModel> Update(BrandModel brand, int id)
         {
+            using var context = _contextFactory.CreateDbContext();
             var updateBrand = await GetById(id);
             if (updateBrand == null)
             {
@@ -38,8 +41,8 @@ namespace OticaCrista.Infra.DataBase.Repository
             }
 
             updateBrand.Name = brand.Name;
-            await _context.Brands.AddAsync(updateBrand);
-            await _context.SaveChangesAsync();
+            await context.Brands.AddAsync(updateBrand);
+            await context.SaveChangesAsync();
 
             return updateBrand;
             
@@ -47,14 +50,15 @@ namespace OticaCrista.Infra.DataBase.Repository
 
         public async Task<bool> Delete(int id)
         {
+            using var context = _contextFactory.CreateDbContext();
             var deleteBrand = await GetById(id);
             if (deleteBrand == null)
             {
                 throw new Exception($"usuário de id {id} não encontrado");
             }
 
-            _context.Brands.Remove(deleteBrand);
-            await _context.SaveChangesAsync();
+            context.Brands.Remove(deleteBrand);
+            await context.SaveChangesAsync();
 
             return true;
         }

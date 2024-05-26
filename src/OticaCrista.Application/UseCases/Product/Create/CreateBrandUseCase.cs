@@ -6,9 +6,9 @@ namespace OticaCrista.Application.UseCases.Product.Create
 {
     public class CreateBrandUseCase
     {
-        private readonly BrandRepository _repository;
+        private readonly IBrandRepository _repository;
 
-        public CreateBrandUseCase(BrandRepository repository)
+        public CreateBrandUseCase(IBrandRepository repository)
         {
             _repository = repository;
         }
@@ -30,8 +30,6 @@ namespace OticaCrista.Application.UseCases.Product.Create
             {
                 throw new ArgumentNullException(nameof(request));
             }
-
-
         }
     }
 }
