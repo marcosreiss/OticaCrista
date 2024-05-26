@@ -1,0 +1,14 @@
+﻿using OticaCrista.communication.Requests.Product;
+using SistOtica.Models.Product;
+
+namespace OticaCrista.Infra.DataBase.Repository
+{
+    public interface IBrandRepository
+    {
+        Task<List<BrandModel>> GetAll();
+        Task<BrandModel> GetById(int id);
+        Task<BrandModel> Add(BrandModel brand);
+        Task<BrandModel> Update(BrandModel brand, int id);
+        Task<bool> Delete(int id);
+    }
+}

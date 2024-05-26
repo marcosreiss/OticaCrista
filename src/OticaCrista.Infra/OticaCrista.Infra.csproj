@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\OticaCrista.Model\OticaCrista.Model.csproj" />
+    <ProjectReference Include="..\OticaCrista.communication\OticaCrista.communication.csproj" />
+    <ProjectReference Include="..\OticaCrista.Model\OticaCrista.Model.csproj" />
   </ItemGroup>
 
 </Project>

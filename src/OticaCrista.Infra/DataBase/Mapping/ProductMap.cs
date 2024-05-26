@@ -9,6 +9,7 @@ namespace SistOtica.Data.Mapping
         {
             tb.HasKey(x => x.Id);
             tb.HasOne(x => x.brand).WithMany(x => x.Products).HasForeignKey(x => x.BrandId);
+            tb.Property(x => x.Name).IsRequired().HasMaxLength(255);
         }
     }
 }

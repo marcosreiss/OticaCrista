@@ -5,14 +5,13 @@ using SistOtica.Models.Product;
 using SistOtica.Models.Sale;
 using SistOtica.Models.Service;
 
-namespace OticaCrista.Infra.Repository
+namespace OticaCrista.Infra.DataBase
 {
     public class OticaCristaContext : DbContext
     {
-        public OticaCristaContext( DbContextOptions<OticaCristaContext> options)
+        public OticaCristaContext(DbContextOptions<OticaCristaContext> options)
             : base(options)
         {
-            
         }
 
         //Client
@@ -31,7 +30,6 @@ namespace OticaCrista.Infra.Repository
         public DbSet<PrescriptionModel> Prescriptions { get; set; }
         public DbSet<FrameModel> Frames { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

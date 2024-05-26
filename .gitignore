@@ -46,3 +46,7 @@ NuGet/
 bin/
 # Pastas de obj do NuGet
 obj/
+
+# appsetings.development
+
+appsettings.Development.json
