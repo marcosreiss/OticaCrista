@@ -30,6 +30,14 @@ namespace OticaCrista.Application.UseCases.Product.Create
             {
                 throw new ArgumentNullException(nameof(request));
             }
+            var brands = _repository.GetAll().Result;
+            foreach ( var brand in brands )
+            {
+                if(brand.Name == request.Name)
+                {
+                    throw new InvalidOperationException("This Brand Already exists");
+                }
+            }
         }
     }
 }
