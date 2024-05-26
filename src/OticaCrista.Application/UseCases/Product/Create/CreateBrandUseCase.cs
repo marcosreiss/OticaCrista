@@ -4,11 +4,12 @@ using SistOtica.Models.Product;
 
 namespace OticaCrista.Application.UseCases.Product.Create
 {
-    public class CreateBrandUseCase
+    public class CreateBrandUseCase : BrandUseCases
     {
         private readonly IBrandRepository _repository;
 
         public CreateBrandUseCase(IBrandRepository repository)
+            : base(repository)
         {
             _repository = repository;
         }
