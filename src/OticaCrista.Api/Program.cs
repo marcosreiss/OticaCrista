@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextFactory<OticaCristaContext>(o => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-builder.Services.AddScoped<BrandUseCases>();
+builder.Services.AddScoped<CreateBrandUseCase>();
 
 var app = builder.Build();
 

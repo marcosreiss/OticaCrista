@@ -11,11 +11,9 @@ namespace OticaCrista.Api.Controllers
     public class BrandController : ControllerBase
     {
         private readonly IBrandRepository _brandRepository;
-        private readonly CreateBrandUseCase _createBrandUseCase;
-        public BrandController(IBrandRepository brandRepository, CreateBrandUseCase createBrandUseCase) 
+        public BrandController(IBrandRepository brandRepository) 
         { 
             _brandRepository = brandRepository;
-            _createBrandUseCase = createBrandUseCase;
         }
 
         [HttpGet]
@@ -33,11 +31,13 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BrandModel>> Post(BrandRequestJson request)
+        public async Task<ActionResult<BrandModel>> Post(
+            [FromBody] BrandRequestJson request,
+            [FromServices]CreateBrandUseCase useCase)
         {
-            var newBrand = await _createBrandUseCase.Execute(request);
+            var newBrand = await useCase.Execute(request);
             
-            return Created("", newBrand);
+            return Created(string.Empty, newBrand);
         }
 
         [HttpPut("{id}")]
