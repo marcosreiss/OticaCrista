@@ -11,23 +11,23 @@ namespace SistOtica.Models.Product
 
         public string Name { get; set; }
 
-        public string BuyPrice { get; set; }
+        public required decimal BuyPrice { get; set; }
 
-        public double Addition { get; set; } = 100; //lucro
+        public decimal Addition { get; set; } = 100; //lucro
 
-        public string SalePrice { get; set; }
+        public decimal SalePrice { get; set; }
 
         public int Quantity  { get; set; }
 
 
         [ForeignKey("BrandId")]
         [InverseProperty("Products")]
-        public int BrandId { get; set; }
+        public required int BrandId { get; set; }
 
-        public virtual BrandModel brand { get; set; }
+        public required virtual BrandModel brand { get; set; }
 
 
-        public ICollection<SaleModel> Sales { get; set; } = new List<SaleModel>();
+        public ICollection<SaleModel>? Sales { get; set; }
 
     }
 }
