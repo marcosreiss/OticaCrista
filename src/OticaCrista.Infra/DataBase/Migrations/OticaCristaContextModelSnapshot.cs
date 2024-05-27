@@ -7,7 +7,7 @@ using OticaCrista.Infra.DataBase;
 
 #nullable disable
 
-namespace OticaCrista.Infra.DataBase.Migrations
+namespace OticaCrista.Infra.Migrations
 {
     [DbContext(typeof(OticaCristaContext))]
     partial class OticaCristaContextModelSnapshot : ModelSnapshot
@@ -195,26 +195,25 @@ namespace OticaCrista.Infra.DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<double>("Addition")
-                        .HasColumnType("double");
+                    b.Property<decimal>("Addition")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<string>("BuyPrice")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("BuyPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("SalePrice")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

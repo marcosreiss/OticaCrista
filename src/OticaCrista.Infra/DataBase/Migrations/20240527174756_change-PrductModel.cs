@@ -4,10 +4,10 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace OticaCrista.Infra.DataBase.Migrations
+namespace OticaCrista.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class _01 : Migration
+    public partial class changePrductModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -121,10 +121,10 @@ namespace OticaCrista.Infra.DataBase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    BuyPrice = table.Column<string>(type: "longtext", nullable: false),
-                    Addition = table.Column<double>(type: "double", nullable: false),
-                    SalePrice = table.Column<string>(type: "longtext", nullable: false),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    BuyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Addition = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: false)
                 },
