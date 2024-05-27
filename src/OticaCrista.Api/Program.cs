@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OticaCrista.Application.UseCases.Product;
 using OticaCrista.Application.UseCases.Product.Create;
+using OticaCrista.Application.UseCases.Product.Get;
 using OticaCrista.Infra.DataBase;
 using OticaCrista.Infra.DataBase.Repository;
 
@@ -13,8 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextFactory<OticaCristaContext>(o => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+//Dependecy Service
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<CreateBrandUseCase>();
+builder.Services.AddScoped<GetBrandUseCase>();
 
 var app = builder.Build();
 
