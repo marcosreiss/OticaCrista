@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OticaCrista.Application.UseCases.Product.Create;
 using OticaCrista.Application.UseCases.Product.Get;
+using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.communication.Requests.Product;
 using OticaCrista.Infra.DataBase.Repository;
 using SistOtica.Models.Product;
@@ -16,6 +17,8 @@ namespace OticaCrista.Api.Controllers
         { 
             _brandRepository = brandRepository;
         }
+
+
 
         [HttpGet]
         public async Task<ActionResult<List<BrandModel>>> GetAll([FromServices] GetBrandUseCase useCase)
@@ -40,11 +43,12 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<BrandModel>> Update([FromBody] BrandModel brandModel, int id)
+        public async Task<ActionResult<BrandModel>> Update(
+            [FromBody] BrandRequestJson request, int id,
+            [FromServices] UpdateBrandUseCase useCase)
         {
-            var brand = await _brandRepository.Update(brandModel, id);
-
-            return Ok(brand);
+            var updated = await useCase.Execute(request, id);
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]

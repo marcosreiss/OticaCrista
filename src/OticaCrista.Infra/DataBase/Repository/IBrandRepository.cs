@@ -8,7 +8,7 @@ namespace OticaCrista.Infra.DataBase.Repository
         Task<List<BrandModel>> GetAll();
         Task<BrandModel> GetById(int id);
         Task<BrandModel> Add(BrandModel brand);
-        Task<BrandModel> Update(BrandModel brand, int id);
+        Task<BrandModel> Update(BrandRequestJson brand, int id);
         Task<bool> Delete(int id);
     }
 }

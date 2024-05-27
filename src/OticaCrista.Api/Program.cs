@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using OticaCrista.Application.UseCases.Product;
 using OticaCrista.Application.UseCases.Product.Create;
 using OticaCrista.Application.UseCases.Product.Get;
+using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.Infra.DataBase;
 using OticaCrista.Infra.DataBase.Repository;
 
@@ -19,6 +20,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<CreateBrandUseCase>();
 builder.Services.AddScoped<GetBrandUseCase>();
+builder.Services.AddScoped<UpdateBrandUseCase>();
 
 var app = builder.Build();
 

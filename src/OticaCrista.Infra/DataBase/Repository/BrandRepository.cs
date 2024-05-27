@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
 namespace OticaCrista.Infra.DataBase.Repository
@@ -31,7 +32,7 @@ namespace OticaCrista.Infra.DataBase.Repository
             return brand;
         }
 
-        public async Task<BrandModel> Update(BrandModel brand, int id)
+        public async Task<BrandModel> Update(BrandRequestJson brand, int id)
         {
             using var context = _contextFactory.CreateDbContext();
             var updateBrand = await GetById(id);
