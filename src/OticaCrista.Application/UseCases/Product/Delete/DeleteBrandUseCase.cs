@@ -11,9 +11,9 @@ namespace OticaCrista.Application.UseCases.Product.Delete
         }
 
 
-        public async Task<bool> Execute()
+        public async Task<bool> Execute(int id)
         {
-
+            return await _brandRepository.Delete(id);
         }
     }
 }

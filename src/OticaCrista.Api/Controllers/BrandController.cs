@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OticaCrista.Application.UseCases.Product.Create;
+using OticaCrista.Application.UseCases.Product.Delete;
 using OticaCrista.Application.UseCases.Product.Get;
 using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.communication.Requests.Product;
@@ -52,9 +53,10 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<BrandModel>> Delete(int id)
+        public async Task<ActionResult<BrandModel>> Delete(int id,
+            [FromServices] DeleteBrandUseCase useCase)
         {
-            bool apagado = await _brandRepository.Delete(id);
+            bool apagado = useCase.Execute(id).Result;
             return Ok(apagado);
         }
     }
