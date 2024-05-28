@@ -44,7 +44,7 @@ namespace OticaCrista.Api.Controllers
             return product;
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<bool> Delete(int id,
             [FromServices] DeleteProductUseCase useCase)
         {
