@@ -21,7 +21,12 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         public async Task<BrandModel> GetById(int id)
         {
             using var context = _contextFactory.CreateDbContext();
-            return await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
+            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
+            if (brand == null)
+            {
+                throw new ArgumentNullException("Brand not Found");
+            }
+            return brand;
         }
 
         public async Task<BrandModel> Add(BrandModel brand)
@@ -36,13 +41,10 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         {
             using var context = _contextFactory.CreateDbContext();
             var updateBrand = await GetById(id);
-            if (updateBrand == null)
-            {
-                throw new Exception($"usuário de id {id} não encontrado");
-            }
+            
 
             updateBrand.Name = brand.Name;
-            await context.Brands.AddAsync(updateBrand);
+            context.Brands.Update(updateBrand);
             await context.SaveChangesAsync();
 
             return updateBrand;
@@ -53,10 +55,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         {
             using var context = _contextFactory.CreateDbContext();
             var deleteBrand = await GetById(id);
-            if (deleteBrand == null)
-            {
-                throw new Exception($"usuário de id {id} não encontrado");
-            }
+           
 
             context.Brands.Remove(deleteBrand);
             await context.SaveChangesAsync();
