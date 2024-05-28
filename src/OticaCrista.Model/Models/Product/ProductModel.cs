@@ -1,6 +1,4 @@
 ﻿using SistOtica.Models.Sale;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistOtica.Models.Product
@@ -13,7 +11,7 @@ namespace SistOtica.Models.Product
 
         public required decimal BuyPrice { get; set; }
 
-        public decimal Addition { get; set; } = 100; //lucro
+        public decimal Addition { get; set; } = 100; 
 
         public decimal SalePrice { get; set; }
 
