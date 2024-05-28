@@ -5,7 +5,7 @@ using OticaCrista.Application.UseCases.Product.Delete;
 using OticaCrista.Application.UseCases.Product.Get;
 using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.Infra.DataBase;
-using OticaCrista.Infra.DataBase.Repository;
+using OticaCrista.Infra.DataBase.Repository.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 

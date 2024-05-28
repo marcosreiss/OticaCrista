@@ -1,5 +1,5 @@
 ﻿using OticaCrista.communication.Requests.Product;
-using OticaCrista.Infra.DataBase.Repository;
+using OticaCrista.Infra.DataBase.Repository.Product;
 using SistOtica.Models.Product;
 
 namespace OticaCrista.Application.UseCases.Product.Update

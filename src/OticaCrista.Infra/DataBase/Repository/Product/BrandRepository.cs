@@ -2,7 +2,7 @@
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Infra.DataBase.Repository
+namespace OticaCrista.Infra.DataBase.Repository.Product
 {
     public class BrandRepository : IBrandRepository
     {
@@ -46,7 +46,7 @@ namespace OticaCrista.Infra.DataBase.Repository
             await context.SaveChangesAsync();
 
             return updateBrand;
-            
+
         }
 
         public async Task<bool> Delete(int id)

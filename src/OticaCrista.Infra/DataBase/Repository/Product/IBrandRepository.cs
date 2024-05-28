@@ -1,7 +1,7 @@
 ﻿using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Infra.DataBase.Repository
+namespace OticaCrista.Infra.DataBase.Repository.Product
 {
     public interface IBrandRepository
     {

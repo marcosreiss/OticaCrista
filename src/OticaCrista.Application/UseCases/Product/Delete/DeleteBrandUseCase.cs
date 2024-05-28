@@ -1,4 +1,4 @@
-﻿using OticaCrista.Infra.DataBase.Repository;
+﻿using OticaCrista.Infra.DataBase.Repository.Product;
 
 namespace OticaCrista.Application.UseCases.Product.Delete
 {
