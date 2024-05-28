@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OticaCrista.Application.UseCases.Product.Create;
+using OticaCrista.Application.UseCases.Product.Delete;
 using OticaCrista.Application.UseCases.Product.Get;
+using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
@@ -32,6 +34,22 @@ namespace OticaCrista.Api.Controllers
         {
             var product = await useCase.GetById(id);
             return product;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ProductModel> Update(ProductRequestJson request, int id,
+            [FromServices] UpdateProductUseCase useCase)
+        {
+            var product = await useCase.Execute(request, id);
+            return product;
+        }
+
+        [HttpDelete]
+        public async Task<bool> Delete(int id,
+            [FromServices] DeleteProductUseCase useCase)
+        {
+            await useCase.Execute(id);
+            return true;
         }
     }
 }
