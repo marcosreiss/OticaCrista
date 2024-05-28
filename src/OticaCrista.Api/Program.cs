@@ -18,11 +18,17 @@ builder.Services.AddDbContextFactory<OticaCristaContext>(o => o.UseMySQL(builder
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 //Dependecy Service
+
+// ->Brand
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<CreateBrandUseCase>();
 builder.Services.AddScoped<GetBrandUseCase>();
 builder.Services.AddScoped<UpdateBrandUseCase>();
 builder.Services.AddScoped<DeleteBrandUseCase>();
+
+// -> Product
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<CreateProductUseCase>();
 
 
 var app = builder.Build();
