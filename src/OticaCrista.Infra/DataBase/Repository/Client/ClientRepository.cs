@@ -88,7 +88,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             using var context = _contextFactory.CreateDbContext();
             var newContact = context.Contacts.FirstOrDefaultAsync(x => x.Id == id).Result;
 
-            if (newContact == null) throw new InvalidOperationException("Contact doesnt exists");
+            if (newContact == null) throw new InvalidOperationException("Contact doesnt exist");
 
             newContact.PhoneNumber = contact.PhoneNumber;
             context.Contacts.Update(newContact);
@@ -103,7 +103,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
 
             var newReference = context.References.FirstOrDefaultAsync(x=>x.Id == id).Result;
 
-            if (newReference == null) throw new InvalidOperationException("Reference doesnt exists");
+            if (newReference == null) throw new InvalidOperationException("Reference doesnt exist");
 
             newReference.Name = reference.Name;
             newReference.PhoneNumber = reference.PhoneNumber;
@@ -117,15 +117,26 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<bool> DeleteContact(int id)
         {
             using var context = _contextFactory.CreateDbContext();
+            
+            var contact = context.Contacts.FirstOrDefault(x => x.Id == id);
 
-            throw new NotImplementedException();
+            if (contact == null) throw new InvalidOperationException("contact doesnt exist");
+
+            context.Contacts.Remove(contact);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> DeleteReference(int id)
         {
             using var context = _contextFactory.CreateDbContext();
+            var reference = context.References.FirstOrDefault(x => x.Id == id);
 
-            throw new NotImplementedException();
+            if (reference == null) throw new InvalidOperationException("Reference doesnt exist");
+
+            context.References.Remove(reference);
+            await context.SaveChangesAsync();
+            return true;
         }
     }
 }
