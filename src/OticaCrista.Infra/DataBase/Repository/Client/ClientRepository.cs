@@ -12,11 +12,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             _contextFactory = contextFactory;
         }
 
-
-        public async Task<ClientModel> AddClient(RequestClientJson request)
+        private ClientModel MapClient(RequestClientJson request)
         {
-            using var context = _contextFactory.CreateDbContext();
-
             var client = new ClientModel
             {
                 Name = request.Name,
@@ -38,6 +35,16 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 Negativated = request.Negativated,
                 Observation = request.Observation,
             };
+            return client;
+        }
+
+
+        public async Task<ClientModel> AddClient(RequestClientJson request)
+        {
+            using var context = _contextFactory.CreateDbContext();
+
+            var client = MapClient(request);
+           
             var addClient = await context.Clients.AddAsync(client);
             await context.SaveChangesAsync();
             var clientPosted = addClient.Entity;
@@ -74,8 +81,25 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<ClientModel> UpdateClient(RequestClientJson request, int id)
         {
             using var context = _contextFactory.CreateDbContext();
+            var client = MapClient(request);
 
-            throw new NotImplementedException();
+            var addClient = context.Clients.Update(client);
+            await context.SaveChangesAsync();
+            var clientUpdated = addClient.Entity;
+
+            var contacts = request.Contacts;
+            foreach (var contact in contacts)
+            {
+                _ = UpdateContact(contact, clientUpdated.Id);
+            }
+
+            var references = request.References;
+            foreach (var reference in references)
+            {
+                _ = UpdateReference(reference, clientUpdated.Id);
+            }
+
+            return clientUpdated;
         }
 
         public async Task<bool> DeleteClient(int id)
