@@ -7,11 +7,9 @@ namespace OticaCrista.Application.UseCases.Client.Validators
 {
     public class CreateClientValidator : AbstractValidator<RequestClientJson>
     {
-        private readonly OticaCristaContext _context;
-        public CreateClientValidator(IDbContextFactory<OticaCristaContext> dbContextFactory)
+        
+        public CreateClientValidator()
         {
-            _context = dbContextFactory.CreateDbContext();
-
 
             RuleFor(client => client.Name).NotEmpty().WithMessage("Name is required")
                 .Length(4, 255).WithMessage("Name lenth must be between 4 and 255 caracters")
@@ -62,7 +60,8 @@ namespace OticaCrista.Application.UseCases.Client.Validators
             RuleFor(client => client.AddressComplement).Length(4, 255)
                 .WithMessage("AddressComplement lenth must be between 4 and 255 caracters");
 
-
+            RuleFor(client=> client.Negativated).Must(n=> n.GetType() == typeof(bool))
+                .WithMessage("Negativated must be a boolean");
 
             RuleFor(client => client.Observation).Length(4, 255)
                 .WithMessage("Observation lenth must be between 4 and 255 caracters");
@@ -70,8 +69,12 @@ namespace OticaCrista.Application.UseCases.Client.Validators
 
         private async Task<bool> BeUnique(String name, CancellationToken cancellationToken)
         {
-            var validation = await _context.Clients.AllAsync(c=> c.Name != name, cancellationToken);
-            return validation;
+            //var factory = new OticaCristaContextFactory();
+            //var context = factory.CreateDbContext();
+            
+
+            return await context.Clients.AllAsync(c=> c.Name != name, cancellationToken);
+             
         }
     }
 }
