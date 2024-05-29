@@ -29,7 +29,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<ClientModel> GetClientById(int id)
         {
             using var context = _contextFactory.CreateDbContext();
-
+            var client = await context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+            return client;
         }
 
         public async Task<ClientModel> UpdateClient(RequestClientJson request, int id)
