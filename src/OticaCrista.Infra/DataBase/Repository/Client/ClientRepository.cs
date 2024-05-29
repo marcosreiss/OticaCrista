@@ -16,7 +16,45 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<ClientModel> AddClient(RequestClientJson request)
         {
             using var context = _contextFactory.CreateDbContext();
-            throw new NotImplementedException();
+
+            var client = new ClientModel
+            {
+                Name = request.Name,
+                Cpf = request.Cpf,
+                Rg = request.Rg,
+                BornDate = request.BornDate,
+                FatherName = request.FatherName,
+                MotherName = request.MotherName,
+                SpouseName = request.SpouseName,
+                EmailAddress = request.EmailAddress,
+                Company = request.Company,
+                Ocupation = request.Ocupation,
+                Street = request.Street,
+                City = request.City,
+                Neighborhood = request.Neighborhood,
+                Uf = request.Uf,
+                Cep = request.Cep,
+                AddressComplement = request.AddressComplement,
+                Negativated = request.Negativated,
+                Observation = request.Observation,
+            };
+            var addClient = await context.Clients.AddAsync(client);
+            await context.SaveChangesAsync();
+            var clientPosted = addClient.Entity;
+
+            var contacts = request.Contacts;
+            foreach (var contact in contacts)
+            {
+                _ = AddContact(contact, clientPosted.Id);
+            }
+
+            var references = request.References;
+            foreach (var reference in references)
+            {
+                _ = AddReference(reference, clientPosted.Id);
+            }
+
+            return clientPosted;
         }
 
         public async Task<List<ClientModel>> GetAllClients()
