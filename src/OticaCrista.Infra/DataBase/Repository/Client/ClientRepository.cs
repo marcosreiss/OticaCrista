@@ -68,11 +68,18 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             
         }
 
-        public async Task<bool> AddReference(ReferenceJson contact)
+        public async Task<bool> AddReference(ReferenceJson reference, int clientId)
         {
             using var context = _contextFactory.CreateDbContext();
 
-            throw new NotImplementedException();
+            var newReference = new ClientReferences
+            {
+                Name = reference.Name,
+                PhoneNumber = reference.PhoneNumber,
+                ClientId = clientId
+            };
+            await context.References.AddAsync(newReference);
+            return true;
         }
 
 
