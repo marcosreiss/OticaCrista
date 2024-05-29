@@ -2,18 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using OticaCrista.communication.Requests.Client;
 using OticaCrista.Infra.DataBase;
+using OticaCrista.Infra.DataBase.Repository.Client;
 
 namespace OticaCrista.Application.UseCases.Client.Validators
 {
     public class CreateClientValidator : AbstractValidator<RequestClientJson>
     {
+        private readonly IClientRepository _repository;
         
-        public CreateClientValidator()
+        public CreateClientValidator(IClientRepository clientRepository)
         {
+            _repository = clientRepository;
 
             RuleFor(client => client.Name).NotEmpty().WithMessage("Name is required")
                 .Length(4, 255).WithMessage("Name lenth must be between 4 and 255 caracters")
-                .MustAsync(BeUnique).WithMessage("This client name already exists");
+                .MustAsync(_repository.UniqueName).WithMessage("This client name already exists");
 
             RuleFor(client => client.Cpf).Length(11)
                 .WithMessage("Cpf must have 11 caracters");
@@ -65,16 +68,6 @@ namespace OticaCrista.Application.UseCases.Client.Validators
 
             RuleFor(client => client.Observation).Length(4, 255)
                 .WithMessage("Observation lenth must be between 4 and 255 caracters");
-        }
-
-        private async Task<bool> BeUnique(String name, CancellationToken cancellationToken)
-        {
-            //var factory = new OticaCristaContextFactory();
-            //var context = factory.CreateDbContext();
-            
-
-            return await context.Clients.AllAsync(c=> c.Name != name, cancellationToken);
-             
         }
     }
 }

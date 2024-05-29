@@ -18,5 +18,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         Task<bool> AddReference(ReferenceJson reference, int clientId);
         Task<bool> DeleteReference(int id);
         Task<bool> UpdateReference(ReferenceJson contact, int id);
+
+        Task<bool> UniqueName(string name, CancellationToken cancellationToken);
     }
 }

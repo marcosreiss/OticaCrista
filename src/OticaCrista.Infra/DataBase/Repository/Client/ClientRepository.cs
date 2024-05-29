@@ -197,5 +197,13 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             await context.SaveChangesAsync();
             return true;
         }
+
+
+        public async Task<bool> UniqueName(string name, CancellationToken cancellationToken)
+        {
+            using var context = _contextFactory.CreateDbContext();
+
+            return await context.Clients.AllAsync(c => c.Name != name, cancellationToken);
+        }
     }
 }
