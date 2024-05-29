@@ -97,11 +97,20 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return true;
         }
 
-        public async Task<bool> UpdateReference(ReferenceJson contact, int id)
+        public async Task<bool> UpdateReference(ReferenceJson reference, int id)
         {
             using var context = _contextFactory.CreateDbContext();
 
-            throw new NotImplementedException();
+            var newReference = context.References.FirstOrDefaultAsync(x=>x.Id == id).Result;
+
+            if (newReference == null) throw new InvalidOperationException("Reference doesnt exists");
+
+            newReference.Name = reference.Name;
+            newReference.PhoneNumber = reference.PhoneNumber;
+
+            context.References.Update(newReference);
+            await context.SaveChangesAsync();
+            return true;
         }
 
 
