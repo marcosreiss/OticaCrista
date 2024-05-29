@@ -43,8 +43,14 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<bool> DeleteClient(int id)
         {
             using var context = _contextFactory.CreateDbContext();
+            var client = GetClientById(id).Result;
 
-            throw new NotImplementedException();
+            if (client == null) throw new InvalidOperationException($"client with {id} dont found");
+            
+            context.Clients.Remove(client);
+            await context.SaveChangesAsync();
+            return true;
+
         }
 
 
