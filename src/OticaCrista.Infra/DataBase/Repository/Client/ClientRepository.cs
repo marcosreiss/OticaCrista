@@ -38,7 +38,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return client;
         }
 
-
         public async Task<ClientModel> AddClient(RequestClientJson request)
         {
             using var context = _contextFactory.CreateDbContext();
@@ -114,8 +113,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return true;
 
         }
-
-
 
         public async Task<bool> AddContact(ContactJson number, int clientId)
         {
