@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using OticaCrista.Application.Mapping;
 using OticaCrista.Application.UseCases.Client;
 using OticaCrista.Application.UseCases.Product.Create;
 using OticaCrista.Application.UseCases.Product.Delete;
@@ -41,6 +42,7 @@ builder.Services.AddScoped<CreateClientUseCase>();
 builder.Services.AddScoped<GetClientUseCase>();
 builder.Services.AddScoped<UpdateClientUseCase>();
 builder.Services.AddScoped<DeleteClientUseCase>();
+builder.Services.AddAutoMapper(typeof(ClientToResponse));
 
 
 var app = builder.Build();
