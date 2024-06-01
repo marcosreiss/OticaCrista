@@ -10,7 +10,6 @@ namespace SistOtica.Data.Mapping
             tb.HasKey(x => x.Id);
             tb.HasMany(x => x.PhoneNumber).WithOne(x => x.Client).HasForeignKey(x => x.ClientId);
             tb.HasMany(x => x.References).WithOne(x => x.Client).HasForeignKey(x =>x.ClientId);
-            //tb.Property(p => p.BornDate).HasColumnType("date");
         }
     }
 }

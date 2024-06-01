@@ -130,6 +130,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 ClientId = clientId
             };
             await context.Contacts.AddAsync(contact);
+            await context.SaveChangesAsync();
             return true;
             
         }
@@ -145,6 +146,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 ClientId = clientId
             };
             await context.References.AddAsync(newReference);
+            await context.SaveChangesAsync();
             return true;
         }
 
