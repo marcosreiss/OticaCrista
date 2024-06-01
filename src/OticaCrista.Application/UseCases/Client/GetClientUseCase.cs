@@ -1,4 +1,7 @@
-﻿using OticaCrista.Infra.DataBase.Repository.Client;
+﻿using AutoMapper;
+using OticaCrista.Application.Mapping;
+using OticaCrista.communication.Responses.Client;
+using OticaCrista.Infra.DataBase.Repository.Client;
 using SistOtica.Models.Client;
 
 namespace OticaCrista.Application.UseCases.Client
@@ -6,15 +9,23 @@ namespace OticaCrista.Application.UseCases.Client
     public class GetClientUseCase
     {
         private readonly IClientRepository _repository;
-        public GetClientUseCase(IClientRepository clientRepository)
+        private readonly IMapper _mapper;
+        public GetClientUseCase(IClientRepository clientRepository, IMapper mapper)
         {
             _repository = clientRepository;
         }
 
         public async Task<List<ClientModel>> GetAll()
         {
-            var clients = _repository.GetAllClients();
+            var clients = await _repository.GetAllClients();
+            var response = _mapper.Map<ResponseClientJson>(clients);
             return null;
+        }
+
+        public async Task<ResponseClientJson> GetById(int id)
+        {
+            var client = await _repository.GetClientById(id);
+            var response = _mapper.Map<ResponseClientJson>(client);
         }
     }
 }

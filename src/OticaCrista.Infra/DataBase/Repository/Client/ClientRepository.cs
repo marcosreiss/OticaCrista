@@ -66,14 +66,21 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<List<ClientModel>> GetAllClients()
         {
             using var context = _contextFactory.CreateDbContext();
-            var clients = await context.Clients.ToListAsync();
+            var clients = await context.Clients
+                .Include(client=> client.PhoneNumber)
+                .Include(client=> client.References)
+                .ToListAsync();
             return clients;
         }
 
         public async Task<ClientModel> GetClientById(int id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var client = await context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+            var client = await context.Clients
+                .Include(client=> client.PhoneNumber)
+                .Include(client => client.References)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             return client;
         }
 
