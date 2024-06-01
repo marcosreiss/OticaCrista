@@ -14,13 +14,27 @@ namespace OticaCrista.Application.UseCases.Client
         public GetClientUseCase(IClientRepository clientRepository, IMapper mapper)
         {
             _repository = clientRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<ClientModel>> GetAll()
+        public async Task<List<ResponseClientJson>> GetAll()
         {
             var clients = await _repository.GetAllClients();
-            var response = _mapper.Map<ResponseClientJson>(clients);
-            return null;
+            var response = new List<ResponseClientJson>();
+            foreach (var client in clients)
+            {
+                var mapping = _mapper.Map<ResponseClientJson>(client);
+
+                mapping.Contacts = new List<ContactJson>();
+                foreach(var contact in client.PhoneNumber)
+                {
+                    var contactJson = new ContactJson();
+                    contactJson.PhoneNumber = contact.PhoneNumber;
+                    mapping.Contacts.Add(contactJson);
+                }
+                response.Add(mapping);
+            }
+            return response;
         }
 
         public async Task<ResponseClientJson> GetById(int id)
