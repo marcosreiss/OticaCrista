@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistOtica.Data.Mapping;
 using SistOtica.Models.Client;
 using SistOtica.Models.Product;
@@ -37,7 +39,31 @@ namespace OticaCrista.Infra.DataBase
             new ProductMap(modelBuilder.Entity<ProductModel>());
             new SaleMap(modelBuilder.Entity<SaleModel>());
 
+            modelBuilder.Entity<ClientModel>(client=>
+            {
+                client.Property(x => x.BornDate)
+                    .HasConversion<DateOnlyConverter, DateOnlyComparer>();
+            });
+
             base.OnModelCreating(modelBuilder);
+        }
+    }
+
+    public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
+    {
+        public DateOnlyConverter() : base(
+                dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
+                dateTime=> DateOnly.FromDateTime(dateTime))
+        {
+        }
+    }
+
+    public class DateOnlyComparer : ValueComparer<DateOnly>
+    {
+        public DateOnlyComparer() : base(
+            (d1, d2) => d1.DayNumber == d2.DayNumber,
+            d => d.GetHashCode())
+        {
         }
     }
 }
