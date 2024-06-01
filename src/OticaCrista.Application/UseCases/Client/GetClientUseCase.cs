@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using OticaCrista.Application.Mapping;
 using OticaCrista.communication.Requests.Client;
 using OticaCrista.communication.Responses.Client;
 using OticaCrista.Infra.DataBase.Repository.Client;
-using SistOtica.Models.Client;
 
 namespace OticaCrista.Application.UseCases.Client
 {

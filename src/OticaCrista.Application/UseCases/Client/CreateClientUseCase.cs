@@ -16,18 +16,24 @@ namespace OticaCrista.Application.UseCases.Client
 
         public async Task<ClientModel> Execute(RequestClientJson requestClientJson)
         {
-            Validate(requestClientJson);
+            await Validate(requestClientJson);
 
             return await _repository.AddClient(requestClientJson);
         }
 
-        private void Validate(RequestClientJson request)
+        private async Task Validate(RequestClientJson request)
         {
             var validator = new CreateClientValidator(_repository);
-            var result = validator.Validate(request);
+            var result = await validator.ValidateAsync(request);
             if(!result.IsValid)
             {
-                throw new ValidationException(result.Errors.ToArray());
+                var errorMessages = "\n";
+                foreach (var failure in result.Errors)
+                {
+                    var error = $"Property {failure.PropertyName} failed validation. Error was: {failure.ErrorMessage}\n";
+                    errorMessages += error;
+                }
+                throw new ValidationException(errorMessages);
             }
         }
     }

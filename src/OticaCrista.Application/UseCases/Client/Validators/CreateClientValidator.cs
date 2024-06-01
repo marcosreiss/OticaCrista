@@ -21,8 +21,8 @@ namespace OticaCrista.Application.UseCases.Client.Validators
             RuleFor(client => client.Cpf).Length(11)
                 .WithMessage("Cpf must have 11 caracters");
 
-            RuleFor(client => client.Rg).Length(7, 9)
-                .WithMessage("Rg lenth must be between 7 and 9 caracters");
+            RuleFor(client => client.Rg).Length(7, 13)
+                .WithMessage("Rg lenth must be between 7 and 13 caracters");
 
             RuleFor(client => client.BornDate).Must(date => date < new DateOnly(2023, 12, 31))
                 .WithMessage("Invalid BornDate");
