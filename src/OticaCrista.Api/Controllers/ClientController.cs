@@ -89,5 +89,27 @@ namespace OticaCrista.Api.Controllers
                 return BadRequest(response);
             }
         }
+
+
+
+        //public async Task<IActionResult> CreateContact()
+        //{
+        //    return Ok();
+        //}
+
+        //public async Task<IActionResult> CreateReference()
+        //{
+        //    return Ok();
+        //}
+
+        //public async Task<IActionResult> DeleteContact()
+        //{
+        //    return Ok();
+        //}
+
+        //public async Task<IActionResult> DeleteReference()
+        //{
+        //    return Ok();
+        //}
     }
 }
