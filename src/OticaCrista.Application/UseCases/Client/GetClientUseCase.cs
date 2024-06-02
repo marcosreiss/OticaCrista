@@ -15,7 +15,7 @@ namespace OticaCrista.Application.UseCases.Client
             _mapper = mapper;
         }
 
-        public async Task<List<ResponseClientJson>> GetAll()
+        public async Task<List<ResponseClientJson?>> GetAll()
         {
             var clients = await _repository.GetAllClients();
             if (clients.Count != 0)
@@ -24,14 +24,6 @@ namespace OticaCrista.Application.UseCases.Client
                 foreach (var client in clients)
                 {
                     var mapping = _mapper.Map<ResponseClientJson>(client);
-
-                    mapping.Contacts = new List<ContactJson>();
-                    foreach (var contact in client.PhoneNumber)
-                    {
-                        var contactJson = new ContactJson();
-                        contactJson.PhoneNumber = contact.PhoneNumber;
-                        mapping.Contacts.Add(contactJson);
-                    }
                     response.Add(mapping);
                 }
                 return response;
@@ -44,14 +36,6 @@ namespace OticaCrista.Application.UseCases.Client
             var client = await _repository.GetClientById(id);
             if (client == null) return null;
             var response = _mapper.Map<ResponseClientJson>(client);
-
-            response.Contacts = new List<ContactJson>();
-            foreach(var contact in client.PhoneNumber) 
-            { 
-                var contactJson = new ContactJson();
-                contactJson.PhoneNumber = contact.PhoneNumber;
-                response.Contacts.Add(contactJson);
-            }
             return response;
         }
     }
