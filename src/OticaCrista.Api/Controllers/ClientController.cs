@@ -55,5 +55,24 @@ namespace OticaCrista.Api.Controllers
             };
             return Ok(response);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(RequestClientJson requestClientJson, int id,
+            [FromServices] UpdateClientUseCase useCase)
+        {
+            try
+            {
+                var client = await useCase.Execute(requestClientJson, id);
+                return Ok(client);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
