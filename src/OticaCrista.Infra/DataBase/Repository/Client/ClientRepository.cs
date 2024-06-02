@@ -155,7 +155,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         public async Task<bool> UpdateContact(ContactJson contact, int id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var newContact = context.Contacts.FirstOrDefaultAsync(x => x.Id == id).Result;
+            var newContact = context.Contacts.FirstOrDefaultAsync(x => x.ClientId == id).Result;
 
             if (newContact == null) throw new InvalidOperationException("Contact doesnt exist");
 
@@ -170,7 +170,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         {
             using var context = _contextFactory.CreateDbContext();
 
-            var newReference = context.References.FirstOrDefaultAsync(x=>x.Id == id).Result;
+            var newReference = context.References.FirstOrDefaultAsync(x=>x.ClientId == id).Result;
 
             if (newReference == null) throw new InvalidOperationException("Reference doesnt exist");
 

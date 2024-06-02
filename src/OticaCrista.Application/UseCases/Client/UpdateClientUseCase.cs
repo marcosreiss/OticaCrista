@@ -23,7 +23,7 @@ namespace OticaCrista.Application.UseCases.Client
 
         private async Task Validate(RequestClientJson request, int id)
         {
-            var validator = new CreateClientValidator(_repository);
+            var validator = new UpdateClientValidator();
             var result = await validator.ValidateAsync(request);
             if (!result.IsValid)
             {
