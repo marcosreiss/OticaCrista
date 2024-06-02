@@ -79,8 +79,8 @@ namespace OticaCrista.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateOnly>("BornDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BornDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Cep")
                         .IsRequired()

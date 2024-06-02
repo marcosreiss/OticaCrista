@@ -114,7 +114,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             using var context = _contextFactory.CreateDbContext();
             var client = GetClientById(id).Result;
 
-            if (client == null) throw new InvalidOperationException($"client with {id} dont found");
+            if (client == null) throw new InvalidOperationException($"client with id {id} was not found");
             
             context.Clients.Remove(client);
             await context.SaveChangesAsync();

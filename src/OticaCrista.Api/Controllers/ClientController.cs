@@ -70,5 +70,24 @@ namespace OticaCrista.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromServices] DeleteClientUseCase useCase, int id)
+        {
+            try
+            {
+                await useCase.Execute(id);
+                return Ok($"Client {id} deletede");
+            } catch(InvalidOperationException ex)
+            {
+                var response = new
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Ok = false,
+                    Message = ex.Message
+                };
+                return BadRequest(response);
+            }
+        }
     }
 }
