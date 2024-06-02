@@ -88,6 +88,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         {
             using var context = _contextFactory.CreateDbContext();
             var client = MapClient(request);
+            client.Id = id;
 
             var addClient = context.Clients.Update(client);
             await context.SaveChangesAsync();

@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using OticaCrista.Application.UseCases.Client;
 using OticaCrista.communication.Requests.Client;
-using OticaCrista.communication.Responses.Client;
-using SistOtica.Models.Client;
 using System.ComponentModel.DataAnnotations;
 
 namespace OticaCrista.Api.Controllers
