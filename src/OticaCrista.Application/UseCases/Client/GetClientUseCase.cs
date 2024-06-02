@@ -28,7 +28,7 @@ namespace OticaCrista.Application.UseCases.Client
                 }
                 return response;
             }
-            else { return null; }
+            else  return null; 
         }
 
         public async Task<ResponseClientJson?> GetById(int id)

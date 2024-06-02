@@ -28,16 +28,32 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ResponseClientJson>> GetAll([FromServices] GetClientUseCase useCase)
+        public async Task<IActionResult> GetAll([FromServices] GetClientUseCase useCase)
         {
-            return await useCase.GetAll();
+            var clients = await useCase.GetAll();
+            if (clients != null) return Ok(clients);
+            var response = new
+            {
+                Status = StatusCodes.Status204NoContent,
+                Ok = true,
+                Message = "No Client Found"
+            };
+            return Ok(response);
 
         }
 
         [HttpGet("{id}")]
-        public async Task<ResponseClientJson?> GetById([FromServices] GetClientUseCase useCase, int id)
+        public async Task<IActionResult> GetById([FromServices] GetClientUseCase useCase, int id)
         {
-            return await useCase.GetById(id);
+            var client = await useCase.GetById(id);
+            if (client != null) return Ok(client);
+            var response = new
+            {
+                Status = StatusCodes.Status204NoContent,
+                Ok = true,
+                Message = "No Client Found whit This Id"
+            };
+            return Ok(response);
         }
     }
 }
