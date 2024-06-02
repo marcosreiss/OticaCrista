@@ -9,7 +9,8 @@ namespace OticaCrista.Application.Mapping
     {
         public ClientToResponse()
         {
-            CreateMap<ClientModel, ResponseClientJson>();
+            CreateMap<ClientModel, ResponseClientJson>()
+                .ForMember(destino=> destino.Contacts, o=> o.MapFrom(src=> src.PhoneNumber));
             CreateMap<ClientContact, ContactJson>();
             CreateMap<ClientReferences, ReferenceJson>();
         }
