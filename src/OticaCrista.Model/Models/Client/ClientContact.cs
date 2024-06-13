@@ -14,6 +14,5 @@ namespace SistOtica.Models.Client
         [InverseProperty("PhoneNumbers")]
         public int ClientId { get; set; }
         public ClientModel Client { get; set; }
-
     }
 }

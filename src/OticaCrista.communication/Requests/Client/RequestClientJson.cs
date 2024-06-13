@@ -7,7 +7,7 @@
         public string Cpf { get; set; }
 
         public string Rg { get; set; }
-
+        
         public DateOnly BornDate { get; set; }
 
         public string FatherName { get; set; }
