@@ -12,7 +12,6 @@ namespace SistOtica.Data.Mapping
             tb.HasMany(x => x.Services).WithMany(x => x.Sales);
             tb.HasOne(x => x.Client).WithMany(x => x.Sales);
             tb.HasOne(x => x.Payment).WithOne(x => x.Sale);
-            tb.HasOne(x => x.Protocol).WithOne(x => x.Sale);
         }
     }
 }

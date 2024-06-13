@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace OticaCrista.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class changePrductModel : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,7 +38,7 @@ namespace OticaCrista.Infra.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Cpf = table.Column<string>(type: "longtext", nullable: false),
                     Rg = table.Column<string>(type: "longtext", nullable: false),
-                    BornDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    BornDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     FatherName = table.Column<string>(type: "longtext", nullable: false),
                     MotherName = table.Column<string>(type: "longtext", nullable: false),
                     SpouseName = table.Column<string>(type: "longtext", nullable: false),
@@ -57,46 +57,6 @@ namespace OticaCrista.Infra.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Frames",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Ref = table.Column<string>(type: "longtext", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Frames", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Prescriptions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    DoctorName = table.Column<string>(type: "longtext", nullable: false),
-                    Crm = table.Column<string>(type: "longtext", nullable: false),
-                    OdEsferico = table.Column<double>(type: "double", nullable: false),
-                    OdCilindrico = table.Column<double>(type: "double", nullable: false),
-                    OdEixo = table.Column<double>(type: "double", nullable: false),
-                    OdDnp = table.Column<double>(type: "double", nullable: false),
-                    OeEsferico = table.Column<double>(type: "double", nullable: false),
-                    OeCilindrico = table.Column<double>(type: "double", nullable: false),
-                    OeEixo = table.Column<double>(type: "double", nullable: false),
-                    OeDnp = table.Column<double>(type: "double", nullable: false),
-                    Adicao = table.Column<double>(type: "double", nullable: false),
-                    CentroOtico = table.Column<double>(type: "double", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -184,42 +144,34 @@ namespace OticaCrista.Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SaleProtocols",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Book = table.Column<string>(type: "longtext", nullable: false),
-                    Page = table.Column<string>(type: "longtext", nullable: false),
-                    ServiceOrder = table.Column<int>(type: "int", nullable: false),
-                    PrescriptionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SaleProtocols", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SaleProtocols_Prescriptions_PrescriptionId",
-                        column: x => x.PrescriptionId,
-                        principalTable: "Prescriptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Sales",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
                     SaleDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ItemQt = table.Column<int>(type: "int", nullable: false),
                     Discount = table.Column<double>(type: "double", nullable: false),
                     FinalPrice = table.Column<double>(type: "double", nullable: false),
                     Observation = table.Column<string>(type: "longtext", nullable: false),
-                    ProtocolId = table.Column<int>(type: "int", nullable: false),
-                    FrameId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    Book = table.Column<string>(type: "longtext", nullable: false),
+                    Page = table.Column<string>(type: "longtext", nullable: false),
+                    ServiceOrder = table.Column<int>(type: "int", nullable: false),
+                    DoctorName = table.Column<string>(type: "longtext", nullable: false),
+                    Crm = table.Column<string>(type: "longtext", nullable: false),
+                    OdEsferico = table.Column<double>(type: "double", nullable: false),
+                    OdCilindrico = table.Column<double>(type: "double", nullable: false),
+                    OdEixo = table.Column<double>(type: "double", nullable: false),
+                    OdDnp = table.Column<double>(type: "double", nullable: false),
+                    OeEsferico = table.Column<double>(type: "double", nullable: false),
+                    OeCilindrico = table.Column<double>(type: "double", nullable: false),
+                    OeEixo = table.Column<double>(type: "double", nullable: false),
+                    OeDnp = table.Column<double>(type: "double", nullable: false),
+                    Adicao = table.Column<double>(type: "double", nullable: false),
+                    CentroOtico = table.Column<double>(type: "double", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Ref = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,18 +180,6 @@ namespace OticaCrista.Infra.Migrations
                         name: "FK_Sales_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sales_Frames_FrameId",
-                        column: x => x.FrameId,
-                        principalTable: "Frames",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sales_SaleProtocols_ProtocolId",
-                        column: x => x.ProtocolId,
-                        principalTable: "SaleProtocols",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -352,27 +292,9 @@ namespace OticaCrista.Infra.Migrations
                 column: "ServicesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaleProtocols_PrescriptionId",
-                table: "SaleProtocols",
-                column: "PrescriptionId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sales_ClientId",
                 table: "Sales",
                 column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sales_FrameId",
-                table: "Sales",
-                column: "FrameId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sales_ProtocolId",
-                table: "Sales",
-                column: "ProtocolId",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -407,15 +329,6 @@ namespace OticaCrista.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "Clients");
-
-            migrationBuilder.DropTable(
-                name: "Frames");
-
-            migrationBuilder.DropTable(
-                name: "SaleProtocols");
-
-            migrationBuilder.DropTable(
-                name: "Prescriptions");
         }
     }
 }

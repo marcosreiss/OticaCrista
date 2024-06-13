@@ -28,10 +28,9 @@ namespace OticaCrista.Infra.DataBase
 
         //Sale
         public DbSet<SaleModel> Sales { get; set; }
-        public DbSet<SaleProtocolModel> SaleProtocols { get; set; }
-        public DbSet<PrescriptionModel> Prescriptions { get; set; }
-        public DbSet<FrameModel> Frames { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

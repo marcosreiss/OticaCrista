@@ -15,7 +15,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         public async Task<List<BrandModel>> GetAll()
         {
             using var context = _contextFactory.CreateDbContext();
-            return await context.Brands.ToListAsync();
+            return await context.Brands
+                .ToListAsync();
         }
 
         public async Task<BrandModel> GetById(int id)
