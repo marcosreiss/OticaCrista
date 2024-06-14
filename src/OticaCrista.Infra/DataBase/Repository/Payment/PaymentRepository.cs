@@ -13,7 +13,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
 
 
 
-        public async Task<PaymentModel> CreatePayment(SaleModel sale)
+        public async Task<PaymentModel?> CreatePayment(SaleModel sale)
         {
             var payment = new PaymentModel
             {
@@ -35,7 +35,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
 
         }
 
-        public async Task<PaymentModel> UpdatePayment(int id, PaymentModel model)
+        public async Task<PaymentModel?> UpdatePayment(int id, PaymentModel model)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             return null;
         }
 
-        public async Task<PaymentModel> DeletePayment(int id)
+        public async Task<PaymentModel?> DeletePayment(int id)
         {
             try
             {
@@ -90,12 +90,24 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             return null;
         }
 
-        public async Task<List<PaymentModel>> GetAllPayments()
+        public async Task<List<PaymentModel>?> GetAllPaymentsPaginaded(int skip, int take)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var payments = await context.Payments
+                    .Skip(skip)
+                    .Take(take)
+                    .ToListAsync();
+                return payments;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em PaymentRepository.GetAllPaymentsPaginaded:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<PaymentModel> GetPaymentById(int id)
+        public async Task<PaymentModel?> GetPaymentById(int id)
         {
             try
             {
