@@ -1,7 +1,7 @@
-﻿using OticaCrista.Infra.DataBase.Repository.Product;
+﻿using OticaCrista.Infra.DataBase.Repository.Brand;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Application.UseCases.Product.Get
+namespace OticaCrista.Application.UseCases.Brand
 {
     public class GetBrandUseCase
     {
@@ -11,8 +11,8 @@ namespace OticaCrista.Application.UseCases.Product.Get
             _brandRepository = brandRepository;
         }
 
-        public async Task<List<BrandModel>> GetAll() 
-        { 
+        public async Task<List<BrandModel>> GetAll()
+        {
             var brandList = await _brandRepository.GetAll();
             return brandList;
         }
@@ -31,6 +31,6 @@ namespace OticaCrista.Application.UseCases.Product.Get
             {
                 throw new ArgumentNullException("This brand dont exists: ", nameof(brand));
             }
-        } 
+        }
     }
 }

@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using OticaCrista.Application.Mapping;
+using OticaCrista.Application.UseCases.Brand;
 using OticaCrista.Application.UseCases.Client;
-using OticaCrista.Application.UseCases.Product.Create;
-using OticaCrista.Application.UseCases.Product.Delete;
-using OticaCrista.Application.UseCases.Product.Get;
-using OticaCrista.Application.UseCases.Product.Update;
+using OticaCrista.Application.UseCases.Product;
 using OticaCrista.Infra.DataBase;
+using OticaCrista.Infra.DataBase.Repository.Brand;
 using OticaCrista.Infra.DataBase.Repository.Client;
 using OticaCrista.Infra.DataBase.Repository.Payment;
 using OticaCrista.Infra.DataBase.Repository.Product;

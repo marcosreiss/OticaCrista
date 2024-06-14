@@ -2,7 +2,7 @@
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Infra.DataBase.Repository.Product
+namespace OticaCrista.Infra.DataBase.Repository.Brand
 {
     public class BrandRepository : IBrandRepository
     {
@@ -42,7 +42,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         {
             using var context = _contextFactory.CreateDbContext();
             var updateBrand = await GetById(id);
-            
+
 
             updateBrand.Name = brand.Name;
             context.Brands.Update(updateBrand);
@@ -56,7 +56,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         {
             using var context = _contextFactory.CreateDbContext();
             var deleteBrand = await GetById(id);
-           
+
 
             context.Brands.Remove(deleteBrand);
             await context.SaveChangesAsync();

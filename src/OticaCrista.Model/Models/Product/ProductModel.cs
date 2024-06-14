@@ -8,7 +8,7 @@ namespace SistOtica.Models.Product
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public required decimal BuyPrice { get; set; }
 

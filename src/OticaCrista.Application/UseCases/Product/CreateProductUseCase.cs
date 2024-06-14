@@ -2,7 +2,7 @@
 using OticaCrista.Infra.DataBase.Repository.Product;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Application.UseCases.Product.Create
+namespace OticaCrista.Application.UseCases.Product
 {
     public class CreateProductUseCase
     {
@@ -32,7 +32,7 @@ namespace OticaCrista.Application.UseCases.Product.Create
             var products = _productRepository.GetAll().Result;
             foreach (var product in products)
             {
-                if(product.Name == requestJson.Name)
+                if (product.Name == requestJson.Name)
                 {
                     throw new ArgumentException($"Product {requestJson.Name} already exists");
                 }

@@ -9,7 +9,7 @@ namespace SistOtica.Models.Sale
 
         [ForeignKey("SaleId")]
         public int SaleId { get; set; }
-        public SaleModel Sale { get; set; }
+        public SaleModel Sale { get; set; } = null!;
 
         public double Discount { get; set; }
 

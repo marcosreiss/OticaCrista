@@ -1,18 +1,13 @@
 ﻿using OticaCrista.communication.Requests.Product;
-using OticaCrista.Infra.DataBase.Repository.Product;
+using OticaCrista.Infra.DataBase.Repository.Brand;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Application.UseCases.Product.Create
+namespace OticaCrista.Application.UseCases.Brand
 {
-    public class CreateBrandUseCase
+    public class CreateBrandUseCase(IBrandRepository _repository)
     {
-        private readonly IBrandRepository _repository;
 
-        public CreateBrandUseCase(IBrandRepository repository)
-        {
-            _repository = repository;
-        }
-        public async Task<BrandModel> Execute(BrandRequest request) 
+        public async Task<BrandModel> Execute(BrandRequest request)
         {
             Validate(request);
             var newBrand = new BrandModel
@@ -31,9 +26,9 @@ namespace OticaCrista.Application.UseCases.Product.Create
                 throw new ArgumentNullException(nameof(request));
             }
             var brands = _repository.GetAll().Result;
-            foreach ( var brand in brands )
+            foreach (var brand in brands)
             {
-                if(brand.Name == request.Name)
+                if (brand.Name == request.Name)
                 {
                     throw new InvalidOperationException("This Brand Already exists");
                 }

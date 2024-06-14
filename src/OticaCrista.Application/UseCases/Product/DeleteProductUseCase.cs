@@ -1,6 +1,6 @@
 ﻿using OticaCrista.Infra.DataBase.Repository.Product;
 
-namespace OticaCrista.Application.UseCases.Product.Delete
+namespace OticaCrista.Application.UseCases.Product
 {
     public class DeleteProductUseCase
     {

@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OticaCrista.Application.UseCases.Product.Create;
-using OticaCrista.Application.UseCases.Product.Delete;
-using OticaCrista.Application.UseCases.Product.Get;
-using OticaCrista.Application.UseCases.Product.Update;
+using OticaCrista.Application.UseCases.Product;
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 

@@ -1,8 +1,8 @@
 ﻿using OticaCrista.communication.Requests.Product;
-using OticaCrista.Infra.DataBase.Repository.Product;
+using OticaCrista.Infra.DataBase.Repository.Brand;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Application.UseCases.Product.Update
+namespace OticaCrista.Application.UseCases.Brand
 {
     public class UpdateBrandUseCase
     {
@@ -15,7 +15,7 @@ namespace OticaCrista.Application.UseCases.Product.Update
 
         public async Task<BrandModel> Execute(BrandRequest update, int id)
         {
-           var newBrand =  await _brandRepository.Update(update, id);
+            var newBrand = await _brandRepository.Update(update, id);
 
             return newBrand;
         }

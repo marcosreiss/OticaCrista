@@ -2,7 +2,7 @@
 using OticaCrista.Infra.DataBase.Repository.Product;
 using SistOtica.Models.Product;
 
-namespace OticaCrista.Application.UseCases.Product.Update
+namespace OticaCrista.Application.UseCases.Product
 {
     public class UpdateProductUseCase
     {

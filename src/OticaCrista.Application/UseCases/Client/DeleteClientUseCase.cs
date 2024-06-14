@@ -1,5 +1,4 @@
-﻿using OticaCrista.communication.Responses.Client;
-using OticaCrista.Infra.DataBase.Repository.Client;
+﻿using OticaCrista.Infra.DataBase.Repository.Client;
 
 namespace OticaCrista.Application.UseCases.Client
 {
