@@ -122,6 +122,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
 
         }
 
+
         public async Task<bool> AddContact(ContactJson number, int clientId)
         {
             using var context = _contextFactory.CreateDbContext();
@@ -182,7 +183,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return true;
         }
 
-
         public async Task<bool> DeleteContact(int id)
         {
             using var context = _contextFactory.CreateDbContext();
@@ -207,7 +207,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             await context.SaveChangesAsync();
             return true;
         }
-
 
         public async Task<bool> UniqueName(string name, CancellationToken cancellationToken)
         {

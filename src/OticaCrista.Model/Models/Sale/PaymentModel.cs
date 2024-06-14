@@ -15,7 +15,7 @@ namespace SistOtica.Models.Sale
 
         public PaymentMethod Method { get; set; }
 
-        public double DownPayment { get; set; }
+        public double DownPayment { get; set; } //entrada
 
         public int Installments { get; set; }
 
