@@ -29,8 +29,10 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             }
             catch (Exception ex)
             {
-                
+                _logger.LogError(ex, "Erro em PaymentRepository.CreatePayment:\n" + ex.Message);
             }
+            return null;
+
         }
 
         public async Task<PaymentModel> UpdatePayment(int id)
