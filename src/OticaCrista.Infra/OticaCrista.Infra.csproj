@@ -25,4 +25,8 @@
     <ProjectReference Include="..\OticaCrista.Model\OticaCrista.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataBase\Repository\Sale\" />
+  </ItemGroup>
+
 </Project>

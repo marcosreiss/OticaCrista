@@ -19,7 +19,9 @@ builder.Services.AddMvc();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContextFactory<OticaCristaContext>(o => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
+builder.Services
+    .AddDbContextFactory<OticaCristaContext>(o 
+    => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 //Dependecy Service

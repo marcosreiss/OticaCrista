@@ -6,7 +6,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
     {
         Task<List<PaymentModel>> GetAllPayments();
         Task<PaymentModel> GetPaymentById(int id);
-        Task<PaymentModel> CreatePayment();
+        Task<PaymentModel> CreatePayment(SaleModel sale);
         Task<PaymentModel> UpdatePayment(int id);
+        Task<PaymentModel> DeletePayment(int id);
     }
 }
