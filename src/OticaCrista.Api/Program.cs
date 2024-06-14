@@ -10,6 +10,7 @@ using OticaCrista.Infra.DataBase.Repository.Client;
 using OticaCrista.Infra.DataBase.Repository.Payment;
 using OticaCrista.Infra.DataBase.Repository.Product;
 using OticaCrista.Infra.DataBase.Repository.Sale;
+using OticaCrista.Infra.DataBase.Repository.Service;
 using Serilog;
 using Serilog.Events;
 
@@ -50,6 +51,9 @@ builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<GetProductUseCase>();
 builder.Services.AddScoped<UpdateProductUseCase>();
 builder.Services.AddScoped<DeleteProductUseCase>();
+
+// -> Service
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 
 // -> Client
 builder.Services.AddScoped<IClientRepository, ClientRepository>();

@@ -9,7 +9,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
         ILogger<SaleRepository> logger) 
         : ISaleRepository
     {
-
         private readonly OticaCristaContext context = contextFactory.CreateDbContext();
 
         public async Task<SaleModel?> CreateSaleAsync(SaleModel model)
@@ -26,6 +25,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             }
             return null;
         }
+
         public async Task<SaleModel?> UpdateSaleAsync(int id, SaleModel model)
         {
             try
@@ -99,6 +99,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             }
             return null;
         }
+
         public async Task<SaleModel?> GetSaleByIdAsync(int id)
         {
             try
