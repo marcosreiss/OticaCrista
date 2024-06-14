@@ -40,7 +40,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
             return product;
         }
 
-        public async Task<ProductModel> Update(ProductRequestJson model, int id)
+        public async Task<ProductModel> Update(ProductRequest model, int id)
         {
             using var context = _dbContextFactory.CreateDbContext();
             var product = GetById(id).Result;

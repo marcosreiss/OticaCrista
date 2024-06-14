@@ -27,7 +27,7 @@ namespace OticaCrista.Api.Controllers
 
         [HttpPost]
         public async Task<ActionResult<BrandModel>> Post(
-            [FromBody] BrandRequestJson request,
+            [FromBody] BrandRequest request,
             [FromServices]CreateBrandUseCase useCase)
         {
             var newBrand = await useCase.Execute(request);
@@ -37,7 +37,7 @@ namespace OticaCrista.Api.Controllers
 
         [HttpPut("{id}")]
         public async Task<ActionResult<BrandModel>> Update(
-            [FromBody] BrandRequestJson request, int id,
+            [FromBody] BrandRequest request, int id,
             [FromServices] UpdateBrandUseCase useCase)
         {
             var updated = await useCase.Execute(request, id);

@@ -12,7 +12,7 @@ namespace OticaCrista.Application.UseCases.Product.Update
             _repository = productRepository;
         }
 
-        public async Task<ProductModel> Execute(ProductRequestJson request, int id)
+        public async Task<ProductModel> Execute(ProductRequest request, int id)
         {
             var product = await _repository.Update(request, id);
             return product;

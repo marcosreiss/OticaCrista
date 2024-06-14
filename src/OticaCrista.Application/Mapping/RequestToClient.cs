@@ -8,7 +8,7 @@ namespace OticaCrista.Application.Mapping
     {
         public RequestToClient()
         {
-            CreateMap<RequestClientJson, ClientModel>();
+            CreateMap<ClientRequest, ClientModel>();
             CreateMap<ContactJson, ClientContact>();
             CreateMap<ReferenceJson, ClientReferences>();
         }

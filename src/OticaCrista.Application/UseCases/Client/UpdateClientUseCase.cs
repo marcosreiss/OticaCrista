@@ -14,14 +14,14 @@ namespace OticaCrista.Application.UseCases.Client
             _repository = clientRepository;
         }
 
-        public async Task<ClientModel> Execute(RequestClientJson requestClientJson, int id)
+        public async Task<ClientModel> Execute(ClientRequest requestClientJson, int id)
         {
             await Validate(requestClientJson, id);
 
             return await _repository.UpdateClient(requestClientJson, id);
         }
 
-        private async Task Validate(RequestClientJson request, int id)
+        private async Task Validate(ClientRequest request, int id)
         {
             var validator = new UpdateClientValidator();
             var result = await validator.ValidateAsync(request);

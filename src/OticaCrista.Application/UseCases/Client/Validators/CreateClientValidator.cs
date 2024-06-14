@@ -6,7 +6,7 @@ using OticaCrista.Infra.DataBase.Repository.Client;
 
 namespace OticaCrista.Application.UseCases.Client.Validators
 {
-    public class CreateClientValidator : AbstractValidator<RequestClientJson>
+    public class CreateClientValidator : AbstractValidator<ClientRequest>
     {
         private readonly IClientRepository _repository;
         

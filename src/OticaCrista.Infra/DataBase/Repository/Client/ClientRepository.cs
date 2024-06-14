@@ -12,7 +12,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             _contextFactory = contextFactory;
         }
 
-        private ClientModel MapClient(RequestClientJson request)
+        private ClientModel MapClient(ClientRequest request)
         {
             var client = new ClientModel
             {
@@ -38,7 +38,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return client;
         }
 
-        public async Task<ClientModel> AddClient(RequestClientJson request)
+        public async Task<ClientModel> AddClient(ClientRequest request)
         {
             using var context = _contextFactory.CreateDbContext();
 
@@ -84,7 +84,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return client;
         }
 
-        public async Task<ClientModel> UpdateClient(RequestClientJson request, int id)
+        public async Task<ClientModel> UpdateClient(ClientRequest request, int id)
         {
             using var context = _contextFactory.CreateDbContext();
             var client = MapClient(request);

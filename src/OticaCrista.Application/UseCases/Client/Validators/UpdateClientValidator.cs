@@ -3,7 +3,7 @@ using OticaCrista.communication.Requests.Client;
 
 namespace OticaCrista.Application.UseCases.Client.Validators
 {
-    public class UpdateClientValidator : AbstractValidator<RequestClientJson>
+    public class UpdateClientValidator : AbstractValidator<ClientRequest>
     {
         public UpdateClientValidator() 
         {

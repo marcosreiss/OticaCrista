@@ -11,7 +11,7 @@ namespace OticaCrista.Application.UseCases.Product.Create
         {
             _productRepository = productRepository;
         }
-        public async Task<ProductModel> Execute(ProductRequestJson request)
+        public async Task<ProductModel> Execute(ProductRequest request)
         {
             Validate(request);
             var product = new ProductModel
@@ -27,7 +27,7 @@ namespace OticaCrista.Application.UseCases.Product.Create
             return product;
         }
 
-        private void Validate(ProductRequestJson requestJson)
+        private void Validate(ProductRequest requestJson)
         {
             var products = _productRepository.GetAll().Result;
             foreach (var product in products)

@@ -7,8 +7,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
     {
         Task<List<ClientModel>> GetAllClients();
         Task<ClientModel> GetClientById(int id);
-        Task<ClientModel> AddClient(RequestClientJson request);
-        Task<ClientModel> UpdateClient(RequestClientJson request, int id);
+        Task<ClientModel> AddClient(ClientRequest request);
+        Task<ClientModel> UpdateClient(ClientRequest request, int id);
         Task<bool> DeleteClient(int id);
 
         Task<bool> AddContact(ContactJson number, int clientId);

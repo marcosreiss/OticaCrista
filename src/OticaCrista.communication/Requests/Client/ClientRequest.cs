@@ -1,6 +1,6 @@
 ﻿namespace OticaCrista.communication.Requests.Client
 {
-    public class RequestClientJson
+    public class ClientRequest
     {
         public string Name { get; set; }
 

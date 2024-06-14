@@ -10,7 +10,7 @@ namespace OticaCrista.Api.Controllers
     public class ClientController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Create(RequestClientJson requestClientJson,
+        public async Task<IActionResult> Create(ClientRequest requestClientJson,
             [FromServices] CreateClientUseCase useCase)
         {
             try
@@ -53,7 +53,7 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(RequestClientJson requestClientJson, int id,
+        public async Task<IActionResult> Update(ClientRequest requestClientJson, int id,
             [FromServices] UpdateClientUseCase useCase)
         {
             try

@@ -14,7 +14,7 @@ namespace OticaCrista.Api.Controllers
     public class ProductController : ControllerBase
     {
         [HttpPost]
-        public async Task<ProductModel> Post([FromBody] ProductRequestJson request,
+        public async Task<ProductModel> Post([FromBody] ProductRequest request,
             [FromServices] CreateProductUseCase useCase)
         {
             var product = await useCase.Execute(request);
@@ -37,7 +37,7 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ProductModel> Update(ProductRequestJson request, int id,
+        public async Task<ProductModel> Update(ProductRequest request, int id,
             [FromServices] UpdateProductUseCase useCase)
         {
             var product = await useCase.Execute(request, id);

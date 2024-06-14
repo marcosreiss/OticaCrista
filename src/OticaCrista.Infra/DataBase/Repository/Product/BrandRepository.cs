@@ -38,7 +38,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
             return brand;
         }
 
-        public async Task<BrandModel> Update(BrandRequestJson brand, int id)
+        public async Task<BrandModel> Update(BrandRequest brand, int id)
         {
             using var context = _contextFactory.CreateDbContext();
             var updateBrand = await GetById(id);

@@ -1,6 +1,6 @@
 ﻿namespace OticaCrista.communication.Requests.Product
 {
-    public class ProductRequestJson
+    public class ProductRequest
     {
         public string Name { get; set; } = string.Empty;
         public decimal BuyPrice { get; set; }

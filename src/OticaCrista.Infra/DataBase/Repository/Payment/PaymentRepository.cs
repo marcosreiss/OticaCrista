@@ -35,9 +35,34 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
 
         }
 
-        public async Task<PaymentModel> UpdatePayment(int id)
+        public async Task<PaymentModel> UpdatePayment(int id, PaymentModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var payment = await context.Payments.FirstOrDefaultAsync(x => x.Id == id);
+                if (payment == null)
+                {
+                    _logger
+                        .LogInformation
+                        ("payment null in PaymentRepository.UpdatePayment (Invalid Id)");
+                    return null;
+                }
+
+                payment.Discount = model.Discount;
+                payment.Method = model.Method;
+                payment.DownPayment = model.DownPayment;
+                payment.Installments = model.Installments;
+
+                context.Payments.Update(payment);
+                await context.SaveChangesAsync();
+
+                return payment;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em PaymentRepository.UpdatePayment:\n" + ex.Message);
+            }
+            return null;
         }
 
         public async Task<PaymentModel> DeletePayment(int id)
