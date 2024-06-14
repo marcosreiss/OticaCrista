@@ -7,7 +7,9 @@ using OticaCrista.Application.UseCases.Product.Get;
 using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.Infra.DataBase;
 using OticaCrista.Infra.DataBase.Repository.Client;
+using OticaCrista.Infra.DataBase.Repository.Payment;
 using OticaCrista.Infra.DataBase.Repository.Product;
+using OticaCrista.Infra.DataBase.Repository.Sale;
 using Serilog;
 using Serilog.Events;
 
@@ -56,6 +58,12 @@ builder.Services.AddScoped<GetClientUseCase>();
 builder.Services.AddScoped<UpdateClientUseCase>();
 builder.Services.AddScoped<DeleteClientUseCase>();
 builder.Services.AddAutoMapper(typeof(ClientToResponse));
+
+// -> Payment
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+// -> Sale
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 
 var app = builder.Build();
