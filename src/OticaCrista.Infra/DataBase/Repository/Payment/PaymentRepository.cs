@@ -97,7 +97,24 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
 
         public async Task<PaymentModel> GetPaymentById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var payment = await context.Payments.FirstOrDefaultAsync(x => x.Id == id);
+                if (payment == null)
+                {
+                    _logger
+                        .LogInformation
+                        ("payment null in PaymentRepository.GetPaymentById (Invalid Id)");
+                    return null;
+                }
+
+                return payment;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em PaymentRepository.GetPaymentById:\n" + ex.Message);
+            }
+            return null;
         }
 
         
