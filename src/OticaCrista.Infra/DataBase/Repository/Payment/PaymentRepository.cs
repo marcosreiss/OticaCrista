@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SistOtica.Models.Sale;
 
 namespace OticaCrista.Infra.DataBase.Repository.Payment
 {
-    public class PaymentRepository(IDbContextFactory<OticaCristaContext> _factory) : IPaymentRepository
+    public class PaymentRepository(
+        IDbContextFactory<OticaCristaContext> _factory,
+        ILogger<PaymentRepository> _logger) 
+        : IPaymentRepository
     {
         private OticaCristaContext context = _factory.CreateDbContext();
 

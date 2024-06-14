@@ -8,8 +8,16 @@ using OticaCrista.Application.UseCases.Product.Update;
 using OticaCrista.Infra.DataBase;
 using OticaCrista.Infra.DataBase.Repository.Client;
 using OticaCrista.Infra.DataBase.Repository.Product;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console(LogEventLevel.Debug)
+    .WriteTo.File("log.txt",
+        LogEventLevel.Warning,
+        rollingInterval: RollingInterval.Day));
 
 // Add services to the container.
 
@@ -23,6 +31,7 @@ builder.Services
     .AddDbContextFactory<OticaCristaContext>(o 
     => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
 
 //Dependecy Service
 
@@ -64,4 +73,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+Log.Information($"Rodando API em {DateTime.Now}");
 app.Run();
