@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SistOtica.Models.Client
 {
@@ -13,6 +14,7 @@ namespace SistOtica.Models.Client
         [ForeignKey("ClientId")]
         [InverseProperty("PhoneNumbers")]
         public int ClientId { get; set; }
+        [JsonIgnore]
         public ClientModel Client { get; set; }
     }
 }

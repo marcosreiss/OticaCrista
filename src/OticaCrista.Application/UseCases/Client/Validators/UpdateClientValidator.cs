@@ -14,8 +14,7 @@ namespace OticaCrista.Application.UseCases.Client.Validators
                 .MustAsync(_repository.UniqueName).WithMessage("This client name already exists"); 
 
             RuleFor(client => client.Cpf)
-                .Length(11).WithMessage("Cpf must have 11 caracters")
-                .MustAsync(_repository.UniqueCpf).WithMessage("Cpf Already exists");
+                .Length(11).WithMessage("Cpf must have 11 caracters");
 
             RuleFor(client => client.Rg).Length(7, 13)
                 .WithMessage("Rg lenth must be between 7 and 13 caracters");
@@ -50,8 +49,8 @@ namespace OticaCrista.Application.UseCases.Client.Validators
             RuleFor(client => client.City).Length(4, 155)
                 .WithMessage("City lenth must be between 4 and 155 caracters");
 
-            RuleFor(client => client.Uf).Length(4, 100)
-                .WithMessage("Uf lenth must be between 4 and 100 caracters");
+            RuleFor(client => client.Uf).Length(2)
+                .WithMessage("Uf lenth must have 2 caracters");
 
             RuleFor(client => client.Cep).Length(8)
                 .WithMessage("Cep lenth must be 8 caracters");

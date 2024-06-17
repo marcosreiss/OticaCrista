@@ -53,8 +53,8 @@ namespace OticaCrista.Application.UseCases.Client.Validators
             RuleFor(client => client.City).Length(4, 155)
                 .WithMessage("City lenth must be between 4 and 155 caracters");
 
-            RuleFor(client => client.Uf).Length(4, 100)
-                .WithMessage("Uf lenth must be between 4 and 100 caracters");
+            RuleFor(client => client.Uf).Length(2)
+                .WithMessage("Uf lenth must have 2 caracters");
 
             RuleFor(client => client.Cep).Length(8)
                 .WithMessage("Cep lenth must be 8 caracters");

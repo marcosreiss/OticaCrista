@@ -1,8 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Asn1.X509;
 using OticaCrista.communication.Requests.Client;
 using SistOtica.Models.Client;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Net.Mail;
+using System.Runtime.ConstrainedExecution;
+using System.Xml.Linq;
 
 namespace OticaCrista.Infra.DataBase.Repository.Client
 {
@@ -76,15 +81,31 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         {
             try
             {
-                var mapRequest = MapClient(request);
                 var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
                 if (client == null)
                 {
                     _logger.LogError("(ClientRepository.UpdateClientAsync): clientId passado inválido, client não encontrado");
                     return null;
                 }
-                mapRequest.Id = id;
-                client = mapRequest;
+
+                client.Name = request.Name;
+                client.Cpf = request.Cpf;
+                client.Rg = request.Rg;
+                client.BornDate = request.BornDate;
+                client.FatherName = request.FatherName;
+                client.MotherName = request.MotherName;
+                client.SpouseName = request.SpouseName;
+                client.EmailAddress = request.EmailAddress;
+                client.Company = request.Company;
+                client.Ocupation = request.Ocupation;
+                client.Street = request.Street;
+                client.City = request.City;
+                client.Neighborhood = request.Neighborhood;
+                client.Uf = request.Uf;
+                client.Cep = request.Cep;
+                client.AddressComplement = request.AddressComplement;
+                client.Negativated = request.Negativated;
+                client.Observation = request.Observation;
 
                 var addClient = _context.Clients.Update(client);
                 await _context.SaveChangesAsync();
@@ -120,7 +141,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (client == null)
                 {
                     _logger.LogError("(ClientRepository.DeleteClientAsync): clientId passado inválido, client não encontrado");
-                    return null;
+                    throw new ArgumentException("Id passádo inválido!");
                 }
                 _context.Clients.Remove(client);
                 await _context.SaveChangesAsync();
@@ -173,8 +194,14 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro em ClientRepository.GetAllClientsPaginadedAsync:\n" + ex.Message);
+                throw new Exception("Erro em ClientRepository.GetAllClientsPaginadedAsync:\n" + ex.Message);
             }
             return null;
+        }
+
+        public async Task<int> GetClientCountAsync()
+        {
+            return await _context.Clients.AsNoTracking().CountAsync();
         }
 
         #endregion
@@ -336,5 +363,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         {
             return await _context.Clients.AsNoTracking().AllAsync(client => client.Cpf != cpf, cancellationToken);  
         }
+
+        
     }
 }

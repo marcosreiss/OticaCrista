@@ -10,6 +10,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         Task<ClientModel?> DeleteClientAsync(int id);
         Task<ClientModel?> GetClientByIdAsync(int id);
         Task<List<ClientModel>?> GetAllClientsPaginadedAsync(int skip, int take);
+        Task<int> GetClientCountAsync();
 
         Task<bool> CreateContactAsync(ContactJson number, int clientId);
         Task<bool> UpdateContactAsync(ContactJson contact, int id);

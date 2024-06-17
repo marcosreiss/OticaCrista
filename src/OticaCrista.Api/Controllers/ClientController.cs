@@ -13,14 +13,49 @@ namespace OticaCrista.Api.Controllers
         public async Task<IActionResult> Create(ClientRequest requestClientJson,
             [FromServices] CreateClientUseCase useCase)
         {
+            var response = await useCase.Execute(requestClientJson);
+            if(response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(ClientRequest requestClientJson, int id,
+            [FromServices] UpdateClientUseCase useCase)
+        {
             try
             {
-                var client = await useCase.Execute(requestClientJson);
-                return Created(string.Empty, client);
-            }catch (ValidationException ex)
+                var client = await useCase.Execute(requestClientJson, id);
+                return Ok(client);
+            }
+            catch (ValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromServices] DeleteClientUseCase useCase, int id)
+        {
+
+            var response = await useCase.Execute(id);
+            if (response.StatusCode is >= 200 and <= 2999)
+            {
+                return Ok(response);
+            }
+            return NotFound(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromServices] GetClientByIdUseCase useCase, int id)
+        {
+            
         }
 
         //[HttpGet]
@@ -37,79 +72,6 @@ namespace OticaCrista.Api.Controllers
         //    return Ok(response);
 
         //}
-
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetBrandByIdAsync([FromServices] GetClientByIdUseCase useCase, int id)
-        //{
-        //    var client = await useCase.GetBrandByIdAsync(id);
-        //    if (client != null) return Ok(client);
-        //    var response = new
-        //    {
-        //        Status = StatusCodes.Status204NoContent,
-        //        Ok = true,
-        //        Message = "No Client Found whit This Id"
-        //    };
-        //    return Ok(response);
-        //}
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(ClientRequest requestClientJson, int id,
-            [FromServices] UpdateClientUseCase useCase)
-        {
-            try
-            {
-                var client = await useCase.Execute(requestClientJson, id);
-                return Ok(client);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromServices] DeleteClientUseCase useCase, int id)
-        {
-            try
-            {
-                await useCase.Execute(id);
-                return Ok($"Client {id} deletede");
-            } catch(InvalidOperationException ex)
-            {
-                var response = new
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Ok = false,
-                    Message = ex.Message
-                };
-                return BadRequest(response);
-            }
-        }
-
-
-
-        //public async Task<IActionResult> CreateContact()
-        //{
-        //    return Ok();
-        //}
-
-        //public async Task<IActionResult> CreateReference()
-        //{
-        //    return Ok();
-        //}
-
-        //public async Task<IActionResult> DeleteContactAsync()
-        //{
-        //    return Ok();
-        //}
-
-        //public async Task<IActionResult> DeleteReferenceAsync()
-        //{
-        //    return Ok();
-        //}
+        
     }
 }

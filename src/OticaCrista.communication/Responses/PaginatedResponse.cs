@@ -2,21 +2,24 @@
 
 namespace OticaCrista.communication.Responses
 {
-    public class PagedResponse<TData> : Response<TData>
+    public class PaginatedResponse<TData> : Response<TData>
     {
         #region Ctor
 
         [JsonConstructor]
-        public PagedResponse(
+        public PaginatedResponse(
             TData? data,
             int totalCount,
             int currentPage = 1,
-            int pageSize = 20)
-            : base(data)
+            int pageSize = 20,
+            int code = 200,
+            string message = "")
+            : base(data, code, message)
         {
             TotalCount = totalCount;
             CurrentPage = currentPage;
             PageSize = pageSize;
+            
         }
 
         #endregion

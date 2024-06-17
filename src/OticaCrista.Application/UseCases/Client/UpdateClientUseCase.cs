@@ -30,9 +30,11 @@ namespace OticaCrista.Application.UseCases.Client
             var client = await _repository.UpdateClientAsync(requestClientJson, id);
             if (client != null)
             {
-                return new Response<ClientModel>(client, 201, "Cliente cadastrado com sucesso!");
+                return new Response<ClientModel>(client, 201, "Cliente editado com sucesso!");
             }
-            return new Response<ClientModel>(null, 500, "Erro ao cadastrar cliente em repository. Verifique os logs da aplicação")
+
+            return new Response<ClientModel>(null, 500,
+                "Erro ao cadastrar cliente em repository. Verifique os logs da aplicação");
         }
 
         private async Task Validate(ClientRequest request, int id)

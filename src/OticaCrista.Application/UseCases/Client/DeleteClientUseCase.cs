@@ -8,12 +8,23 @@ namespace OticaCrista.Application.UseCases.Client
     {
         public async Task<Response<ClientModel>> Execute(int id)
         {
-            var client = await repository.DeleteClientAsync(id);
-            if (client != null)
+            try
             {
-                return new Response<ClientModel>(client, 200, "Cliente deletado com Sucesso!");
+                var client = await repository.DeleteClientAsync(id);
+                if (client != null)
+                {
+                    return new Response<ClientModel>(client, 200, "Cliente deletado com Sucesso!");
+                }
+                return new Response<ClientModel>(null, 500, "Erro ao deletar client no repository. Verifique os logs da aplicação");
             }
-            return new Response<ClientModel>(null, 500, "Erro ao deletar client no repository. Verifique os logs da aplicação");
+            catch (ArgumentException ex)
+            {
+                return new Response<ClientModel>(null, 500, ex.Message);
+            }
+            catch
+            {
+                return new Response<ClientModel>(null, 500, "Erro ao deletar client no repository. Verifique os logs da aplicação");
+            }
         }
     }
 }

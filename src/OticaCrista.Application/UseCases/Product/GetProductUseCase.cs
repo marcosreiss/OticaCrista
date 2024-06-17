@@ -5,21 +5,21 @@ namespace OticaCrista.Application.UseCases.Product
 {
     public class GetProductUseCase
     {
-        private readonly IProductRepository _repository;
-        public GetProductUseCase(IProductRepository productRepository)
-        {
-            _repository = productRepository;
-        }
+        //private readonly IProductRepository _repository;
+        //public GetProductUseCase(IProductRepository productRepository)
+        //{
+        //    _repository = productRepository;
+        //}
 
 
-        public async Task<List<ProductModel>> GetAll()
-        {
-            return await _repository.GetAll();
-        }
+        //public async Task<List<ProductModel>> GetAll()
+        //{
+        //    return await _repository.GetAll();
+        //}
 
-        public async Task<ProductModel> GetById(int id)
-        {
-            return await _repository.GetProductByIdAsync(id);
-        }
+        //public async Task<ProductModel> GetById(int id)
+        //{
+        //    return await _repository.GetProductByIdAsync(id);
+        //}
     }
 }

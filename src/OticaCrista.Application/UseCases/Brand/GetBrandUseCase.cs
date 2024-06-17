@@ -11,26 +11,26 @@ namespace OticaCrista.Application.UseCases.Brand
             _brandRepository = brandRepository;
         }
 
-        public async Task<List<BrandModel>> GetAll()
-        {
-            var brandList = await _brandRepository.GetAllBrandsPaginaded();
-            return brandList;
-        }
+        //public async Task<List<BrandModel>> GetAll()
+        //{
+        //    var brandList = await _brandRepository.GetAllBrandsPaginaded();
+        //    return brandList;
+        //}
 
-        public async Task<BrandModel> GetById(int id)
-        {
-            var brand = await _brandRepository.GetBrandByIdAsync(id);
-            Validate(brand);
+        //public async Task<BrandModel> GetById(int id)
+        //{
+        //    var brand = await _brandRepository.GetBrandByIdAsync(id);
+        //    Validate(brand);
 
-            return brand;
-        }
+        //    return brand;
+        //}
 
-        private void Validate(BrandModel brand)
-        {
-            if (brand == null)
-            {
-                throw new ArgumentNullException("This brand dont exists: ", nameof(brand));
-            }
-        }
+        //private void Validate(BrandModel brand)
+        //{
+        //    if (brand == null)
+        //    {
+        //        throw new ArgumentNullException("This brand dont exists: ", nameof(brand));
+        //    }
+        //}
     }
 }
