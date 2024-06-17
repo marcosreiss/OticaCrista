@@ -5,10 +5,11 @@ namespace OticaCrista.Infra.DataBase.Repository.Brand
 {
     public interface IBrandRepository
     {
-        Task<List<BrandModel>> GetAll();
-        Task<BrandModel> GetById(int id);
-        Task<BrandModel> Add(BrandModel brand);
-        Task<BrandModel> Update(BrandRequest brand, int id);
-        Task<bool> Delete(int id);
+        Task<BrandModel?> CreateBrandAsync(BrandModel model);
+        Task<BrandModel?> UpdateBrandAsync(BrandRequest brand, int id);
+        Task<BrandModel?> DeleteBrandAsync(int id);
+        Task<List<BrandModel>?> GetAllBrandsPaginadedAsync(int skip, int take);
+        Task<BrandModel?> GetBrandByIdAsync(int id);
+        Task<bool> UniqueNameAsync(string name, CancellationToken token);
     }
 }

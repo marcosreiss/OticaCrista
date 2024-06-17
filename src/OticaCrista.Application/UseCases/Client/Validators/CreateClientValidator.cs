@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using OticaCrista.communication.Requests.Client;
-using OticaCrista.Infra.DataBase;
 using OticaCrista.Infra.DataBase.Repository.Client;
 
 namespace OticaCrista.Application.UseCases.Client.Validators

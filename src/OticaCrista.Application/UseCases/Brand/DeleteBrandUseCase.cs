@@ -13,7 +13,7 @@ namespace OticaCrista.Application.UseCases.Brand
 
         public async Task<bool> Execute(int id)
         {
-            return await _brandRepository.Delete(id);
+            return await _brandRepository.DeleteBrandAsync(id);
         }
     }
 }

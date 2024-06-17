@@ -18,7 +18,7 @@ namespace OticaCrista.Application.UseCases.Client
         {
             await Validate(requestClientJson, id);
 
-            return await _repository.UpdateClient(requestClientJson, id);
+            return await _repository.UpdateClientAsync(requestClientJson, id);
         }
 
         private async Task Validate(ClientRequest request, int id)
@@ -35,7 +35,7 @@ namespace OticaCrista.Application.UseCases.Client
                 }
                 throw new ValidationException(errorMessages);
             }
-            var client = _repository.GetClientById(id);
+            var client = _repository.GetClientByIdAsync(id);
             if (client == null)
             {
                 throw new ArgumentException("No Client found with this id");

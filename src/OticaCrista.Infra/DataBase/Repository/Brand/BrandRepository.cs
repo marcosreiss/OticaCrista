@@ -1,67 +1,131 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
 namespace OticaCrista.Infra.DataBase.Repository.Brand
 {
-    public class BrandRepository : IBrandRepository
+    public class BrandRepository(
+        IDbContextFactory<OticaCristaContext> _factory,
+        ILogger<BrandRepository> _logger) 
+        : IBrandRepository
     {
-        private readonly IDbContextFactory<OticaCristaContext> _contextFactory;
-        public BrandRepository(IDbContextFactory<OticaCristaContext> context)
+        private readonly OticaCristaContext _context = _factory.CreateDbContext();
+        
+        public async Task<BrandModel?> CreateBrandAsync(BrandModel model)
         {
-            _contextFactory = context;
-
-        }
-        public async Task<List<BrandModel>> GetAll()
-        {
-            using var context = _contextFactory.CreateDbContext();
-            return await context.Brands
-                .ToListAsync();
-        }
-
-        public async Task<BrandModel> GetById(int id)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
-            if (brand == null)
+            try
             {
-                throw new ArgumentNullException("Brand not Found");
+                await _context.Brands.AddAsync(model);
+                await _context.SaveChangesAsync();
+                return model;
             }
-            return brand;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em BrandRepository.CreateBrandAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<BrandModel> Add(BrandModel brand)
+        public async Task<BrandModel?> UpdateBrandAsync(BrandRequest model, int id)
         {
-            using var context = _contextFactory.CreateDbContext();
-            await context.Brands.AddAsync(brand);
-            await context.SaveChangesAsync();
-            return brand;
+            try
+            {
+                var brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == id);
+                if (brand == null)
+                {
+                    _logger
+                        .LogInformation
+                        ("brand null in BrandRepository.UpdateBrandAsync (Invalid Id)");
+                    return null;
+                }
+
+                brand.Name = model.Name;
+                _context.Brands.Update(brand);
+                await _context.SaveChangesAsync();
+
+                return brand;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em BrandRepository.UpdateBrandAsync:\n" + ex.Message);
+            }
+            return null;
+
         }
 
-        public async Task<BrandModel> Update(BrandRequest brand, int id)
+        public async Task<BrandModel?> DeleteBrandAsync(int id)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var updateBrand = await GetById(id);
+            try
+            {
+                var brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == id);
+                if (brand == null)
+                {
+                    _logger
+                        .LogInformation
+                        ("brand null in BrandRepository.DeleteBrandAsync (Invalid Id)");
+                    return null;
+                }
 
+                _context.Brands.Remove(brand);
+                await _context.SaveChangesAsync();
 
-            updateBrand.Name = brand.Name;
-            context.Brands.Update(updateBrand);
-            await context.SaveChangesAsync();
-
-            return updateBrand;
-
+                return brand;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em BrandRepository.DeleteBrandAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<BrandModel?> GetBrandByIdAsync(int id)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var deleteBrand = await GetById(id);
+            try
+            {
+                var brand = await _context.Brands
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(b => b.Id == id);
+                if (brand == null)
+                {
+                    _logger
+                        .LogInformation
+                        ("brand null in BrandRepository.GetBrandByIdAsync (Invalid Id)");
+                    return null;
+                }
 
+                return brand;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em BrandRepository.GetBrandByIdAsync:\n" + ex.Message);
+            }
+            return null;
+        }
 
-            context.Brands.Remove(deleteBrand);
-            await context.SaveChangesAsync();
+        public async Task<List<BrandModel>?> GetAllBrandsPaginadedAsync(int skip, int take)
+        {
+            try
+            {
+                var brands = await _context.Brands
+                    .Skip(skip)
+                    .Take(take)
+                    .AsNoTracking()
+                    .ToListAsync();
+                return brands;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em BrandRepository.GetAllBrandsPaginadedAsync:\n" + ex.Message);
+            }
+            return null;
+        }
 
-            return true;
+        public async Task<bool> UniqueNameAsync(string name, CancellationToken token)
+        {
+            return await _context.Brands
+                .AsNoTracking()
+                .AllAsync(b => b.Name != name, token);
         }
     }
 }

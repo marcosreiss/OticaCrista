@@ -1,72 +1,126 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.Ocsp;
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;
 
 namespace OticaCrista.Infra.DataBase.Repository.Product
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository(
+        IDbContextFactory<OticaCristaContext> factory,
+        ILogger<ProductRepository> _logger) 
+        : IProductRepository
     {
-        private readonly IDbContextFactory<OticaCristaContext> _dbContextFactory;
-        public ProductRepository(IDbContextFactory<OticaCristaContext> context)
-        {
-            _dbContextFactory = context;
-        }
+        private readonly OticaCristaContext _context = factory.CreateDbContext();
 
 
-        public async Task<List<ProductModel>> GetAll()
+        public async Task<ProductModel?> CreateProductAsync(ProductModel product)
         {
-            using var context = _dbContextFactory.CreateDbContext();
-            return await context.Products.ToListAsync();
-        }
-
-        public async Task<ProductModel> GetById(int id)
-        {
-            using var context = _dbContextFactory.CreateDbContext();
-          
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null)
+            try
             {
-                throw new ArgumentNullException("Product not Found");
+                await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
+
+                return product;
             }
-            return product;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ProductRepository.CreateProductAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<ProductModel> Add(ProductModel product)
+        public async Task<ProductModel?> UpdateProductAsync(ProductRequest request, int id)
         {
-            using var context = _dbContextFactory.CreateDbContext();
-            await context.Products.AddAsync(product);
-            await context.SaveChangesAsync();
+            try
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+                if (product == null)
+                {
+                    _logger.LogError("(ProductRepository.UpdateProductAsync): id pasado inválido, product não encontrada");
+                    return null;
+                }
 
-            return product;
+                product.Name = request.Name;
+                product.BuyPrice = request.BuyPrice;
+                product.Addition = request.Additon;
+                product.SalePrice = request.SalePrice;
+                product.Quantity = request.Quantity;
+                product.BrandId = request.BrandId;
+
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ProductRepository.UpdateProductAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<ProductModel> Update(ProductRequest model, int id)
+        public async Task<ProductModel?> DeleteProductAsync(int id)
         {
-            using var context = _dbContextFactory.CreateDbContext();
-            var product = GetById(id).Result;
+            try
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+                if (product == null)
+                {
+                    _logger.LogError("(ProductRepository.DeleteProductAsync): id pasado inválido, product não encontrada");
+                    return null;
+                }
 
-            product.Name = model.Name;
-            product.BuyPrice = model.BuyPrice;
-            product.Addition = model.Additon;
-            product.SalePrice = model.SalePrice;
-            product.Quantity = model.Quantity;
-            product.BrandId = model.BrandId;
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
 
-            context.Products.Update(product);
-            await context.SaveChangesAsync();
-
-            return product;
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ProductRepository.DeleteProductAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<ProductModel?> GetProductByIdAsync(int id)
         {
-            using var context = _dbContextFactory.CreateDbContext();
-            var product = GetById(id).Result;
 
-            context.Products.Remove(product);
-            await context.SaveChangesAsync();
+            try
+            {
+                var product = await _context.Products
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
+                if (product == null)
+                {
+                    _logger.LogError("(ProductRepository.DeleteProductAsync): id pasado inválido, product não encontrada");
+                    return null;
+                }
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ProductRepository.GetProductByIdAsync:\n" + ex.Message);
+            }
+            return null;
+        }
 
-            return true;
+        public async Task<List<ProductModel>?> GetAllProductsPaginadedAsync(int skip, int take)
+        {
+            try
+            {
+                var products = await _context.Products
+                    .Skip(skip)
+                    .Take(take)
+                    .AsNoTracking()
+                    .ToListAsync();
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ProductRepository.GetAllProductsPaginadedAsync:\n" + ex.Message);
+            }
+            return null;
         }
     }
 }

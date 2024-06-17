@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OticaCrista.Application.UseCases.Product;
 using OticaCrista.communication.Requests.Product;
 using SistOtica.Models.Product;

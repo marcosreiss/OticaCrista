@@ -24,9 +24,9 @@ namespace OticaCrista.Api.Controllers
         }
 
         //[HttpGet]
-        //public async Task<IActionResult> GetAll([FromServices] GetClientUseCase useCase)
+        //public async Task<IActionResult> GetAllBrandsPaginadedAsync([FromServices] GetClientUseCase useCase)
         //{
-        //    var clients = await useCase.GetAll();
+        //    var clients = await useCase.GetAllBrandsPaginadedAsync();
         //    if (clients != null) return Ok(clients);
         //    var response = new
         //    {
@@ -39,9 +39,9 @@ namespace OticaCrista.Api.Controllers
         //}
 
         //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetById([FromServices] GetClientUseCase useCase, int id)
+        //public async Task<IActionResult> GetBrandByIdAsync([FromServices] GetClientUseCase useCase, int id)
         //{
-        //    var client = await useCase.GetById(id);
+        //    var client = await useCase.GetBrandByIdAsync(id);
         //    if (client != null) return Ok(client);
         //    var response = new
         //    {
@@ -102,12 +102,12 @@ namespace OticaCrista.Api.Controllers
         //    return Ok();
         //}
 
-        //public async Task<IActionResult> DeleteContact()
+        //public async Task<IActionResult> DeleteContactAsync()
         //{
         //    return Ok();
         //}
 
-        //public async Task<IActionResult> DeleteReference()
+        //public async Task<IActionResult> DeleteReferenceAsync()
         //{
         //    return Ok();
         //}

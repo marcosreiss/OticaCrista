@@ -21,7 +21,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
         LogEventLevel.Warning,
         rollingInterval: RollingInterval.Day));
 
-// Add services to the container.
+// CreateBrandAsync services to the container.
 
 builder.Services.AddDateOnlyTimeOnlyStringConverters();
 

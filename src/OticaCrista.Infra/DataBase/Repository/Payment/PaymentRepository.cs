@@ -9,11 +9,11 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
         ILogger<PaymentRepository> _logger) 
         : IPaymentRepository
     {
-        private OticaCristaContext context = _factory.CreateDbContext();
+        private readonly OticaCristaContext context = _factory.CreateDbContext();
 
 
 
-        public async Task<PaymentModel?> CreatePayment(SaleModel sale)
+        public async Task<PaymentModel?> CreatePaymentAsync(SaleModel sale)
         {
             var payment = new PaymentModel
             {
@@ -29,13 +29,13 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em PaymentRepository.CreatePayment:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em PaymentRepository.CreatePaymentAsync:\n" + ex.Message);
             }
             return null;
 
         }
 
-        public async Task<PaymentModel?> UpdatePayment(int id, PaymentModel model)
+        public async Task<PaymentModel?> UpdatePaymentAsync(int id, PaymentModel model)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
                 {
                     _logger
                         .LogInformation
-                        ("payment null in PaymentRepository.UpdatePayment (Invalid Id)");
+                        ("payment null in PaymentRepository.UpdatePaymentAsync (Invalid Id)");
                     return null;
                 }
 
@@ -60,12 +60,12 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em PaymentRepository.UpdatePayment:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em PaymentRepository.UpdatePaymentAsync:\n" + ex.Message);
             }
             return null;
         }
 
-        public async Task<PaymentModel?> DeletePayment(int id)
+        public async Task<PaymentModel?> DeletePaymentAsync(int id)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
                 {
                     _logger
                         .LogInformation
-                        ("payment null in PaymentRepository.DeletePayment (Invalid Id)");
+                        ("payment null in PaymentRepository.DeletePaymentAsync (Invalid Id)");
                     return null;
                 }
 
@@ -85,12 +85,12 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em PaymentRepository.DeletePayment:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em PaymentRepository.DeletePaymentAsync:\n" + ex.Message);
             }
             return null;
         }
 
-        public async Task<List<PaymentModel>?> GetAllPaymentsPaginaded(int skip, int take)
+        public async Task<List<PaymentModel>?> GetAllPaymentsPaginadedAsync(int skip, int take)
         {
             try
             {
@@ -102,12 +102,12 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em PaymentRepository.GetAllPaymentsPaginaded:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em PaymentRepository.GetAllPaymentsPaginadedAsync:\n" + ex.Message);
             }
             return null;
         }
 
-        public async Task<PaymentModel?> GetPaymentById(int id)
+        public async Task<PaymentModel?> GetPaymentByIdAsync(int id)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
                 {
                     _logger
                         .LogInformation
-                        ("payment null in PaymentRepository.GetPaymentById (Invalid Id)");
+                        ("payment null in PaymentRepository.GetPaymentByIdAsync (Invalid Id)");
                     return null;
                 }
 
@@ -124,7 +124,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em PaymentRepository.GetPaymentById:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em PaymentRepository.GetPaymentByIdAsync:\n" + ex.Message);
             }
             return null;
         }

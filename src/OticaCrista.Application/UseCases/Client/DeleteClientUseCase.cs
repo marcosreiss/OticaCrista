@@ -12,7 +12,7 @@ namespace OticaCrista.Application.UseCases.Client
 
         public async Task<bool> Execute(int id)
         {
-            if(await _clientRepository.DeleteClient(id)) return true;
+            if(await _clientRepository.DeleteClientAsync(id)) return true;
             return false;
         }
     }

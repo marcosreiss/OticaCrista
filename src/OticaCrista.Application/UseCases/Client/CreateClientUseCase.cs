@@ -6,19 +6,17 @@ using SistOtica.Models.Client;
 
 namespace OticaCrista.Application.UseCases.Client
 {
-    public class CreateClientUseCase
+    public class CreateClientUseCase(IClientRepository _repository)
     {
-        private readonly IClientRepository _repository;
-        public CreateClientUseCase(IClientRepository repository)
+        public async Task<ClientModel> Execute(ClientRequest request)
         {
-            _repository = repository;
-        }
-
-        public async Task<ClientModel> Execute(ClientRequest requestClientJson)
-        {
-            await Validate(requestClientJson);
-
-            return await _repository.AddClient(requestClientJson);
+            await Validate(request);
+            var client = await _repository.CreateClientAsync(request);
+            if (client != null)
+            {
+                return client;
+            }
+            return null;
         }
 
         private async Task Validate(ClientRequest request)

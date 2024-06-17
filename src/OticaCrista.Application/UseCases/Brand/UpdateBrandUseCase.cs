@@ -15,7 +15,7 @@ namespace OticaCrista.Application.UseCases.Brand
 
         public async Task<BrandModel> Execute(BrandRequest update, int id)
         {
-            var newBrand = await _brandRepository.Update(update, id);
+            var newBrand = await _brandRepository.UpdateBrandAsync(update, id);
 
             return newBrand;
         }

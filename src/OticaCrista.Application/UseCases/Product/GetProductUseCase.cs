@@ -19,7 +19,7 @@ namespace OticaCrista.Application.UseCases.Product
 
         public async Task<ProductModel> GetById(int id)
         {
-            return await _repository.GetById(id);
+            return await _repository.GetProductByIdAsync(id);
         }
     }
 }

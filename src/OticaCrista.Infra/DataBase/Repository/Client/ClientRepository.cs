@@ -1,18 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.Ocsp;
 using OticaCrista.communication.Requests.Client;
 using SistOtica.Models.Client;
 
 namespace OticaCrista.Infra.DataBase.Repository.Client
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository(
+        IDbContextFactory<OticaCristaContext> factory,
+        ILogger<ClientRepository> _logger) : IClientRepository
     {
-        private readonly IDbContextFactory<OticaCristaContext> _contextFactory;
-        public ClientRepository(IDbContextFactory<OticaCristaContext> contextFactory)
-        {
-            _contextFactory = contextFactory;
-        }
+        private readonly OticaCristaContext _context = factory.CreateDbContext();
 
-        private ClientModel MapClient(ClientRequest request)
+        private static ClientModel MapClient(ClientRequest request)
         {
             var client = new ClientModel
             {
@@ -38,181 +38,298 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             return client;
         }
 
-        public async Task<ClientModel> AddClient(ClientRequest request)
+
+        #region Client
+
+        public async Task<ClientModel?> CreateClientAsync(ClientRequest request)
         {
-            using var context = _contextFactory.CreateDbContext();
-
-            var client = MapClient(request);
-           
-            var addClient = await context.Clients.AddAsync(client);
-            await context.SaveChangesAsync();
-            var clientPosted = addClient.Entity;
-
-            var contacts = request.Contacts;
-            foreach (var contact in contacts)
+            try
             {
-                _ = AddContact(contact, clientPosted.Id);
-            }
+                var client = MapClient(request);
 
-            var references = request.References;
-            foreach (var reference in references)
+                var addClient = await _context.Clients.AddAsync(client);
+                await _context.SaveChangesAsync();
+                var clientPosted = addClient.Entity;
+
+                var contacts = request.Contacts;
+                foreach (var contact in contacts)
+                {
+                    await CreateContactAsync(contact, clientPosted.Id);
+                }
+
+                var references = request.References;
+                foreach (var reference in references)
+                {
+                    await CreateReferenceAsync(reference, clientPosted.Id);
+                }
+
+                return clientPosted;
+            }
+            catch (Exception ex)
             {
-                _ = AddReference(reference, clientPosted.Id);
+                _logger.LogError(ex, "Erro em ClientRepository.CreateClientAsync:\n" + ex.Message);
             }
-
-            return clientPosted;
+            return null;
         }
 
-        public async Task<List<ClientModel>> GetAllClients()
+        public async Task<ClientModel?> UpdateClientAsync(ClientRequest request, int id)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var clients = await context.Clients
-                .Include(client=> client.PhoneNumber)
-                .Include(client=> client.References)
-                .ToListAsync();
-            return clients;
+            try
+            {
+                var mapRequest = MapClient(request);
+                var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+                if (client == null)
+                {
+                    _logger.LogError("(ClientRepository.UpdateClientAsync): clientId passado inválido, client não encontrado");
+                    return null;
+                }
+                mapRequest.Id = id;
+                client = mapRequest;
+
+                var addClient = _context.Clients.Update(client);
+                await _context.SaveChangesAsync();
+
+                var clientUpdated = addClient.Entity;
+
+                var contacts = request.Contacts;
+                foreach (var contact in contacts)
+                {
+                    await UpdateContactAsync(contact, clientUpdated.Id);
+                }
+
+                var references = request.References;
+                foreach (var reference in references)
+                {
+                    await UpdateReferenceAsync(reference, clientUpdated.Id);
+                }
+
+                return clientUpdated;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.UpdateClientAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
-        public async Task<ClientModel> GetClientById(int id)
+        public async Task<ClientModel?> DeleteClientAsync(int id)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var client = await context.Clients
-                .Include(client=> client.PhoneNumber)
+            try
+            {
+                var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+                if (client == null)
+                {
+                    _logger.LogError("(ClientRepository.DeleteClientAsync): clientId passado inválido, client não encontrado");
+                    return null;
+                }
+                _context.Clients.Remove(client);
+                await _context.SaveChangesAsync();
+                return client;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.DeleteClientAsync:\n" + ex.Message);
+            }
+            return null;
+        }
+
+        public async Task<ClientModel?> GetClientByIdAsync(int id)
+        {
+            try
+            {
+                var client = await _context.Clients
+                .Include(client => client.PhoneNumber)
                 .Include(client => client.References)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            return client;
-        }
-
-        public async Task<ClientModel> UpdateClient(ClientRequest request, int id)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var client = MapClient(request);
-            client.Id = id;
-
-            var addClient = context.Clients.Update(client);
-            await context.SaveChangesAsync();
-            var clientUpdated = addClient.Entity;
-
-            var contacts = request.Contacts;
-            foreach (var contact in contacts)
-            {
-                _ = UpdateContact(contact, clientUpdated.Id);
+                if (client == null)
+                {
+                    _logger.LogError("(ClientRepository.GetClientByIdAsync): clientId passado inválido, client não encontrado");
+                    return null;
+                }
+                return client;
             }
-
-            var references = request.References;
-            foreach (var reference in references)
+            catch (Exception ex)
             {
-                _ = UpdateReference(reference, clientUpdated.Id);
+                _logger.LogError(ex, "Erro em ClientRepository.GetClientByIdAsync:\n" + ex.Message);
             }
-
-            return clientUpdated;
+            return null;
         }
 
-        public async Task<bool> DeleteClient(int id)
+        public async Task<List<ClientModel>?> GetAllClientsPaginadedAsync(int skip, int take)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var client = GetClientById(id).Result;
-
-            if (client == null) throw new InvalidOperationException($"client with id {id} was not found");
-            
-            context.Clients.Remove(client);
-            await context.SaveChangesAsync();
-            return true;
-
-        }
-
-
-        public async Task<bool> AddContact(ContactJson number, int clientId)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var contact = new ClientContact
+            try
             {
-                PhoneNumber = number.PhoneNumber,
-                ClientId = clientId
-            };
-            await context.Contacts.AddAsync(contact);
-            await context.SaveChangesAsync();
-            return true;
-            
-        }
+                var clients = await _context.Clients
+                .Include(client => client.PhoneNumber)
+                .Include(client => client.References)
+                .AsNoTracking()
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
 
-        public async Task<bool> AddReference(ReferenceJson reference, int clientId)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            var newReference = new ClientReferences
+                return clients;
+            }
+            catch (Exception ex)
             {
-                Name = reference.Name,
-                PhoneNumber = reference.PhoneNumber,
-                ClientId = clientId
-            };
-            await context.References.AddAsync(newReference);
-            await context.SaveChangesAsync();
-            return true;
+                _logger.LogError(ex, "Erro em ClientRepository.GetAllClientsPaginadedAsync:\n" + ex.Message);
+            }
+            return null;
         }
 
+        #endregion
 
-        public async Task<bool> UpdateContact(ContactJson contact, int id)
+        #region Contact
+
+        public async Task<bool> CreateContactAsync(ContactJson request, int clientId)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var newContact = context.Contacts.FirstOrDefaultAsync(x => x.ClientId == id).Result;
-
-            if (newContact == null) throw new InvalidOperationException("Contact doesnt exist");
-
-            newContact.PhoneNumber = contact.PhoneNumber;
-            context.Contacts.Update(newContact);
-            await context.SaveChangesAsync();
-
-            return true;
+            try
+            {
+                var contact = new ClientContact
+                {
+                    PhoneNumber = request.PhoneNumber,
+                    ClientId = clientId
+                };
+                await _context.Contacts.AddAsync(contact);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.CreateContactAsync:\n" + ex.Message);
+            }
+            return false;
         }
 
-        public async Task<bool> UpdateReference(ReferenceJson reference, int id)
+        public async Task<bool> UpdateContactAsync(ContactJson request, int clientId)
         {
-            using var context = _contextFactory.CreateDbContext();
+            try
+            {
+                var contact = await _context.Contacts.FirstOrDefaultAsync(x => x.ClientId == clientId);
 
-            var newReference = context.References.FirstOrDefaultAsync(x=>x.ClientId == id).Result;
+                if (contact == null)
+                {
+                    _logger.LogError("(ClientRepository.UpdateContactAsync): clientId passado inválido, contact não encontrado");
+                    return false;
+                }
 
-            if (newReference == null) throw new InvalidOperationException("Reference doesnt exist");
+                contact.PhoneNumber = request.PhoneNumber;
+                _context.Contacts.Update(contact);
+                await _context.SaveChangesAsync();
 
-            newReference.Name = reference.Name;
-            newReference.PhoneNumber = reference.PhoneNumber;
-
-            context.References.Update(newReference);
-            await context.SaveChangesAsync();
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.UpdateContactAsync:\n" + ex.Message);
+            }
+            return false;
         }
 
-        public async Task<bool> DeleteContact(int id)
+        public async Task<bool> DeleteContactAsync(int clientId)
         {
-            using var context = _contextFactory.CreateDbContext();
-            
-            var contact = context.Contacts.FirstOrDefault(x => x.Id == id);
+            try
+            {
+                var contact = await _context.Contacts.FirstOrDefaultAsync(x => x.ClientId == clientId);
 
-            if (contact == null) throw new InvalidOperationException("contact doesnt exist");
+                if (contact == null)
+                {
+                    _logger.LogError("(ClientRepository.DeleteContactAsync): clientId passado inválido, contact não encontrado");
+                    return false;
+                }
 
-            context.Contacts.Remove(contact);
-            await context.SaveChangesAsync();
-            return true;
+                _context.Contacts.Remove(contact);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.DeleteContactAsync:\n" + ex.Message);
+            }
+            return false;
         }
 
-        public async Task<bool> DeleteReference(int id)
+        #endregion
+
+        #region Reference
+
+        public async Task<bool> CreateReferenceAsync(ReferenceJson request, int clientId)
         {
-            using var context = _contextFactory.CreateDbContext();
-            var reference = context.References.FirstOrDefault(x => x.Id == id);
-
-            if (reference == null) throw new InvalidOperationException("Reference doesnt exist");
-
-            context.References.Remove(reference);
-            await context.SaveChangesAsync();
-            return true;
+            try
+            {
+                var reference = new ClientReferences
+                {
+                    Name = request.Name,
+                    PhoneNumber = request.PhoneNumber,
+                    ClientId = clientId
+                };
+                await _context.References.AddAsync(reference);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.CreateReferenceAsync:\n" + ex.Message);
+            }
+            return false;
         }
+
+        public async Task<bool> UpdateReferenceAsync(ReferenceJson request, int id)
+        {
+
+            try
+            {
+                var reference = await _context.References.FirstOrDefaultAsync(x => x.ClientId == id);
+                if (reference == null)
+                {
+                    _logger.LogError("(ClientRepository.UpdateReferenceAsync): clientIdd pasado inválido, client não encontrada");
+                    return false;
+                }
+
+                reference.Name = request.Name;
+                reference.PhoneNumber = request.PhoneNumber;
+
+                _context.References.Update(reference);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.UpdateReferenceAsync:\n" + ex.Message);
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteReferenceAsync(int id)
+        {
+            try
+            {
+                var reference = _context.References.FirstOrDefault(x => x.Id == id);
+                if (reference == null)
+                {
+                    _logger.LogError("(ClientRepository.DeleteReferenceAsync): clientIdd pasado inválido, client não encontrada");
+                    return false;
+                }
+
+                _context.References.Remove(reference);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em ClientRepository.DeleteReferenceAsync:\n" + ex.Message);
+            }
+            return false;
+        }
+
+        #endregion
 
         public async Task<bool> UniqueName(string name, CancellationToken cancellationToken)
         {
-            using var context = _contextFactory.CreateDbContext();
 
-            return await context.Clients.AllAsync(c => c.Name != name, cancellationToken);
+            return await _context.Clients.AllAsync(c => c.Name != name, cancellationToken);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace OticaCrista.Application.UseCases.Product
                 Quantity = request.Quantity,
                 BrandId = request.BrandId,
             };
-            await _productRepository.Add(product);
+            await _productRepository.CreateProductAsync(product);
             return product;
         }
 

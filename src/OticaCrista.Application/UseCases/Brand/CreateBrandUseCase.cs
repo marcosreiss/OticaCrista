@@ -15,17 +15,17 @@ namespace OticaCrista.Application.UseCases.Brand
                 Name = request.Name,
                 Products = null
             };
-            await _repository.Add(newBrand);
+            await _repository.CreateBrandAsync(newBrand);
             return newBrand;
         }
 
-        private void Validate(BrandRequest request)
+        private async void Validate(BrandRequest request)
         {
             if (request.Name == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            var brands = _repository.GetAll().Result;
+            var brands = await _repository.GetAllBrandsPaginaded();
             foreach (var brand in brands)
             {
                 if (brand.Name == request.Name)
