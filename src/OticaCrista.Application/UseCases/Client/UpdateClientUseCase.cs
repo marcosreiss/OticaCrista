@@ -1,29 +1,43 @@
-﻿using OticaCrista.Application.UseCases.Client.Validators;
+﻿using Microsoft.Extensions.Logging;
+using OticaCrista.Application.UseCases.Client.Validators;
 using OticaCrista.communication.Requests.Client;
+using OticaCrista.communication.Responses;
 using OticaCrista.Infra.DataBase.Repository.Client;
 using SistOtica.Models.Client;
 using System.ComponentModel.DataAnnotations;
 
 namespace OticaCrista.Application.UseCases.Client
 {
-    public class UpdateClientUseCase
+    public class UpdateClientUseCase(
+        IClientRepository _repository,
+        ILogger<UpdateClientUseCase> _logger)
     {
-        private readonly IClientRepository _repository;
-        public UpdateClientUseCase(IClientRepository clientRepository)
+        public async Task<Response<ClientModel>> Execute(ClientRequest requestClientJson, int id)
         {
-            _repository = clientRepository;
-        }
+            try
+            {
+                await Validate(requestClientJson, id);
+            }
+            catch (ValidationException ex)
+            {
+                return new Response<ClientModel>(null, 400, ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
+                return new Response<ClientModel>(null, 400, ex.Message);
+            }
 
-        public async Task<ClientModel> Execute(ClientRequest requestClientJson, int id)
-        {
-            await Validate(requestClientJson, id);
-
-            return await _repository.UpdateClientAsync(requestClientJson, id);
+            var client = await _repository.UpdateClientAsync(requestClientJson, id);
+            if (client != null)
+            {
+                return new Response<ClientModel>(client, 201, "Cliente cadastrado com sucesso!");
+            }
+            return new Response<ClientModel>(null, 500, "Erro ao cadastrar cliente em repository. Verifique os logs da aplicação")
         }
 
         private async Task Validate(ClientRequest request, int id)
         {
-            var validator = new UpdateClientValidator();
+            var validator = new UpdateClientValidator(_repository);
             var result = await validator.ValidateAsync(request);
             if (!result.IsValid)
             {
@@ -33,9 +47,10 @@ namespace OticaCrista.Application.UseCases.Client
                     var error = $"Property {failure.PropertyName} failed validation. Error was: {failure.ErrorMessage}\n";
                     errorMessages += error;
                 }
+                _logger.LogError("Erro em UpdateClientUseCase.Validate" + errorMessages);
                 throw new ValidationException(errorMessages);
             }
-            var client = _repository.GetClientByIdAsync(id);
+            var client = await _repository.GetClientByIdAsync(id);
             if (client == null)
             {
                 throw new ArgumentException("No Client found with this id");
