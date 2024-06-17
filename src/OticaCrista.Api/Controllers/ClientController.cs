@@ -24,7 +24,7 @@ namespace OticaCrista.Api.Controllers
         }
 
         //[HttpGet]
-        //public async Task<IActionResult> GetAllBrandsPaginadedAsync([FromServices] GetClientUseCase useCase)
+        //public async Task<IActionResult> GetAllBrandsPaginadedAsync([FromServices] GetClientByIdUseCase useCase)
         //{
         //    var clients = await useCase.GetAllBrandsPaginadedAsync();
         //    if (clients != null) return Ok(clients);
@@ -39,7 +39,7 @@ namespace OticaCrista.Api.Controllers
         //}
 
         //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetBrandByIdAsync([FromServices] GetClientUseCase useCase, int id)
+        //public async Task<IActionResult> GetBrandByIdAsync([FromServices] GetClientByIdUseCase useCase, int id)
         //{
         //    var client = await useCase.GetBrandByIdAsync(id);
         //    if (client != null) return Ok(client);

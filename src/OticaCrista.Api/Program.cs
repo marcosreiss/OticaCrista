@@ -57,7 +57,7 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 // -> Client
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<CreateClientUseCase>();
-builder.Services.AddScoped<GetClientUseCase>();
+builder.Services.AddScoped<GetClientByIdUseCase>();
 builder.Services.AddScoped<UpdateClientUseCase>();
 builder.Services.AddScoped<DeleteClientUseCase>();
 builder.Services.AddAutoMapper(typeof(ClientToResponse));
