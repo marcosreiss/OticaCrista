@@ -20,5 +20,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
         Task<bool> DeleteReferenceAsync(int id);
 
         Task<bool> UniqueName(string name, CancellationToken cancellationToken);
+        Task<bool> UniqueCpf(string cpf, CancellationToken cancellationToken);
     }
 }

@@ -17,4 +17,10 @@
     <ProjectReference Include="..\OticaCrista.Model\OticaCrista.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Service\" />
+    <Folder Include="UseCases\Sale\" />
+    <Folder Include="UseCases\Payment\" />
+  </ItemGroup>
+
 </Project>

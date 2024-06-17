@@ -331,5 +331,10 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
 
             return await _context.Clients.AllAsync(c => c.Name != name, cancellationToken);
         }
+
+        public async Task<bool> UniqueCpf(string cpf, CancellationToken cancellationToken)
+        {
+            return await _context.Clients.AsNoTracking().AllAsync(client => client.Cpf != cpf, cancellationToken);  
+        }
     }
 }
