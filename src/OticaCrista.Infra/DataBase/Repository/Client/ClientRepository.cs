@@ -73,8 +73,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro em ClientRepository.CreateClientAsync:\n" + ex.Message);
+                throw new Exception("Erro em ClientRepository.CreateClientAsync: " + ex.Message);
             }
-            return null;
         }
 
         public async Task<ClientModel?> UpdateClientAsync(ClientRequest request, int id)
@@ -128,9 +128,9 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em ClientRepository.UpdateClientAsync:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em ClientRepository.UpdateClientAsync: " + ex.Message);
+                throw new Exception("Erro em ClientRepository.UpdateClientAsync: " + ex.Message);
             }
-            return null;
         }
 
         public async Task<ClientModel?> DeleteClientAsync(int id)
@@ -150,8 +150,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro em ClientRepository.DeleteClientAsync:\n" + ex.Message);
+                throw new Exception("Erro em ClientRepository.DeleteClientAsync:\n" + ex.Message);
             }
-            return null;
         }
 
         public async Task<ClientModel?> GetClientByIdAsync(int id)
@@ -166,15 +166,15 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (client == null)
                 {
                     _logger.LogError("(ClientRepository.GetClientByIdAsync): clientId passado inválido, client não encontrado");
-                    return null;
+                    throw new ArgumentException("(ClientRepository.GetClientByIdAsync): clientId passado inválido, client não encontrado")
                 }
                 return client;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em ClientRepository.GetClientByIdAsync:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em ClientRepository.GetClientByIdAsync: " + ex.Message);
+                throw new Exception("Erro em ClientRepository.GetClientByIdAsync: " + ex.Message);
             }
-            return null;
         }
 
         public async Task<List<ClientModel>?> GetAllClientsPaginadedAsync(int skip, int take)
@@ -196,7 +196,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 _logger.LogError(ex, "Erro em ClientRepository.GetAllClientsPaginadedAsync:\n" + ex.Message);
                 throw new Exception("Erro em ClientRepository.GetAllClientsPaginadedAsync:\n" + ex.Message);
             }
-            return null;
         }
 
         public async Task<int> GetClientCountAsync()
@@ -224,8 +223,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro em ClientRepository.CreateContactAsync:\n" + ex.Message);
+                throw new Exception("Erro em ClientRepository.CreateContactAsync:\n" + ex.Message);
             }
-            return false;
         }
 
         public async Task<bool> UpdateContactAsync(ContactJson request, int clientId)
@@ -237,7 +236,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (contact == null)
                 {
                     _logger.LogError("(ClientRepository.UpdateContactAsync): clientId passado inválido, contact não encontrado");
-                    return false;
+                    throw new ArgumentException("(ClientRepository.UpdateContactAsync): clientId passado inválido, contact não encontrado");
                 }
 
                 contact.PhoneNumber = request.PhoneNumber;
@@ -248,9 +247,9 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em ClientRepository.UpdateContactAsync:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em ClientRepository.UpdateContactAsync: " + ex.Message);
+                throw new Exception("Erro em ClientRepository.UpdateContactAsync: " + ex.Message);
             }
-            return false;
         }
 
         public async Task<bool> DeleteContactAsync(int clientId)
@@ -262,7 +261,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (contact == null)
                 {
                     _logger.LogError("(ClientRepository.DeleteContactAsync): clientId passado inválido, contact não encontrado");
-                    return false;
+                    throw new ArgumentException("(ClientRepository.DeleteContactAsync): clientId passado inválido, contact não encontrado");
                 }
 
                 _context.Contacts.Remove(contact);
@@ -273,8 +272,8 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro em ClientRepository.DeleteContactAsync:\n" + ex.Message);
+                throw new Exception("Erro em ClientRepository.DeleteContactAsync:\n" + ex.Message);
             }
-            return false;
         }
 
         #endregion
@@ -297,9 +296,9 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em ClientRepository.CreateReferenceAsync:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em ClientRepository.CreateReferenceAsync: " + ex.Message);
+                throw new Exception("Erro em ClientRepository.CreateReferenceAsync: " + ex.Message);
             }
-            return false;
         }
 
         public async Task<bool> UpdateReferenceAsync(ReferenceJson request, int id)
@@ -311,7 +310,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (reference == null)
                 {
                     _logger.LogError("(ClientRepository.UpdateReferenceAsync): clientIdd pasado inválido, client não encontrada");
-                    return false;
+                    throw new ArgumentException("(ClientRepository.UpdateReferenceAsync): clientIdd pasado inválido, client não encontrada");
                 }
 
                 reference.Name = request.Name;
@@ -324,9 +323,9 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em ClientRepository.UpdateReferenceAsync:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em ClientRepository.UpdateReferenceAsync:" + ex.Message);
+                throw new Exception("Erro em ClientRepository.UpdateReferenceAsync:" + ex.Message);
             }
-            return false;
         }
 
         public async Task<bool> DeleteReferenceAsync(int id)
@@ -337,7 +336,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (reference == null)
                 {
                     _logger.LogError("(ClientRepository.DeleteReferenceAsync): clientIdd pasado inválido, client não encontrada");
-                    return false;
+                    throw new ArgumentException("(ClientRepository.DeleteReferenceAsync): clientIdd pasado inválido, client não encontrada");
                 }
 
                 _context.References.Remove(reference);
@@ -346,9 +345,9 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro em ClientRepository.DeleteReferenceAsync:\n" + ex.Message);
+                _logger.LogError(ex, "Erro em ClientRepository.DeleteReferenceAsync:" + ex.Message);
+                throw new Exception("Erro em ClientRepository.DeleteReferenceAsync:" + ex.Message);
             }
-            return false;
         }
 
         #endregion
