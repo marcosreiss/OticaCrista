@@ -6,14 +6,14 @@ namespace OticaCrista.Application.UseCases.Client
 {
     public class GetAllClientsPaginadedUseCase(IClientRepository _repository)
     {
-        public async Task<PaginatedResponse<List<ClientModel>>> Execute(int skip = 0, int take = 3)
+        public async Task<PagedResponse<List<ClientModel>>> Execute(int skip = 0, int take = 3)
         {
             try
             {
                 var clients = await _repository.GetAllClientsPaginadedAsync(skip, take);
                 var count = await _repository.GetClientCountAsync();
                 var currentPage = (int)(skip / (double)take) + 1;
-                return new PaginatedResponse<List<ClientModel>>(
+                return new PagedResponse<List<ClientModel>>(
                     clients, 
                     count, 
                     currentPage, 
@@ -23,7 +23,7 @@ namespace OticaCrista.Application.UseCases.Client
             }
             catch (Exception ex)
             {
-                return new PaginatedResponse<List<ClientModel>>(null, 0, 0, 0, 500, ex.Message);
+                return new PagedResponse<List<ClientModel>>(null, 0, 0, 0, 500, ex.Message);
             }
 
         }

@@ -10,6 +10,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Brand
         Task<BrandModel?> DeleteBrandAsync(int id);
         Task<List<BrandModel>?> GetAllBrandsPaginadedAsync(int skip, int take);
         Task<BrandModel?> GetBrandByIdAsync(int id);
+        Task<int> CountBrandsAsync();
         Task<bool> UniqueNameAsync(string name, CancellationToken token);
     }
 }

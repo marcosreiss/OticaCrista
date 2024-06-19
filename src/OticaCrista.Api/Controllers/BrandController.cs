@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Crypto.Modes.Gcm;
 using OticaCrista.Application.UseCases.Brand;
 using OticaCrista.communication.Requests.Product;
 using OticaCrista.Infra.DataBase.Repository;
@@ -10,14 +11,19 @@ namespace OticaCrista.Api.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
-        //[HttpGet]
-        //public async Task<ActionResult<List<BrandModel>>> GetAll([FromServices] GetBrandUseCase useCase)
-        //{
-        //    return await useCase.GetAll();
-        //}
+        [HttpGet]
+        public async Task<ActionResult> GetAll(
+            [FromServices] GetAllBrandsPaginadedUseCase useCase, 
+            [FromQuery] int currentPage)
+        {
+            var take = 10;
+            var skip = (currentPage - 1) * take;
+            var result = await useCase.Execute(skip, take);
+            return Ok(result);
+        }
 
         //[HttpGet("{id}")]
-        //public async Task<ActionResult<BrandModel>> Get(int id, [FromServices]GetBrandUseCase useCase)
+        //public async Task<ActionResult<BrandModel>> Get(int id, [FromServices]GetAllBrandsPaginadedUseCase useCase)
         //{
         //   return await useCase.GetById(id);
         //}
@@ -28,7 +34,7 @@ namespace OticaCrista.Api.Controllers
         //    [FromServices]CreateBrandUseCase useCase)
         //{
         //    var newBrand = await useCase.Execute(request);
-            
+
         //    return Created(string.Empty, newBrand);
         //}
 
