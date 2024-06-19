@@ -166,7 +166,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 if (client == null)
                 {
                     _logger.LogError("(ClientRepository.GetClientByIdAsync): clientId passado inválido, client não encontrado");
-                    throw new ArgumentException("(ClientRepository.GetClientByIdAsync): clientId passado inválido, client não encontrado")
+                    throw new ArgumentException("(ClientRepository.GetClientByIdAsync): clientId passado inválido, client não encontrado");
                 }
                 return client;
             }

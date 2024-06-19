@@ -1,0 +1,12 @@
+﻿@inherits LayoutComponentBase
+
+<div class="grid grid-cols-4 grid-rows-1 w-screen bg-gray-700">
+    
+    <SideBar className="bg-lime-500 text-white h-screen flex" />
+    
+    <main class="bg-lime-950 text-white h-screen col-span-3 pl-10 pt-10">
+        <article >
+            @Body
+        </article>
+    </main>
+</div>

@@ -52,11 +52,11 @@ namespace OticaCrista.Api.Controllers
             return NotFound(response);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromServices] GetClientByIdUseCase useCase, int id)
-        {
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetById([FromServices] GetClientByIdUseCase useCase, int id)
+        //{
             
-        }
+        //}
 
         //[HttpGet]
         //public async Task<IActionResult> GetAllBrandsPaginadedAsync([FromServices] GetClientByIdUseCase useCase)
