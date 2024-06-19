@@ -4,15 +4,14 @@ using SistOtica.Models.Product;
 
 namespace OticaCrista.Application.UseCases.Brand
 {
-    public class DeleteBrandUseCase(IBrandRepository _repository)
+    public class GetBrandByIdUseCase(IBrandRepository _repository)
     {
-
         public async Task<Response<BrandModel>> Execute(int id)
         {
             try
             {
-                var brand = await _repository.DeleteBrandAsync(id);
-                return new Response<BrandModel>(brand, 200, "success");
+                var brand = await _repository.GetBrandByIdAsync(id);
+                return new Response<BrandModel>(brand, 200, "Sucesso!");
             }
             catch (Exception ex)
             {

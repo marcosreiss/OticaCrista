@@ -22,37 +22,41 @@ namespace OticaCrista.Api.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<BrandModel>> Get(int id, [FromServices]GetAllBrandsPaginadedUseCase useCase)
-        //{
-        //   return await useCase.GetById(id);
-        //}
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(
+            int id, 
+            [FromServices] GetBrandByIdUseCase useCase)
+        {
+            var brand =  await useCase.Execute(id);
+            return Ok(brand);
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult<BrandModel>> Post(
-        //    [FromBody] BrandRequest request,
-        //    [FromServices]CreateBrandUseCase useCase)
-        //{
-        //    var newBrand = await useCase.Execute(request);
+        [HttpPost]
+        public async Task<ActionResult> Post(
+            [FromBody] BrandRequest request,
+            [FromServices] CreateBrandUseCase useCase)
+        {
+            var response = await useCase.Execute(request);
 
-        //    return Created(string.Empty, newBrand);
-        //}
+            return Created($"/product/brand/{response.Data.Id}", response);
+        }
 
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult<BrandModel>> Update(
-        //    [FromBody] BrandRequest request, int id,
-        //    [FromServices] UpdateBrandUseCase useCase)
-        //{
-        //    var updated = await useCase.Execute(request, id);
-        //    return Ok(updated);
-        //}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(
+            [FromBody] BrandRequest request, int id,
+            [FromServices] UpdateBrandUseCase useCase)
+        {
+            var updated = await useCase.Execute(request, id);
+            return Ok(updated);
+        }
 
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<BrandModel>> Delete(int id,
-        //    [FromServices] DeleteBrandUseCase useCase)
-        //{
-        //    bool apagado = useCase.Execute(id).Result;
-        //    return Ok(apagado);
-        //}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(
+            int id,
+            [FromServices] DeleteBrandUseCase useCase)
+        {
+            var response = useCase.Execute(id).Result;
+            return Ok(response);
+        }
     }
 }

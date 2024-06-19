@@ -41,6 +41,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<CreateBrandUseCase>();
 builder.Services.AddScoped<GetAllBrandsPaginadedUseCase>();
+builder.Services.AddScoped<GetBrandByIdUseCase>();
 builder.Services.AddScoped<UpdateBrandUseCase>();
 builder.Services.AddScoped<DeleteBrandUseCase>();
 
