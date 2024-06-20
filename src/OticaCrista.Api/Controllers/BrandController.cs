@@ -17,7 +17,7 @@ namespace OticaCrista.Api.Controllers
             [FromQuery] int currentPage)
         {
 
-            var take = 10;
+            var take = 100;
             var skip = (currentPage - 1) * take;
             var result = await useCase.Execute(skip, take);
             return Ok(result);

@@ -4,16 +4,30 @@ using System.Security.Cryptography.X509Certificates;
 using RestSharp;
 using OticaCrista.communication.Responses;
 using SistOtica.Models.Product;
+using MudBlazor;
 
 namespace OticaCrista.Presentation.Pages.Brands
 {
-    public partial class CreateBrandComponentPage : ComponentBase
+    public partial class CreateBrandModalPage : ComponentBase
     {
+        #region Props
+
         public BrandRequest input = new();
+
         public bool IsBusy = false;
 
-        [Inject]
-        public NavigationManager navigationManager { get; set; } = null!;
+        [CascadingParameter]
+        public MudDialogInstance ModalInstance { get; set; } = null!;
+
+        #endregion
+
+        #region Services
+
+        [Inject] ISnackbar Snackbar { get; set; } = null!;
+
+        #endregion
+
+        #region Methods
 
         public async Task OnValidSubmitAsync()
         {
@@ -24,9 +38,16 @@ namespace OticaCrista.Presentation.Pages.Brands
             var response = await client.PostAsync<Response<BrandModel>>(request);
             if (response.IsSuccess)
             {
-                navigationManager.NavigateTo("brands");
+                IsBusy = false;
+                ModalInstance.Close(DialogResult.Ok<BrandModel>(response.Data));
+                Snackbar.Add(
+                    $"Marca \"{response.Data.Name}\" Cadastrada com sucesso!", 
+                    Severity.Success);
             }
-            IsBusy = false;
         }
+
+        public void Cancel() => ModalInstance.Close();
+
+        #endregion
     }
 }
