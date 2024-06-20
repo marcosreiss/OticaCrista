@@ -17,8 +17,8 @@ namespace OticaCrista.Presentation.Pages.Brands
 
         #region Services
 
-        [Inject]
-        public IDialogService dialogService { get; set; } = null!;
+        [Inject] public IDialogService dialogService { get; set; } = null!;
+        [Inject] public ISnackbar Snackbar { get; set; } = null!;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace OticaCrista.Presentation.Pages.Brands
             Brands = response?.Data ?? new();
         }
 
-        public async void OpenModal()
+        public async Task OnCreateClickAsync()
         {
             var options = new DialogOptions { CloseOnEscapeKey = true };
             var createBrandDialog = dialogService.Show<CreateBrandModal>("Nova Marca", options);
@@ -41,6 +41,35 @@ namespace OticaCrista.Presentation.Pages.Brands
             {
                 Brands.Add((BrandModel)result.Data);
                 StateHasChanged();
+            }
+        }
+
+        public async Task OnDeleteClickAsync(int id, string title)
+        {
+            var result = await dialogService.ShowMessageBox("Atenção",
+                $"Deseja Excluir a Marca {title}?",
+                yesText: "Excluir",
+                cancelText: "Cancelar");
+            if(result is true)
+            {
+                await DeleteBrandAsync(id);
+                StateHasChanged();
+            }
+        }
+
+        public async Task DeleteBrandAsync(int id)
+        {
+            var client = new RestClient();
+            var request = new RestRequest($"{Configuration.apiUrl}/product/brand/{id}");
+            var response = await client.DeleteAsync<Response<BrandModel>>( request );
+            if (response.IsSuccess)
+            {
+                Brands.RemoveAll(b => b.Id == id);
+                Snackbar.Add("Marca Deletada com Sucesso!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add(response.Message, Severity.Error);
             }
         }
 

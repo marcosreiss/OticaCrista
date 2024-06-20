@@ -21,7 +21,7 @@ else
                 <th>Id</th>
                 <th>Name</th>
                 <th>
-                    <MudButton OnClick="OpenModal" Variant="Variant.Filled" Color="Color.Info">Nova Marca</MudButton>
+                    <MudButton OnClick="OnCreateClickAsync" Variant="Variant.Filled" Color="Color.Info">Nova Marca</MudButton>
                 </th>
             </tr>
         </thead>
@@ -32,8 +32,12 @@ else
                     <td>@brand.Id</td>
                     <td>@brand.Name</td>
                     <td>
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" />
-                        <MudIconButton Icon="@Icons.Material.Filled.Delete" />
+                        <MudIconButton 
+                            Icon="@Icons.Material.Filled.Edit" />
+
+                        <MudIconButton 
+                            OnClick="()=> OnDeleteClickAsync(brand.Id, brand.Name)" 
+                            Icon="@Icons.Material.Filled.Delete" />
                     </td>
                 </tr>
             }
