@@ -1,0 +1,22 @@
+﻿@inherits CreateBrandComponentPage
+
+<EditForm Model="input" OnValidSubmit="OnValidSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label class="m-auto w-full">
+        Nome da Marca:
+        <InputText class="ml-4 text-black px-5 py-1 rounded-sm" @bind-Value="input.Name" placeholder="Maresia"/>
+    </label>
+    @if (IsBusy)
+    {
+        <p>Carregando ...</p>
+    }
+    else
+    {
+        <button type="submit"
+                class="block bg-lime-400 hover:bg-lime-300 text-black font-bold px-4 py-1 rounded-md m-auto mt-5">
+            Cadastrar
+        </button>
+    }
+</EditForm>

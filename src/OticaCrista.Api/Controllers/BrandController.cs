@@ -16,6 +16,7 @@ namespace OticaCrista.Api.Controllers
             [FromServices] GetAllBrandsPaginadedUseCase useCase, 
             [FromQuery] int currentPage)
         {
+
             var take = 10;
             var skip = (currentPage - 1) * take;
             var result = await useCase.Execute(skip, take);

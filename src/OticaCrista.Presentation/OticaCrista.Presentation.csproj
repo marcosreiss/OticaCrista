@@ -10,6 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.2" PrivateAssets="all" />
+    <PackageReference Include="RestSharp" Version="111.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OticaCrista.communication\OticaCrista.communication.csproj" />
   </ItemGroup>
 
   <ItemGroup>

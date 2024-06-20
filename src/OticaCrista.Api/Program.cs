@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using OticaCrista.Application.Mapping;
 using OticaCrista.Application.UseCases.Brand;
 using OticaCrista.Application.UseCases.Client;
@@ -12,6 +13,7 @@ using OticaCrista.Infra.DataBase.Repository.Sale;
 using OticaCrista.Infra.DataBase.Repository.Service;
 using Serilog;
 using Serilog.Events;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +31,20 @@ builder.Services.AddMvc();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services
     .AddDbContextFactory<OticaCristaContext>(o 
     => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+builder.Services.AddCors(options =>
+            options.AddPolicy("oticacrista", builder =>
+            {
+                builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+            }));
 
 
 //Dependecy Service
@@ -83,6 +95,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseCors("oticacrista");
 app.MapControllers();
 
 Log.Information($"Rodando API em {DateTime.Now}");

@@ -1,0 +1,20 @@
+﻿@inherits ModalComponent
+
+@if (IsVisible)
+{
+    <div class="w-screen h-screen fixed top-0
+            left-0 bg-black bg-opacity-50 blur"></div>
+
+    <div class=" w-2/5 h-2/3 absolute top-1/2 left-1/2 bg-black text-white
+             rounded-md -translate-x-1/2 -translate-y-1/2">
+
+        <header class="flex bg-lime-500 justify-around py-1 rounded-sm">
+            <h1>@Title</h1>
+            <button @onclick="CloseModal"> X </button>
+        </header>
+
+        <main class="mt-5 mx-5 h-full">
+            @childContent
+        </main>
+    </div>
+}
