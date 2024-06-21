@@ -159,7 +159,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             try
             {
                 var client = await _context.Clients
-                .Include(client => client.PhoneNumber)
+                .Include(client => client.Contacts)
                 .Include(client => client.References)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -182,7 +182,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
             try
             {
                 var clients = await _context.Clients
-                .Include(client => client.PhoneNumber)
+                .Include(client => client.Contacts)
                 .Include(client => client.References)
                 .AsNoTracking()
                 .Skip(skip)

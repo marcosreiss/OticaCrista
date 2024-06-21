@@ -15,7 +15,7 @@ namespace SistOtica.Models.Client
 
         public string Rg { get; set; } = string.Empty;
 
-        public ICollection<ClientContact> PhoneNumber { get; set; } = new List<ClientContact>();
+        public ICollection<ClientContact> Contacts { get; set; } = new List<ClientContact>();
         public ICollection<ClientReferences> References { get; set; } = new List<ClientReferences>();
 
         public DateOnly BornDate {  get; set; }

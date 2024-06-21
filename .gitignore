@@ -1,6 +1,6 @@
-# DiretÛrio do Visual Studio
+# Diret√≥rio do Visual Studio
 .vs/
-# Arquivos tempor·rios
+# Arquivos tempor√°rios
 *.suo
 *.suo.bak
 *.user
@@ -16,7 +16,7 @@
 *.db
 *.obj
 *.bin
-# Arquivos de configuraÁ„o do Visual Studio
+# Arquivos de configura√ß√£o do Visual Studio
 *.csproj.user
 *.vbproj.user
 *.fsxproj.user
@@ -27,7 +27,7 @@
 *.designer.vb
 *.designer.fs
 *.designer.c
-# Arquivos de soluÁ„o do Visual Studio
+# Arquivos de solu√ß√£o do Visual Studio
 *.sln
 *.filters
 *.resolutions
@@ -42,7 +42,7 @@
 packages/
 # Pastas de cache do NuGet
 NuGet/
-# Pastas de bin·rios do NuGet
+# Pastas de bin√°rios do NuGet
 bin/
 # Pastas de obj do NuGet
 obj/
@@ -50,3 +50,7 @@ obj/
 # appsetings.development
 
 appsettings.Development.json
+
+# Logs
+
+src\OticaCrista.Api\logs

@@ -11,7 +11,6 @@ namespace OticaCrista.Presentation.Pages.Brands
         #region Props
 
         public List<(BrandModel brand, int position)> Brands { get; set; } = new();
-        public bool IsCreateModalVisible { get; set; } = false;
 
         #endregion
 
@@ -107,7 +106,6 @@ namespace OticaCrista.Presentation.Pages.Brands
                 Snackbar.Add(response.Message, Severity.Error);
             }
         }
-
 
         #endregion  
     }

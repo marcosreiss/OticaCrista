@@ -58,7 +58,7 @@ namespace OticaCrista.Infra.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Contacts")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -163,7 +163,7 @@ namespace OticaCrista.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Contacts")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -393,7 +393,7 @@ namespace OticaCrista.Infra.Migrations
             modelBuilder.Entity("SistOtica.Models.Client.ClientContact", b =>
                 {
                     b.HasOne("SistOtica.Models.Client.ClientModel", "Client")
-                        .WithMany("PhoneNumber")
+                        .WithMany("Contacts")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -447,7 +447,7 @@ namespace OticaCrista.Infra.Migrations
 
             modelBuilder.Entity("SistOtica.Models.Client.ClientModel", b =>
                 {
-                    b.Navigation("PhoneNumber");
+                    b.Navigation("Contacts");
 
                     b.Navigation("References");
 

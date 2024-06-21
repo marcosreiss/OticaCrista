@@ -9,7 +9,7 @@ namespace SistOtica.Data.Mapping
         public ClientMap(EntityTypeBuilder<ClientModel> tb) 
         { 
             tb.HasKey(x => x.Id);
-            tb.HasMany(x => x.PhoneNumber)
+            tb.HasMany(x => x.Contacts)
                 .WithOne(x => x.Client)
                 .HasForeignKey(x => x.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);

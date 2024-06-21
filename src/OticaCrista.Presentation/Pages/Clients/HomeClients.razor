@@ -1,0 +1,29 @@
+﻿@page "/clients"
+@inherits HomeClientsPage
+
+<PageTitle>Clientes</PageTitle>
+
+<MudTable Items="@Clients" FixedHeader=true Height="515px" Style="margin: 10px" Hover="true" Loading="LoadingTable" LoadingProgressColor="Color.Info" >
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>Nome</MudTh>
+        <MudTh>CPF</MudTh>
+        <MudTh>Celular</MudTh>
+        <MudTh>Negativado</MudTh>
+        <MudTh>
+            <MudButton IconClass="@Icons.Material.Filled.Add" Variant="Variant.Filled" >Novo Cliente</MudButton>
+        </MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="#">@context.position</MudTd>
+        <MudTd DataLabel="Nome">@context.client.Name</MudTd>
+        <MudTd DataLabel="CPF">@context.client.Cpf</MudTd>
+        <MudTd DataLabel="Celular">@context.client.Contacts.First().PhoneNumber</MudTd>
+        <MudTd DataLabel="Negativado">@(context.client.Negativated ? "Negativado" : "Não Negativado") </MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" />
+        </MudTd>
+    </RowTemplate>
+</MudTable>

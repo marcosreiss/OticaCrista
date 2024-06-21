@@ -1,4 +1,4 @@
-﻿@inherits CreateBrandModalPage
+﻿@inherits CreateClientModalPage
 
 <MudDialog>
     <DialogContent>
@@ -7,9 +7,17 @@
             <ValidationSummary />
 
             <label class="m-auto w-full">
-                Nome da Marca:
-                <InputText class="ml-4 text-black px-5 py-1 rounded-sm" @bind-Value="input.Name" placeholder="Maresia" />
+                Nome do Cliente:
+                <InputText class="ml-4 text-black px-5 py-1 rounded-sm" @bind-Value="input.Name" placeholder="José dos Anzóis" />
             </label>
+            <label class="m-auto w-full">
+                Nome do Cliente:
+                <InputText class="ml-4 text-black px-5 py-1 rounded-sm" @bind-Value="input.Name" placeholder="José dos Anzóis" />
+            </label>
+
+
+
+
             @if (IsBusy)
             {
                 <MudProgressCircular Indeterminate />
@@ -21,7 +29,4 @@
             }
         </EditForm>
     </DialogContent>
-
 </MudDialog>
-
-
