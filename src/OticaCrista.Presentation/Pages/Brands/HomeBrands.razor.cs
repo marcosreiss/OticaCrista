@@ -24,17 +24,26 @@ namespace OticaCrista.Presentation.Pages.Brands
 
         #region Methods
 
+        private void SortList(List<BrandModel> list)
+        {
+            if(Brands.Count > 0)
+            {
+                Brands.Clear();
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                Brands.Add((list[i], i + 1));
+            }
+        }
+
         protected async override Task OnInitializedAsync()
         {
             var client = new RestClient();
             var request = new RestRequest($"{Configuration.apiUrl}/product/brand?currentPage=1");
             var response = await client.GetAsync<Response<List<BrandModel>>>( request );
             var list = response.Data as List<BrandModel>;
-            for(int i = 0; i < list.Count; i++)
-            {
-                Brands.Add((list[i], i + 1));
-            }
-            //Brands = response?.Data ?? new();
+            SortList( list );
         }
 
         public async Task OnCreateClickAsync()
@@ -89,6 +98,8 @@ namespace OticaCrista.Presentation.Pages.Brands
             if (response.IsSuccess)
             {
                 Brands.RemoveAll(b => b.brand.Id == id);
+                SortList(Brands.Select(x => x.brand).ToList());
+                StateHasChanged();
                 Snackbar.Add("Marca Deletada com Sucesso!", Severity.Success);
             }
             else
