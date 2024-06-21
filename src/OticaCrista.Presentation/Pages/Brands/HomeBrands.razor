@@ -18,7 +18,7 @@ else
 
         <thead>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Name</th>
                 <th>
                     <MudButton OnClick="OnCreateClickAsync" Variant="Variant.Filled" Color="Color.Info">Nova Marca</MudButton>
@@ -26,13 +26,13 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var brand in Brands)
+            @foreach (var(brand, position) in Brands)
             {
                 <tr>
-                    <td>@brand.Id</td>
+                    <td>@position</td>
                     <td>@brand.Name</td>
                     <td>
-                        <MudIconButton 
+                        <MudIconButton OnClick="()=> OnEditClickAsync(brand, position)"
                             Icon="@Icons.Material.Filled.Edit" />
 
                         <MudIconButton 
@@ -40,6 +40,7 @@ else
                             Icon="@Icons.Material.Filled.Delete" />
                     </td>
                 </tr>
+                
             }
         </tbody>
     </MudSimpleTable>        

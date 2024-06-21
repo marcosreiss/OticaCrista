@@ -1,0 +1,27 @@
+﻿@inherits UpdateBrandModalPage
+
+<MudDialog>
+    <DialogContent>
+        <EditForm Model="input" OnValidSubmit="OnValidSubmitAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <label class="m-auto w-full">
+                Nome da Marca:
+                <InputText class="ml-4 text-black px-5 py-1 rounded-sm" @bind-Value="input.Name" />
+            </label>
+            @if (IsBusy)
+            {
+                <MudProgressCircular Indeterminate />
+            }
+            else
+            {
+                <MudButton OnClick="OnValidSubmitAsync" Color="Color.Primary">Editar</MudButton>
+                <MudButton OnClick="Cancel">Cancelar</MudButton>
+            }
+        </EditForm>
+    </DialogContent>
+
+    <DialogActions>
+    </DialogActions>
+</MudDialog>
