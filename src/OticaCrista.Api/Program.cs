@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.Console(LogEventLevel.Debug)
-    .WriteTo.File("log.txt",
+    .WriteTo.File("logs/log.txt",
         LogEventLevel.Warning,
         rollingInterval: RollingInterval.Day));
 
@@ -71,6 +71,7 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<CreateClientUseCase>();
 builder.Services.AddScoped<GetClientByIdUseCase>();
+builder.Services.AddScoped<GetAllClientsPaginadedUseCase>();
 builder.Services.AddScoped<UpdateClientUseCase>();
 builder.Services.AddScoped<DeleteClientUseCase>();
 builder.Services.AddAutoMapper(typeof(ClientToResponse));

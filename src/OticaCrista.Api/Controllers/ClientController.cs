@@ -9,7 +9,7 @@ namespace OticaCrista.Api.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost(Order = 1)]
         public async Task<IActionResult> Create(ClientRequest requestClientJson,
             [FromServices] CreateClientUseCase useCase)
         {
@@ -21,7 +21,7 @@ namespace OticaCrista.Api.Controllers
             return BadRequest(response);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Order = 2)]
         public async Task<IActionResult> Update(ClientRequest requestClientJson, int id,
             [FromServices] UpdateClientUseCase useCase)
         {
@@ -40,7 +40,7 @@ namespace OticaCrista.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Order = 3)]
         public async Task<IActionResult> Delete([FromServices] DeleteClientUseCase useCase, int id)
         {
 
@@ -52,26 +52,27 @@ namespace OticaCrista.Api.Controllers
             return NotFound(response);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetById([FromServices] GetClientByIdUseCase useCase, int id)
-        //{
+        [HttpGet("{id}", Order = 4)]
+        public async Task<IActionResult> GetById(
+            [FromServices] GetClientByIdUseCase useCase, 
+            int id)
+        {
+            var result = await useCase.Execute(id);
+            return Ok(result);
+        }
+
+        [HttpGet(Order = 5)]
+        public async Task<IActionResult> GetAllBrandsPaginadedAsync(
+            [FromServices] GetAllClientsPaginadedUseCase useCase,
+            [FromQuery] int currentPage)
+        {
+            var take = 100;
+            var skip = (currentPage - 1) * take;
+
+            var clients = await useCase.Execute(skip, take);
+            return Ok(clients);
             
-        //}
+        }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllBrandsPaginadedAsync([FromServices] GetClientByIdUseCase useCase)
-        //{
-        //    var clients = await useCase.GetAllBrandsPaginadedAsync();
-        //    if (clients != null) return Ok(clients);
-        //    var response = new
-        //    {
-        //        Status = StatusCodes.Status204NoContent,
-        //        Ok = true,
-        //        Message = "No Client Found"
-        //    };
-        //    return Ok(response);
-
-        //}
-        
     }
 }
