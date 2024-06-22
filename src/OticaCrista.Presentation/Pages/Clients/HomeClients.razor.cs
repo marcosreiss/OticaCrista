@@ -18,7 +18,7 @@ namespace OticaCrista.Presentation.Pages.Clients
 
         #region Services
 
-        [Inject] public IDialogService dialogService { get; set; } = null!;
+        [Inject] public IDialogService DialogService { get; set; } = null!;
         [Inject] public ISnackbar Snackbar { get; set; } = null!;
 
         #endregion
@@ -47,6 +47,12 @@ namespace OticaCrista.Presentation.Pages.Clients
             var list = response.Data;
             SortList(list);
             LoadingTable = false;
+        }
+
+        public async Task OnCreateClinckAsync()
+        {
+            var options = new DialogOptions { CloseButton=true, CloseOnEscapeKey=true, FullWidth=true };
+            var response = DialogService.Show<CreateClientModal>("Novo Cliente", options);
         }
 
         #endregion

@@ -13,40 +13,40 @@ namespace SistOtica.Models.Client
         [Required]
         public string Cpf {  get; set; } = string.Empty;
 
-        public string Rg { get; set; } = string.Empty;
+        public string? Rg { get; set; }
 
-        public ICollection<ClientContact> Contacts { get; set; } = new List<ClientContact>();
-        public ICollection<ClientReferences> References { get; set; } = new List<ClientReferences>();
+        public ICollection<ClientContact>? Contacts { get; set; } = new List<ClientContact>();
+        public ICollection<ClientReferences>? References { get; set; } = new List<ClientReferences>();
 
         public DateOnly BornDate {  get; set; }
 
-        public string FatherName { get; set; } = string.Empty;
+        public string? FatherName { get; set; } 
 
-        public string MotherName { get; set; } = string.Empty;
+        public string? MotherName { get; set; }
 
-        public string SpouseName { get; set; } = string.Empty;
+        public string? SpouseName { get; set; }
 
-        public string EmailAddress { get; set; } = string.Empty;
+        public string? EmailAddress { get; set; }
 
-        public string Company { get; set; } = string.Empty; 
+        public string? Company { get; set; }
 
-        public string Ocupation { get; set; } = string.Empty;
+        public string? Ocupation { get; set; }
 
-        public string Street { get; set; } = string.Empty;
+        public string? Street { get; set; }
 
-        public string Neighborhood { get; set; } = string.Empty;
+        public string? Neighborhood { get; set; }
 
-        public string City { get; set; } = string.Empty;
+        public string? City { get; set; }
 
-        public string Uf { get; set; } = string.Empty;
+        public string? Uf { get; set; }
 
-        public string Cep { get; set; } = string.Empty;
+        public string? Cep { get; set; }
 
-        public string AddressComplement { get; set; } = string.Empty;
+        public string? AddressComplement { get; set; }
 
         public bool Negativated { get; set; }
 
-        public string Observation { get; set; } = string.Empty;
+        public string? Observation { get; set; }
 
         public ICollection<SaleModel> Sales { get; set; } = new List<SaleModel>();
 

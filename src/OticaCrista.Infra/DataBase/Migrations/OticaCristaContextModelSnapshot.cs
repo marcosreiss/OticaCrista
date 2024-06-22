@@ -58,7 +58,7 @@ namespace OticaCrista.Infra.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Contacts")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -76,22 +76,18 @@ namespace OticaCrista.Infra.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AddressComplement")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("BornDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Cep")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Company")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Cpf")
@@ -99,15 +95,12 @@ namespace OticaCrista.Infra.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("EmailAddress")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("FatherName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MotherName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -118,31 +111,24 @@ namespace OticaCrista.Infra.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Neighborhood")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Observation")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Ocupation")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Rg")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SpouseName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Uf")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -163,7 +149,7 @@ namespace OticaCrista.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Contacts")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 

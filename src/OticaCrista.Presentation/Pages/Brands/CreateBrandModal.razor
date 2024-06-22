@@ -2,26 +2,24 @@
 
 <MudDialog>
     <DialogContent>
-        <EditForm Model="input" OnValidSubmit="OnValidSubmitAsync">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-
-            <label class="m-auto w-full">
-                Nome da Marca:
-                <InputText class="ml-4 text-black px-5 py-1 rounded-sm" @bind-Value="input.Name" placeholder="Maresia" />
-            </label>
+        <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+            <MudTextField 
+                @bind-Value="input.Name"
+                T="string" 
+                Label="Nome da Marca" 
+                Required="true" 
+                RequiredError="Insira o Nome da Marca" />
             @if (IsBusy)
             {
                 <MudProgressCircular Indeterminate />
             }
             else
             {
-                <MudButton OnClick="OnValidSubmitAsync" Color="Color.Primary">Cadastrar</MudButton>
-                <MudButton OnClick="Cancel">Cancelar</MudButton>
+                <MudButton Color="Color.Success" OnClick="OnCreateClickedAsync">Cadastrar</MudButton>
             }
-        </EditForm>
+        </MudForm>
     </DialogContent>
-
 </MudDialog>
+
 
 

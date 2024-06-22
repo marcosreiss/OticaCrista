@@ -56,16 +56,22 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 await _context.SaveChangesAsync();
                 var clientPosted = addClient.Entity;
 
-                var contacts = request.Contacts;
-                foreach (var contact in contacts)
+                if(request.Contacts != null)
                 {
-                    await CreateContactAsync(contact, clientPosted.Id);
+                    var contacts = request.Contacts;
+                    foreach (var contact in contacts)
+                    {
+                        await CreateContactAsync(contact, clientPosted.Id);
+                    }
                 }
 
-                var references = request.References;
-                foreach (var reference in references)
+                if(request.References != null)
                 {
-                    await CreateReferenceAsync(reference, clientPosted.Id);
+                    var references = request.References;
+                    foreach (var reference in references)
+                    {
+                        await CreateReferenceAsync(reference, clientPosted.Id);
+                    }
                 }
 
                 return clientPosted;

@@ -19,6 +19,10 @@ namespace OticaCrista.Presentation.Pages.Brands
         [CascadingParameter]
         public MudDialogInstance ModalInstance { get; set; } = null!;
 
+        public MudForm form {  get; set; }
+        public bool success;
+        public string[] errors = { };
+
         #endregion
 
         #region Services
@@ -28,6 +32,15 @@ namespace OticaCrista.Presentation.Pages.Brands
         #endregion
 
         #region Methods
+
+        public async Task OnCreateClickedAsync()
+        {
+            await form.Validate();
+            if (success)
+            {
+                await OnValidSubmitAsync();
+            }
+        }
 
         public async Task OnValidSubmitAsync()
         {

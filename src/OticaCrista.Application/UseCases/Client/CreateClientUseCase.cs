@@ -14,14 +14,14 @@ namespace OticaCrista.Application.UseCases.Client
     {
         public async Task<Response<ClientModel>> Execute(ClientRequest request)
         {
-            try
-            {
-                await Validate(request);
-            }
-            catch (ValidationException ex)
-            {
-                return new Response<ClientModel>(null, 400, ex.Message);
-            }
+            //try
+            //{
+            //    await Validate(request);
+            //}
+            //catch (ValidationException ex)
+            //{
+            //    return new Response<ClientModel>(null, 400, ex.Message);
+            //}
             var client = await _repository.CreateClientAsync(request);
             if (client != null)
             {

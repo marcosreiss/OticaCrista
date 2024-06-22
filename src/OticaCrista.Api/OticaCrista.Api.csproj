@@ -18,6 +18,7 @@
     <ProjectReference Include="..\OticaCrista.communication\OticaCrista.communication.csproj" />
     <ProjectReference Include="..\OticaCrista.Infra\OticaCrista.Infra.csproj" />
     <ProjectReference Include="..\OticaCrista.Model\OticaCrista.Model.csproj" />
+    <ProjectReference Include="..\OticaCrista.Presentation\OticaCrista.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
