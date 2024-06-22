@@ -52,7 +52,13 @@ namespace OticaCrista.Presentation.Pages.Clients
         public async Task OnCreateClinckAsync()
         {
             var options = new DialogOptions { CloseButton=true, CloseOnEscapeKey=true, FullWidth=true };
-            var response = DialogService.Show<CreateClientModal>("Novo Cliente", options);
+            var dialog = DialogService.Show<CreateClientModal>("Novo Cliente", options);
+            var response = await dialog.Result;
+            var client = response.Data as ClientModel;
+            if(!response.Canceled && client != null)
+            {
+                Clients.Add((client, Clients.Count));
+            }
         }
 
         #endregion

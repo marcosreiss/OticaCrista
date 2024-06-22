@@ -54,9 +54,6 @@ namespace OticaCrista.Presentation.Pages.Clients
             IsBusy = true;
             input.BornDate = DateOnly.FromDateTime((DateTime)BornDate);
 
-            var json = JsonSerializer.Serialize(input);
-            Snackbar.Add(json);
-
             var client = new RestClient();
             var request = new RestRequest($"{Configuration.apiUrl}/client", Method.Post);
             request.AddJsonBody(input);
