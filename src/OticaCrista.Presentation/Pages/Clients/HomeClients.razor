@@ -18,16 +18,36 @@
             </MudButton>
         </MudTh>
     </HeaderContent>
-
     <RowTemplate>
-        <MudTd DataLabel="#">@context.position</MudTd>
-        <MudTd DataLabel="Nome">@context.client.Name</MudTd>
-        <MudTd DataLabel="CPF">@context.client.Cpf</MudTd>
-        <MudTd DataLabel="Celular">@context.client.Contacts.First().PhoneNumber</MudTd>
-        <MudTd DataLabel="Negativado">@(context.client.Negativated ? "Negativado" : "Não Negativado") </MudTd>
-        <MudTd>
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" />
-        </MudTd>
+        @if(Clients.Count != 0)
+        {
+            <MudTd DataLabel="#">@context.position</MudTd>
+            <MudTd DataLabel="Nome">@context.client.Name</MudTd>
+            <MudTd DataLabel="CPF">@context.client.Cpf</MudTd>
+            <MudTd DataLabel="Celular">
+                @((context.client?.Contacts?.FirstOrDefault()?.PhoneNumber) ?? "-------------")
+            </MudTd>
+            @* <MudTd DataLabel="Negativado">@(context.client.Negativated ? "Negativado" : "Não Negativado") </MudTd> *@
+            <MudTd DataLabel="Negativado">
+                @if (context.client.Negativated)
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Warning" />
+                }
+                else
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Check" />
+                }
+            </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Info" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" />
+            </MudTd>
+        }
+        else
+        {
+            <h3>Nenhum Cliente Cadastrado</h3>
+        }
+
     </RowTemplate>
 </MudTable>
