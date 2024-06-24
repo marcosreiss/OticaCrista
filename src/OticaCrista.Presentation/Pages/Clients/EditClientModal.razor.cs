@@ -21,7 +21,10 @@ namespace OticaCrista.Presentation.Pages.Clients
 
         public List<ReferenceJson> references { get; set; } = new();
         public DateTime? BornDate { get; set; }
+
         public bool IsBusy = false;
+        [Parameter]
+        public bool ReadOnly {  get; set; }
 
         [CascadingParameter]
         public MudDialogInstance ModalInstance { get; set; } = null!;

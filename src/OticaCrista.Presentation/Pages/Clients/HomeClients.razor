@@ -38,10 +38,14 @@
                 }
             </MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Info" />
+                <MudIconButton Icon="@Icons.Material.Filled.Info"
+                    OnClick="()=> OnDetailsClick(context.client)"/>
+
                 <MudIconButton Icon="@Icons.Material.Filled.Edit"
                     OnClick="() => OnEditClieckAsync(context.client, context.position)"/>
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" />
+
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               OnClick="() => OnDeleteClieckAsync(context.client.Id, context.client.Name)" />
             </MudTd>
         }
         else

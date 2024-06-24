@@ -10,43 +10,52 @@
                               Label="Nome do Cliente"
                                     Required
                                RequiredError="Insira o Nome do Cliente"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Name" />
                  <MudTextField T="string"
                                Label="CPF"
                                     Required
                                RequiredError="Insira o CPF do Cliente"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Cpf" />
                  <MudTextField T="string"
                                Label="Rg"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Rg" />
                  @foreach (var contact in contacts)
                 {
                     <MudTextField T="string"
                                   Label="Telefone de Contato"
+                                  ReadOnly="@ReadOnly"
                                   @bind-Value="contact.PhoneNumber" />
                 }
                 <MudButton StartIcon="@Icons.Material.Filled.Add"
-                           OnClick="AddContactField">
+                           OnClick="AddContactField"
+                           hidden="@ReadOnly">
                     Mais um contato
                 </MudButton>
                 <MudDatePicker Label="Data de Nascimento"
                                DateFormat="dd/MM/yyyy"
                                       Editable
+                                ReadOnly="@ReadOnly"
                                 @bind-Date="BornDate" />
                  <MudTextField T="string"
                                Label="Email"
-                               Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email Inválido"})"
+                               Validation="@(new EmailAddressAttribute() { ErrorMessage = "Email Inválido" })"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.EmailAddress" />
                  <MudRadioGroup @bind-Value="input.Negativated"
                                 T="bool"
                                       Required
-                                RequiredError="Cliente Negativado?">
+                                RequiredError="Cliente Negativado?"
+                                ReadOnly="@ReadOnly">
                      <p>Negativado?</p>
                      <MudRadio Value="@true">Sim</MudRadio>
                      <MudRadio Value="@false">Não</MudRadio>
                  </MudRadioGroup>
                  <MudTextField T="string"
                                Label="Observações"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Observation" />
              </MudPaper>
 
@@ -54,12 +63,15 @@
                  <h3>Familiares</h3>
                  <MudTextField T="string"
                                Label="Nome do Pai"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.FatherName" />
                  <MudTextField T="string"
                                Label="Nome da Mãe"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.MotherName" />
                  <MudTextField T="string"
                                Label="Nome do Conjuge"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.SpouseName" />
              </MudPaper>
 
@@ -67,9 +79,11 @@
                  <h3>Trabalho</h3>
                  <MudTextField T="string"
                                Label="Empresa"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Company" />
                  <MudTextField T="string"
                                Label="Ocupação"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Ocupation" />
              </MudPaper>
 
@@ -77,21 +91,27 @@
                  <h3>Endereço</h3>
                  <MudTextField T="string"
                                Label="Rua"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Street" />
                  <MudTextField T="string"
                                Label="Bairro"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Neighborhood" />
                  <MudTextField T="string"
                                Label="Cidade"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.City" />
                  <MudTextField T="string"
                                Label="Estado"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Uf" />
                  <MudTextField T="string"
                                Label="Cep"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.Cep" />
                  <MudTextField T="string"
                                Label="Complemento"
+                               ReadOnly="@ReadOnly"
                                @bind-Value="input.AddressComplement" />
              </MudPaper>
 
@@ -102,26 +122,34 @@
                     <p class="mt-5">Cadastrar Referência</p>
                     <MudTextField T="string"
                                   Label="Nome"
+                                  ReadOnly="@ReadOnly"
                                   @bind-Value="reference.Name" />
                     <MudTextField T="string"
                                   Label="Contato"
+                                  ReadOnly="@ReadOnly"
                                   @bind-Value="reference.PhoneNumber" />
                 }
                 <MudButton StartIcon="@Icons.Material.Filled.Add"
-                           OnClick="AddReferenceField">
+                           OnClick="AddReferenceField"
+                           hidden="@ReadOnly" >
                     Mais uma referência
                 </MudButton>
             </MudPaper>
 
-            @if (!IsBusy)
+
+
+            @if(ReadOnly == false)
             {
-                <MudButton Variant="Variant.Outlined" OnClick="OnSubmitAsync">
-                    Editar Cliente
-                </MudButton>
-            }
-            else
-            {
-                <MudProgressCircular Indeterminate />
+                @if (!IsBusy)
+                {
+                    <MudButton Variant="Variant.Outlined" OnClick="OnSubmitAsync">
+                        Editar Cliente
+                    </MudButton>
+                }
+                else
+                {
+                    <MudProgressCircular Indeterminate />
+                }
             }
         </MudForm>
     </DialogContent>

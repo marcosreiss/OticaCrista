@@ -66,7 +66,8 @@ namespace OticaCrista.Presentation.Pages.Clients
             var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true };
             var parameters = new DialogParameters
             {
-                {"clientModel",  client}
+                {"clientModel",  client},
+                { "ReadOnly", false }
             };
             var dialog = DialogService.Show<EditClientModal>("Editar Cliente", parameters, options);
             var response = await dialog.Result;
@@ -78,6 +79,39 @@ namespace OticaCrista.Presentation.Pages.Clients
                 StateHasChanged();
             }
 
+        }
+
+        public void OnDetailsClick(ClientModel client)
+        {
+            var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true };
+            var parameters = new DialogParameters
+            {
+                {"clientModel",  client},
+                { "ReadOnly", true }
+            };
+            DialogService.Show<EditClientModal>("Detalhes do Cliente", parameters, options);
+        }
+
+        public async Task OnDeleteClieckAsync(int id, string name)
+        {
+            var result = await DialogService.ShowMessageBox(
+                "ATENÇÃO",
+                $"Tem certeza que deseja excluir o cliente {name}?",
+                yesText: "Excluir",
+                noText: "Cancelar");
+            if ((bool)result)
+            {
+                var client = new RestClient();
+                var request = new RestRequest($"{Configuration.apiUrl}/client/{id}", Method.Delete);
+                var response = await client.DeleteAsync<Response<ClientModel>>(request);
+                if(response.IsSuccess)
+                {
+                    Snackbar.Add($"Cliente {response.Data.Name} Deletado com sucesso!", Severity.Success);
+                    Clients.RemoveAll(t => t.client.Id == id);
+                    var clients = Clients.Select(t => t.client).ToList();
+                    SortList(clients);
+                }
+            }
         }
 
         #endregion
