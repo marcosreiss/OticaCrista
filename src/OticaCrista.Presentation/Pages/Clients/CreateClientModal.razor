@@ -20,6 +20,16 @@
                  <MudTextField T="string"
                                Label="Rg"
                                @bind-Value="input.Rg" />
+                 @foreach(var contact in contacts)
+                {
+                    <MudTextField T="string"
+                                  Label="Telefone de Contato"
+                                  @bind-Value="contact.PhoneNumber" />
+                }
+                <MudButton StartIcon="@Icons.Material.Filled.Add"
+                        OnClick="AddContactField">
+                    Mais um contato
+                </MudButton>
                  <MudDatePicker Label="Data de Nascimento"
                                 DateFormat="dd/MM/yyyy"
                                 Editable
@@ -85,6 +95,25 @@
                                Label="Complemento"
                                @bind-Value="input.AddressComplement" />
             </MudPaper>
+
+             <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+                 <h3>Referências</h3>
+                 @foreach (var reference in references)
+                {
+                    <p class="mt-5">Cadastrar Referência</p>
+                    <MudTextField T="string"
+                                  Label="Nome"
+                                  @bind-Value="reference.Name" />
+                    <MudTextField T="string"
+                                  Label="Contato"
+                                  @bind-Value="reference.PhoneNumber" />
+                }
+                <MudButton StartIcon="@Icons.Material.Filled.Add"
+                           OnClick="AddReferenceField">
+                    Mais uma referência
+                </MudButton>
+            </MudPaper>
+             
              @if (!IsBusy)
             {
                 <MudButton Variant="Variant.Outlined" OnClick="OnSubmitAsync">

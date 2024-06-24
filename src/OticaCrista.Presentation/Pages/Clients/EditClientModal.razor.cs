@@ -4,15 +4,16 @@ using OticaCrista.communication.Requests.Client;
 using OticaCrista.communication.Responses;
 using RestSharp;
 using SistOtica.Models.Client;
-using System.Text.Json;
 
 namespace OticaCrista.Presentation.Pages.Clients
 {
-    public partial class CreateClientModalPage : ComponentBase
+    public partial class EditClientModal : ComponentBase
     {
         #region Props
 
-        public ClientRequest input { get; set; } = new();
+        [Parameter]
+        public ClientModel clientModel { get; set; } = null!;
+        public ClientRequest request { get; set; } = new();
 
         public List<ContactJson> contacts { get; set; } = new();
 
@@ -39,8 +40,12 @@ namespace OticaCrista.Presentation.Pages.Clients
 
         protected async override Task OnInitializedAsync()
         {
-            AddContactField();
-            AddReferenceField();
+            
+
+            BornDate = DateTime.Parse(clientModel.BornDate.ToString());
+
+
+
         }
 
         public async Task OnSubmitAsync()
@@ -62,30 +67,30 @@ namespace OticaCrista.Presentation.Pages.Clients
         public async Task OnValidSubmitAsync()
         {
             IsBusy = true;
-            input.BornDate = DateOnly.FromDateTime((DateTime)BornDate);
+            this.request.BornDate = DateOnly.FromDateTime((DateTime)BornDate);
             if (contacts[0].PhoneNumber != null)
             {
-                input.Contacts = contacts;
+                this.request.Contacts = contacts;
             }
             if (references[0].Name != null)
             {
-                input.References = references;
+                this.request.References = references;
             }
 
             var client = new RestClient();
-            var request = new RestRequest($"{Configuration.apiUrl}/client", Method.Post);
-            request.AddJsonBody(input);
+            var request = new RestRequest($"{Configuration.apiUrl}/client/{clientModel.Id}", Method.Put);
+            request.AddJsonBody(this.request);
             try
             {
-                var response = await client.PostAsync<Response<ClientModel>>(request);
+                var response = await client.PutAsync<Response<ClientModel>>(request);
                 if (response.IsSuccess)
                 {
                     IsBusy = false;
                     ModalInstance.Close(DialogResult.Ok<ClientModel>(response.Data));
                     Snackbar.Add(
-                        $"Cliente \"{response.Data.Name}\" Cadastrada com sucesso!",
+                        $"Cliente \"{response.Data.Name}\" Editado com sucesso!",
                         Severity.Success);
-                }   
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +106,7 @@ namespace OticaCrista.Presentation.Pages.Clients
             var contact = new ContactJson();
             contacts.Add(contact);
         }
-        public void AddReferenceField() 
+        public void AddReferenceField()
         {
             var reference = new ReferenceJson();
             references.Add(reference);
