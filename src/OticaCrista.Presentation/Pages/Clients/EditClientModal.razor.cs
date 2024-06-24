@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using OticaCrista.communication.Maps;
 using OticaCrista.communication.Requests.Client;
 using OticaCrista.communication.Responses;
 using RestSharp;
 using SistOtica.Models.Client;
+using System.Text.Json;
 
 namespace OticaCrista.Presentation.Pages.Clients
 {
-    public partial class EditClientModal : ComponentBase
+    public partial class EditClientModalPage : ComponentBase
     {
         #region Props
 
         [Parameter]
         public ClientModel clientModel { get; set; } = null!;
-        public ClientRequest request { get; set; } = new();
+        public ClientRequest input { get; set; } = new();
 
         public List<ContactJson> contacts { get; set; } = new();
 
         public List<ReferenceJson> references { get; set; } = new();
-        public DateTime? BornDate { get; set; } = new(2001, 08, 16);
+        public DateTime? BornDate { get; set; }
         public bool IsBusy = false;
 
         [CascadingParameter]
@@ -34,18 +36,21 @@ namespace OticaCrista.Presentation.Pages.Clients
 
         [Inject] ISnackbar Snackbar { get; set; } = null!;
 
-        #endregion
+        #endregion  
 
         #region Methods
 
         protected async override Task OnInitializedAsync()
         {
-            
+            input = ClientMap.ClientToRequest(clientModel);
 
-            BornDate = DateTime.Parse(clientModel.BornDate.ToString());
+            if (input.Contacts.Count > 0) contacts = input.Contacts;
+            else AddContactField();
 
+            if(input.References.Count > 0) references = input.References;
+            else AddReferenceField();
 
-
+            BornDate = DateTime.Parse(input.BornDate.ToString());
         }
 
         public async Task OnSubmitAsync()
@@ -67,19 +72,16 @@ namespace OticaCrista.Presentation.Pages.Clients
         public async Task OnValidSubmitAsync()
         {
             IsBusy = true;
-            this.request.BornDate = DateOnly.FromDateTime((DateTime)BornDate);
-            if (contacts[0].PhoneNumber != null)
-            {
-                this.request.Contacts = contacts;
-            }
-            if (references[0].Name != null)
-            {
-                this.request.References = references;
-            }
+            input.BornDate = DateOnly.FromDateTime((DateTime)BornDate);
+            if (!string.IsNullOrWhiteSpace(contacts[0].PhoneNumber))
+                input.Contacts = contacts;
+
+            if (!string.IsNullOrWhiteSpace(references[0].Name))
+                input.References = references;
 
             var client = new RestClient();
             var request = new RestRequest($"{Configuration.apiUrl}/client/{clientModel.Id}", Method.Put);
-            request.AddJsonBody(this.request);
+            request.AddJsonBody(input);
             try
             {
                 var response = await client.PutAsync<Response<ClientModel>>(request);
@@ -100,7 +102,6 @@ namespace OticaCrista.Presentation.Pages.Clients
         }
 
         public void Cancel() => ModalInstance.Close();
-
         public void AddContactField()
         {
             var contact = new ContactJson();
@@ -111,7 +112,6 @@ namespace OticaCrista.Presentation.Pages.Clients
             var reference = new ReferenceJson();
             references.Add(reference);
         }
-
 
         #endregion
     }

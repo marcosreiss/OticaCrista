@@ -1,5 +1,128 @@
-﻿<h3>EditClientModal</h3>
+﻿@using System.ComponentModel.DataAnnotations
+@inherits EditClientModalPage
 
-@code {
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="CreateForm" @bind-IsValid="Success" @bind-Errors="ErrorMessages">
+            <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+                <h3>Dados Pessoais</h3>
+                <MudTextField T="string"
+                              Label="Nome do Cliente"
+                                    Required
+                               RequiredError="Insira o Nome do Cliente"
+                               @bind-Value="input.Name" />
+                 <MudTextField T="string"
+                               Label="CPF"
+                                    Required
+                               RequiredError="Insira o CPF do Cliente"
+                               @bind-Value="input.Cpf" />
+                 <MudTextField T="string"
+                               Label="Rg"
+                               @bind-Value="input.Rg" />
+                 @foreach (var contact in contacts)
+                {
+                    <MudTextField T="string"
+                                  Label="Telefone de Contato"
+                                  @bind-Value="contact.PhoneNumber" />
+                }
+                <MudButton StartIcon="@Icons.Material.Filled.Add"
+                           OnClick="AddContactField">
+                    Mais um contato
+                </MudButton>
+                <MudDatePicker Label="Data de Nascimento"
+                               DateFormat="dd/MM/yyyy"
+                                      Editable
+                                @bind-Date="BornDate" />
+                 <MudTextField T="string"
+                               Label="Email"
+                               Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email Inválido"})"
+                               @bind-Value="input.EmailAddress" />
+                 <MudRadioGroup @bind-Value="input.Negativated"
+                                T="bool"
+                                      Required
+                                RequiredError="Cliente Negativado?">
+                     <p>Negativado?</p>
+                     <MudRadio Value="@true">Sim</MudRadio>
+                     <MudRadio Value="@false">Não</MudRadio>
+                 </MudRadioGroup>
+                 <MudTextField T="string"
+                               Label="Observações"
+                               @bind-Value="input.Observation" />
+             </MudPaper>
 
-}
+             <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+                 <h3>Familiares</h3>
+                 <MudTextField T="string"
+                               Label="Nome do Pai"
+                               @bind-Value="input.FatherName" />
+                 <MudTextField T="string"
+                               Label="Nome da Mãe"
+                               @bind-Value="input.MotherName" />
+                 <MudTextField T="string"
+                               Label="Nome do Conjuge"
+                               @bind-Value="input.SpouseName" />
+             </MudPaper>
+
+             <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+                 <h3>Trabalho</h3>
+                 <MudTextField T="string"
+                               Label="Empresa"
+                               @bind-Value="input.Company" />
+                 <MudTextField T="string"
+                               Label="Ocupação"
+                               @bind-Value="input.Ocupation" />
+             </MudPaper>
+
+             <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+                 <h3>Endereço</h3>
+                 <MudTextField T="string"
+                               Label="Rua"
+                               @bind-Value="input.Street" />
+                 <MudTextField T="string"
+                               Label="Bairro"
+                               @bind-Value="input.Neighborhood" />
+                 <MudTextField T="string"
+                               Label="Cidade"
+                               @bind-Value="input.City" />
+                 <MudTextField T="string"
+                               Label="Estado"
+                               @bind-Value="input.Uf" />
+                 <MudTextField T="string"
+                               Label="Cep"
+                               @bind-Value="input.Cep" />
+                 <MudTextField T="string"
+                               Label="Complemento"
+                               @bind-Value="input.AddressComplement" />
+             </MudPaper>
+
+             <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+                 <h3>Referências</h3>
+                 @foreach (var reference in references)
+                {
+                    <p class="mt-5">Cadastrar Referência</p>
+                    <MudTextField T="string"
+                                  Label="Nome"
+                                  @bind-Value="reference.Name" />
+                    <MudTextField T="string"
+                                  Label="Contato"
+                                  @bind-Value="reference.PhoneNumber" />
+                }
+                <MudButton StartIcon="@Icons.Material.Filled.Add"
+                           OnClick="AddReferenceField">
+                    Mais uma referência
+                </MudButton>
+            </MudPaper>
+
+            @if (!IsBusy)
+            {
+                <MudButton Variant="Variant.Outlined" OnClick="OnSubmitAsync">
+                    Editar Cliente
+                </MudButton>
+            }
+            else
+            {
+                <MudProgressCircular Indeterminate />
+            }
+        </MudForm>
+    </DialogContent>
+</MudDialog>

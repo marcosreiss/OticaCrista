@@ -14,18 +14,18 @@ namespace OticaCrista.Application.UseCases.Client
     {
         public async Task<Response<ClientModel>> Execute(ClientRequest requestClientJson, int id)
         {
-            try
-            {
-                await Validate(requestClientJson, id);
-            }
-            catch (ValidationException ex)
-            {
-                return new Response<ClientModel>(null, 400, ex.Message);
-            }
-            catch(ArgumentException ex)
-            {
-                return new Response<ClientModel>(null, 400, ex.Message);
-            }
+            //try
+            //{
+            //    await Validate(requestClientJson, id);
+            //}
+            //catch (ValidationException ex)
+            //{
+            //    return new Response<ClientModel>(null, 400, ex.Message);
+            //}
+            //catch(ArgumentException ex)
+            //{
+            //    return new Response<ClientModel>(null, 400, ex.Message);
+            //}
 
             var client = await _repository.UpdateClientAsync(requestClientJson, id);
             if (client != null)

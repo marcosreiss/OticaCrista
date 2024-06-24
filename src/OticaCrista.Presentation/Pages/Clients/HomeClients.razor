@@ -27,7 +27,6 @@
             <MudTd DataLabel="Celular">
                 @((context.client?.Contacts?.FirstOrDefault()?.PhoneNumber) ?? "-------------")
             </MudTd>
-            @* <MudTd DataLabel="Negativado">@(context.client.Negativated ? "Negativado" : "Não Negativado") </MudTd> *@
             <MudTd DataLabel="Negativado">
                 @if (context.client.Negativated)
                 {
@@ -40,7 +39,8 @@
             </MudTd>
             <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Info" />
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                    OnClick="() => OnEditClieckAsync(context.client, context.position)"/>
                 <MudIconButton Icon="@Icons.Material.Filled.Delete" />
             </MudTd>
         }

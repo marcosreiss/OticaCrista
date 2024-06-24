@@ -5,9 +5,9 @@ namespace OticaCrista.communication.Maps
 {
     public class ClientMap
     {
-        public ClientRequest ClientToRequest(ClientModel client)
+        public static ClientRequest ClientToRequest(ClientModel client)
         {
-            var request = new ClientRequest 
+            var request = new ClientRequest
             {
                 Name = client.Name,
                 Cpf = client.Cpf,
@@ -57,7 +57,7 @@ namespace OticaCrista.communication.Maps
             return request;
         }
 
-        public ClientModel RequestToClient(ClientRequest request)
+        public static ClientModel RequestToClient(ClientRequest request)
         {
             var client = new ClientModel
             {

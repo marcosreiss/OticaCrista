@@ -61,6 +61,25 @@ namespace OticaCrista.Presentation.Pages.Clients
             }
         }
 
+        public async Task OnEditClieckAsync(ClientModel client, int position)
+        {
+            var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, FullWidth = true };
+            var parameters = new DialogParameters
+            {
+                {"clientModel",  client}
+            };
+            var dialog = DialogService.Show<EditClientModal>("Editar Cliente", parameters, options);
+            var response = await dialog.Result;
+            client = response.Data as ClientModel;
+
+            if(!response.Canceled && client != null)
+            {
+                Clients[position-1] = (client, position);
+                StateHasChanged();
+            }
+
+        }
+
         #endregion
     }
 }

@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using OticaCrista.Application.Mapping;
 using OticaCrista.Application.UseCases.Brand;
 using OticaCrista.Application.UseCases.Client;
 using OticaCrista.Application.UseCases.Product;
@@ -13,7 +11,6 @@ using OticaCrista.Infra.DataBase.Repository.Sale;
 using OticaCrista.Infra.DataBase.Repository.Service;
 using Serilog;
 using Serilog.Events;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,7 +71,6 @@ builder.Services.AddScoped<GetClientByIdUseCase>();
 builder.Services.AddScoped<GetAllClientsPaginadedUseCase>();
 builder.Services.AddScoped<UpdateClientUseCase>();
 builder.Services.AddScoped<DeleteClientUseCase>();
-builder.Services.AddAutoMapper(typeof(ClientToResponse));
 
 // -> Payment
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
@@ -85,7 +81,7 @@ builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP input pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

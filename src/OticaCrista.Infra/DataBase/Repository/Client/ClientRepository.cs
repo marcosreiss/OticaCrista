@@ -241,13 +241,14 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
 
                 if (contact == null)
                 {
-                    _logger.LogError("(ClientRepository.UpdateContactAsync): clientId passado inválido, contact não encontrado");
-                    throw new ArgumentException("(ClientRepository.UpdateContactAsync): clientId passado inválido, contact não encontrado");
+                   await CreateContactAsync(request, clientId);
                 }
-
-                contact.PhoneNumber = request.PhoneNumber;
-                _context.Contacts.Update(contact);
-                await _context.SaveChangesAsync();
+                else
+                {
+                    contact.PhoneNumber = request.PhoneNumber;
+                    _context.Contacts.Update(contact);
+                    await _context.SaveChangesAsync();
+                }
 
                 return true;
             }
@@ -315,15 +316,16 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 var reference = await _context.References.FirstOrDefaultAsync(x => x.ClientId == id);
                 if (reference == null)
                 {
-                    _logger.LogError("(ClientRepository.UpdateReferenceAsync): clientIdd pasado inválido, client não encontrada");
-                    throw new ArgumentException("(ClientRepository.UpdateReferenceAsync): clientIdd pasado inválido, client não encontrada");
+                    await CreateReferenceAsync(request, id);
                 }
+                else
+                {
+                    reference.Name = request.Name;
+                    reference.PhoneNumber = request.PhoneNumber;
 
-                reference.Name = request.Name;
-                reference.PhoneNumber = request.PhoneNumber;
-
-                _context.References.Update(reference);
-                await _context.SaveChangesAsync();
+                    _context.References.Update(reference);
+                    await _context.SaveChangesAsync();
+                }
 
                 return true;
             }
