@@ -1,4 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@using OticaCrista.Model.Models.Enums
 @inherits EditClientModalPage
 
 <MudDialog>
@@ -39,6 +40,17 @@
                                       Editable
                                 ReadOnly="@ReadOnly"
                                 @bind-Date="BornDate" />
+
+                 <MudRadioGroup @bind-Value="input.Gender"
+                                T="Gender"
+                                Required
+                                ReadOnly="@ReadOnly"
+                                RequiredError="Selecione o Sexo">
+                     <p>Sexo</p>
+                     <MudRadio Value="Gender.Male">Masculino</MudRadio>
+                     <MudRadio Value="Gender.Female">Feminino</MudRadio>
+                 </MudRadioGroup>
+
                  <MudTextField T="string"
                                Label="Email"
                                Validation="@(new EmailAddressAttribute() { ErrorMessage = "Email Inválido" })"

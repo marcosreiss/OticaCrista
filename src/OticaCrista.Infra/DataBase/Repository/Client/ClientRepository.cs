@@ -25,6 +25,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 Cpf = request.Cpf,
                 Rg = request.Rg,
                 BornDate = request.BornDate,
+                Gender = request.Gender,
                 FatherName = request.FatherName,
                 MotherName = request.MotherName,
                 SpouseName = request.SpouseName,
@@ -98,6 +99,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Client
                 client.Cpf = request.Cpf;
                 client.Rg = request.Rg;
                 client.BornDate = request.BornDate;
+                client.Gender = request.Gender;
                 client.FatherName = request.FatherName;
                 client.MotherName = request.MotherName;
                 client.SpouseName = request.SpouseName;

@@ -1,4 +1,5 @@
-﻿using SistOtica.Models.Sale;
+﻿using OticaCrista.Model.Models.Enums;
+using SistOtica.Models.Sale;
 using System.ComponentModel.DataAnnotations;
 
 namespace SistOtica.Models.Client
@@ -19,6 +20,8 @@ namespace SistOtica.Models.Client
         public ICollection<ClientReferences>? References { get; set; } = new List<ClientReferences>();
 
         public DateOnly BornDate {  get; set; }
+
+        public Gender Gender { get; set; }
 
         public string? FatherName { get; set; } 
 

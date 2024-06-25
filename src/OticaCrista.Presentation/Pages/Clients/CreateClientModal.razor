@@ -1,43 +1,62 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using System.Globalization
+@using OticaCrista.Model.Models.Enums
 @inherits CreateClientModalPage
 
 <MudDialog>
     <DialogContent>
         <MudForm @ref="CreateForm" @bind-IsValid="Success" @bind-Errors="ErrorMessages">
             <MudPaper Elevation="3" Style="margin-bottom: 20px; padding:10px">
+
                 <h3>Dados Pessoais</h3>
+
                 <MudTextField T="string"
                               Label="Nome do Cliente"
                                     Required
                                RequiredError="Insira o Nome do Cliente"
                                @bind-Value="input.Name" />
+
                  <MudTextField T="string"
                                Label="CPF"
                                     Required
                                RequiredError="Insira o CPF do Cliente"
                                @bind-Value="input.Cpf" />
+
                  <MudTextField T="string"
                                Label="Rg"
                                @bind-Value="input.Rg" />
+
                  @foreach(var contact in contacts)
                 {
                     <MudTextField T="string"
                                   Label="Telefone de Contato"
                                   @bind-Value="contact.PhoneNumber" />
                 }
+
                 <MudButton StartIcon="@Icons.Material.Filled.Add"
                         OnClick="AddContactField">
                     Mais um contato
                 </MudButton>
+
                  <MudDatePicker Label="Data de Nascimento"
                                 DateFormat="dd/MM/yyyy"
                                 Editable
                                 @bind-Date="BornDate" />
+
+                <MudRadioGroup @bind-Value="input.Gender"
+                    T="Gender"
+                    Required
+                    RequiredError="Selecione o Sexo">
+                    <p>Sexo</p>
+                     <MudRadio Value="Gender.Male">Masculino</MudRadio>
+                     <MudRadio Value="Gender.Female">Feminino</MudRadio>
+                </MudRadioGroup>
+
                 <MudTextField T="string"
                                 Label="Email"
                                 Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email Inválido"})"
                                 @bind-Value="input.EmailAddress" />
+
                  <MudRadioGroup @bind-Value="input.Negativated"
                                 T="bool"
                                       Required
@@ -46,6 +65,7 @@
                      <MudRadio Value="@true">Sim</MudRadio>
                      <MudRadio Value="@false">Não</MudRadio>
                  </MudRadioGroup>
+
                  <MudTextField T="string"
                                Label="Observações"
                                @bind-Value="input.Observation" />
@@ -114,6 +134,7 @@
                 </MudButton>
             </MudPaper>
              
+            
              @if (!IsBusy)
             {
                 <MudButton Variant="Variant.Outlined" OnClick="OnSubmitAsync">

@@ -100,6 +100,9 @@ namespace OticaCrista.Infra.Migrations
                     b.Property<string>("FatherName")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("MotherName")
                         .HasColumnType("longtext");
 

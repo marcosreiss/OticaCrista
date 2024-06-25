@@ -1,4 +1,6 @@
-﻿namespace OticaCrista.communication.Requests.Client
+﻿using OticaCrista.Model.Models.Enums;
+
+namespace OticaCrista.communication.Requests.Client
 {
     public class ClientRequest
     {
@@ -9,6 +11,8 @@
         public string? Rg { get; set; }
 
         public DateOnly BornDate { get; set; } = new();
+
+        public Gender Gender { get; set; }
 
         public string? FatherName { get; set; }
 
