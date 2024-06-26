@@ -1,35 +1,42 @@
 ﻿using OticaCrista.communication.Requests.Product;
+using OticaCrista.communication.Responses;
 using OticaCrista.Infra.DataBase.Repository.Product;
 using SistOtica.Models.Product;
 
 namespace OticaCrista.Application.UseCases.Product
 {
-    public class CreateProductUseCase
+    public class CreateProductUseCase(IProductRepository _repository)
     {
-        private readonly IProductRepository _productRepository;
-        public CreateProductUseCase(IProductRepository productRepository)
+
+        public async Task<Response<ProductModel>> Execute(ProductRequest request)
         {
-            _productRepository = productRepository;
+            //Validate(request);
+            try
+            {
+                var product = new ProductModel
+                {
+                    Name = request.Name,
+                    BuyPrice = request.BuyPrice,
+                    Addition = request.Additon,
+                    SalePrice = request.SalePrice,
+                    Quantity = request.Quantity,
+                    BrandId = request.BrandId,
+                };
+                var response = await _repository.CreateProductAsync(product);
+                if (response != null)
+                    return new Response<ProductModel>(response, 200, "Produto cadastrado com sucesso!");
+                else
+                    return new Response<ProductModel>(null, 500, "Erro ao Cadastrar Produto");
+            }
+            catch (Exception ex)
+            {
+                return new Response<ProductModel>(null, 500, "Erro ao Cadastras Produto: " + ex.Message);
+            }
         }
-        //public async Task<ProductModel> Execute(ProductRequest request)
-        //{
-        //    Validate(request);
-        //    var product = new ProductModel
-        //    {
-        //        Name = request.Name,
-        //        BuyPrice = request.BuyPrice,
-        //        Addition = request.Additon,
-        //        SalePrice = request.SalePrice,
-        //        Quantity = request.Quantity,
-        //        BrandId = request.BrandId,
-        //    };
-        //    await _productRepository.CreateProductAsync(product);
-        //    return product;
-        //}
 
         //private void Validate(ProductRequest requestJson)
         //{
-        //    var products = _productRepository.GetAll().Result;
+        //    var products = _repository.GetAll().Result;
         //    foreach (var product in products)
         //    {
         //        if (product.Name == requestJson.Name)
