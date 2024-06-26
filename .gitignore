@@ -53,7 +53,7 @@ appsettings.Development.json
 
 # Logs
 
-OticaCrista.Api/logs/
+src/OticaCrista.Api/logs
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/aspnetcore
