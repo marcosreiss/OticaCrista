@@ -55,6 +55,7 @@ appsettings.Development.json
 
 src/OticaCrista.Api/logs
 src/OticaCrista.DataMigration
+.idea
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/aspnetcore
