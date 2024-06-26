@@ -1,19 +1,27 @@
-﻿using OticaCrista.Infra.DataBase.Repository.Product;
+﻿using OticaCrista.communication.Responses;
+using OticaCrista.Infra.DataBase.Repository.Product;
+using SistOtica.Models.Product;
 
 namespace OticaCrista.Application.UseCases.Product
 {
-    public class DeleteProductUseCase
+    public class DeleteProductUseCase(IProductRepository _repository)
     {
-        //private readonly IProductRepository _repository;
-        //public DeleteProductUseCase(IProductRepository productRepository)
-        //{
-        //    _repository = productRepository;
-        //}
 
 
-        //public async Task<bool> Execute(int id)
-        //{
-        //    return await _repository.DeleteProductAsync(id);
-        //}
+        public async Task<Response<ProductModel>> Execute(int id)
+        {
+            try
+            {
+                var response = await _repository.DeleteProductAsync(id);
+                if (response != null)
+                    return new Response<ProductModel>(response, 200, "Produto Deletado com Sucesso!");
+                else
+                    return new Response<ProductModel>(null, 500, "Erro ao Deletar Cliente");
+            } 
+            catch (Exception ex)
+            {
+                return new Response<ProductModel>(null, 500, "Erro ao Deletar Cliente" +  ex.Message);
+            }
+        }
     }
 }

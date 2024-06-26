@@ -57,7 +57,7 @@ builder.Services.AddScoped<DeleteBrandUseCase>();
 // -> Product
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<CreateProductUseCase>();
-builder.Services.AddScoped<GetProductUseCase>();
+builder.Services.AddScoped<GetProductByIdUseCase>();
 builder.Services.AddScoped<UpdateProductUseCase>();
 builder.Services.AddScoped<DeleteProductUseCase>();
 
