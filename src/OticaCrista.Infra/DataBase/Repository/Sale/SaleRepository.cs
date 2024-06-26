@@ -120,7 +120,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             return null;
         }
 
-        public async Task<List<SaleModel>?> GetAllSalesPaginadedAsync(int skip, int take)
+        public async Task<List<SaleModel>?> GetAllSalesPagedAsync(int skip, int take)
         {
             try
             {
@@ -129,9 +129,14 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Erro em SaleRepository.GetAllSalesPaginadedAsync:\n" + ex.Message);
+                logger.LogError(ex, "Erro em SaleRepository.GetAllSalesPagedAsync:\n" + ex.Message);
             }
             return null;
+        }
+
+        public async Task<int> GetSaleCountAsync()
+        {
+            return await context.Sales.CountAsync();
         }
     }
 }

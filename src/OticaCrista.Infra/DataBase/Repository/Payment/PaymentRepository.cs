@@ -12,7 +12,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
         private readonly OticaCristaContext context = _factory.CreateDbContext();
 
 
-
         public async Task<PaymentModel?> CreatePaymentAsync(SaleModel sale)
         {
             var payment = new PaymentModel
@@ -90,23 +89,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             return null;
         }
 
-        public async Task<List<PaymentModel>?> GetAllPaymentsPaginadedAsync(int skip, int take)
-        {
-            try
-            {
-                var payments = await context.Payments
-                    .Skip(skip)
-                    .Take(take)
-                    .ToListAsync();
-                return payments;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro em PaymentRepository.GetAllPaymentsPaginadedAsync:\n" + ex.Message);
-            }
-            return null;
-        }
-
         public async Task<PaymentModel?> GetPaymentByIdAsync(int id)
         {
             try
@@ -129,6 +111,26 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
             return null;
         }
 
-        
+        public async Task<List<PaymentModel>?> GetAllPaymentsPagedAsync(int skip, int take)
+        {
+            try
+            {
+                var payments = await context.Payments
+                    .Skip(skip)
+                    .Take(take)
+                    .ToListAsync();
+                return payments;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro em PaymentRepository.GetAllPaymentsPagedAsync:\n" + ex.Message);
+            }
+            return null;
+        }
+
+        public async Task<int> GetPaymentCountAsync()
+        {
+            return await context.Payments.CountAsync();
+        }
     }
 }

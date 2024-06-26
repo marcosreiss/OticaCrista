@@ -8,6 +8,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Payment
         Task<PaymentModel?> UpdatePaymentAsync(int id, PaymentModel model);
         Task<PaymentModel?> DeletePaymentAsync(int id);
         Task<PaymentModel?> GetPaymentByIdAsync(int id);
-        Task<List<PaymentModel>?> GetAllPaymentsPaginadedAsync(int skip, int take);
+        Task<List<PaymentModel>?> GetAllPaymentsPagedAsync(int skip, int take);
+        Task<int> GetPaymentCountAsync();
     }
 }
