@@ -5,7 +5,7 @@ namespace OticaCrista.DataMigration.MigrationObjects
     public class Pessoa
     {
         public int Id { get; set; }
-        public string Nome { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string PhoneNumber2 { get; set; } = string.Empty;
         public string Street { get; set; } = string.Empty;
