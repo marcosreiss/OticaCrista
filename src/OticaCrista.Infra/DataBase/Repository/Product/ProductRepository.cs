@@ -122,5 +122,10 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
             }
             return null;
         }
+
+        public async Task<int> GetProductsCountAsync()
+        {
+            return _context.Products.Count();
+        }
     }
 }

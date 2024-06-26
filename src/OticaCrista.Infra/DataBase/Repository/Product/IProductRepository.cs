@@ -10,6 +10,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
         Task<ProductModel?> DeleteProductAsync(int id);
         Task<ProductModel?> GetProductByIdAsync(int id);
         Task<List<ProductModel>?> GetAllProductsPaginadedAsync(int skip, int take);
+        Task<int> GetProductsCountAsync();
         
          
     }

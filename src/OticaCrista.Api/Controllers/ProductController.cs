@@ -42,13 +42,18 @@ namespace OticaCrista.Api.Controllers
             return response;
         }
 
-        //[HttpGet]
-        //public async Task<List<ProductModel>> GetAll([FromServices] GetProductByIdUseCase useCase)
-        //{
-        //    var products = await useCase.GetAll();
+        [HttpGet]
+        public async Task<PagedResponse<List<ProductModel>>> GetAll(
+            [FromServices] GetAllProductsPagedUseCase useCase,
+            [FromQuery]int currentPage)
+        {
+            var take = 100;
+            var skip = (currentPage - 1) * take;
 
-        //    return products;
-        //}
+            var result = await useCase.Execute(skip, take);
+
+            return result;
+        }
 
 
 
