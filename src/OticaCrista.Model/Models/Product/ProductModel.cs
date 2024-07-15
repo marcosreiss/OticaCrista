@@ -25,8 +25,7 @@ namespace SistOtica.Models.Product
 
         public virtual BrandModel Brand { get; set; } = null!;
 
-        [JsonIgnore]
-        public ICollection<SaleModel>? Sales { get; set; }
+        
 
     }
 }

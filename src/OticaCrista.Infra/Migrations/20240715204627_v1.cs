@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace OticaCrista.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -151,18 +151,14 @@ namespace OticaCrista.Infra.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     SaleDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ItemQt = table.Column<int>(type: "int", nullable: false),
-                    Discount = table.Column<double>(type: "double", nullable: false),
-                    FinalPrice = table.Column<double>(type: "double", nullable: false),
-                    Observation = table.Column<string>(type: "longtext", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false),
-                    ProducstId = table.Column<string>(type: "longtext", nullable: true),
-                    ServicesId = table.Column<string>(type: "longtext", nullable: true),
+                    ProductItemId = table.Column<string>(type: "longtext", nullable: true),
+                    ServiceItemId = table.Column<string>(type: "longtext", nullable: true),
                     Book = table.Column<string>(type: "longtext", nullable: false),
                     Page = table.Column<string>(type: "longtext", nullable: false),
                     ServiceOrder = table.Column<int>(type: "int", nullable: false),
-                    DoctorName = table.Column<string>(type: "longtext", nullable: false),
-                    Crm = table.Column<string>(type: "longtext", nullable: false),
+                    DoctorName = table.Column<string>(type: "longtext", nullable: true),
+                    Crm = table.Column<string>(type: "longtext", nullable: true),
                     OdEsferico = table.Column<double>(type: "double", nullable: false),
                     OdCilindrico = table.Column<double>(type: "double", nullable: false),
                     OdEixo = table.Column<double>(type: "double", nullable: false),
@@ -183,6 +179,54 @@ namespace OticaCrista.Infra.Migrations
                         name: "FK_Sales_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "SaleServiceItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Discount = table.Column<double>(type: "double", nullable: false),
+                    FinalPrice = table.Column<double>(type: "double", nullable: false),
+                    Observation = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleServiceItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleServiceItem_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "SaleProductItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Discount = table.Column<double>(type: "double", nullable: false),
+                    FinalPrice = table.Column<double>(type: "double", nullable: false),
+                    Observation = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleProductItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleProductItem_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -214,23 +258,23 @@ namespace OticaCrista.Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ProductModelSaleModel",
+                name: "SaleModelSaleServiceItem",
                 columns: table => new
                 {
-                    ProductsId = table.Column<int>(type: "int", nullable: false),
-                    SalesId = table.Column<int>(type: "int", nullable: false)
+                    SalesId = table.Column<int>(type: "int", nullable: false),
+                    ServicesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductModelSaleModel", x => new { x.ProductsId, x.SalesId });
+                    table.PrimaryKey("PK_SaleModelSaleServiceItem", x => new { x.SalesId, x.ServicesId });
                     table.ForeignKey(
-                        name: "FK_ProductModelSaleModel_Products_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "Products",
+                        name: "FK_SaleModelSaleServiceItem_SaleServiceItem_ServicesId",
+                        column: x => x.ServicesId,
+                        principalTable: "SaleServiceItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductModelSaleModel_Sales_SalesId",
+                        name: "FK_SaleModelSaleServiceItem_Sales_SalesId",
                         column: x => x.SalesId,
                         principalTable: "Sales",
                         principalColumn: "Id",
@@ -239,25 +283,25 @@ namespace OticaCrista.Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SaleModelServiceModel",
+                name: "SaleModelSaleProductItem",
                 columns: table => new
                 {
-                    SalesId = table.Column<int>(type: "int", nullable: false),
-                    ServicesId = table.Column<int>(type: "int", nullable: false)
+                    ProductsId = table.Column<int>(type: "int", nullable: false),
+                    SalesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SaleModelServiceModel", x => new { x.SalesId, x.ServicesId });
+                    table.PrimaryKey("PK_SaleModelSaleProductItem", x => new { x.ProductsId, x.SalesId });
                     table.ForeignKey(
-                        name: "FK_SaleModelServiceModel_Sales_SalesId",
-                        column: x => x.SalesId,
-                        principalTable: "Sales",
+                        name: "FK_SaleModelSaleProductItem_SaleProductItem_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "SaleProductItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SaleModelServiceModel_Services_ServicesId",
-                        column: x => x.ServicesId,
-                        principalTable: "Services",
+                        name: "FK_SaleModelSaleProductItem_Sales_SalesId",
+                        column: x => x.SalesId,
+                        principalTable: "Sales",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -275,11 +319,6 @@ namespace OticaCrista.Infra.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductModelSaleModel_SalesId",
-                table: "ProductModelSaleModel",
-                column: "SalesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
                 table: "Products",
                 column: "BrandId");
@@ -290,14 +329,29 @@ namespace OticaCrista.Infra.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaleModelServiceModel_ServicesId",
-                table: "SaleModelServiceModel",
+                name: "IX_SaleModelSaleProductItem_SalesId",
+                table: "SaleModelSaleProductItem",
+                column: "SalesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleModelSaleServiceItem_ServicesId",
+                table: "SaleModelSaleServiceItem",
                 column: "ServicesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleProductItem_ProductId",
+                table: "SaleProductItem",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sales_ClientId",
                 table: "Sales",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleServiceItem_ServiceId",
+                table: "SaleServiceItem",
+                column: "ServiceId");
         }
 
         /// <inheritdoc />
@@ -310,28 +364,34 @@ namespace OticaCrista.Infra.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "ProductModelSaleModel");
-
-            migrationBuilder.DropTable(
                 name: "References");
 
             migrationBuilder.DropTable(
-                name: "SaleModelServiceModel");
+                name: "SaleModelSaleProductItem");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "SaleModelSaleServiceItem");
+
+            migrationBuilder.DropTable(
+                name: "SaleProductItem");
+
+            migrationBuilder.DropTable(
+                name: "SaleServiceItem");
 
             migrationBuilder.DropTable(
                 name: "Sales");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "Brands");
+                name: "Clients");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Brands");
         }
     }
 }

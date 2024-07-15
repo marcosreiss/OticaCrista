@@ -1,7 +1,6 @@
-﻿using SistOtica.Models.Client;
+﻿using OticaCrista.Model.Models.Sale;
+using SistOtica.Models.Client;
 using SistOtica.Models.Enums;
-using SistOtica.Models.Product;
-using SistOtica.Models.Service;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistOtica.Models.Sale
@@ -13,10 +12,6 @@ namespace SistOtica.Models.Sale
 
         public int Id { get; set; }
         public DateOnly SaleDate { get; set; }
-        public int ItemQt { get; set; }
-        public double Discount { get; set; }
-        public double FinalPrice { get; set; }
-        public string Observation { get; set; } = string.Empty;
 
         #endregion
 
@@ -31,11 +26,11 @@ namespace SistOtica.Models.Sale
 
         #region Product/Service and Payment
 
-        public List<int>? ProducstId { get; set; }
-        public List<ProductModel>? Products { get; set; } 
+        public List<int>? ProductItemId { get; set; }
+        public List<SaleProductItem>? Products { get; set; } 
 
-        public List<int>? ServicesId { get; set; }
-        public List<ServiceModel>? Services { get; set; }
+        public List<int>? ServiceItemId { get; set; }
+        public List<SaleServiceItem>? Services { get; set; }
 
         public PaymentModel Payment { get; set; } = new();
 
@@ -51,8 +46,8 @@ namespace SistOtica.Models.Sale
 
         #region Prescription
 
-        public string DoctorName { get; set; } = string.Empty;
-        public string Crm { get; set; } = string.Empty;
+        public string? DoctorName { get; set; } 
+        public string? Crm { get; set; }
 
         public double OdEsferico { get; set; }
         public double OdCilindrico { get; set; }

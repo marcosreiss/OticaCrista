@@ -39,10 +39,10 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
 
                 #region Mapping Data
                 sale.SaleDate = model.SaleDate;
-                sale.ItemQt = model.ItemQt;
-                sale.Discount = model.Discount;
-                sale.FinalPrice = model.FinalPrice;
-                sale.Observation = model.Observation;
+                //sale.ItemQt = model.ItemQt;
+                //sale.Discount = model.Discount;
+                //sale.FinalPrice = model.FinalPrice;
+                //sale.Observation = model.Observation;
                 sale.ClientId = model.ClientId;
                 sale.Products = model.Products;
                 sale.Services = model.Services;
