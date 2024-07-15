@@ -311,8 +311,10 @@ namespace OticaCrista.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ProducstId")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Ref")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateOnly>("SaleDate")
@@ -321,7 +323,10 @@ namespace OticaCrista.Infra.Migrations
                     b.Property<int>("ServiceOrder")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
+                    b.Property<string>("ServicesId")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -403,13 +408,13 @@ namespace OticaCrista.Infra.Migrations
 
             modelBuilder.Entity("SistOtica.Models.Product.ProductModel", b =>
                 {
-                    b.HasOne("SistOtica.Models.Product.BrandModel", "brand")
+                    b.HasOne("SistOtica.Models.Product.BrandModel", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("brand");
+                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("SistOtica.Models.Sale.PaymentModel", b =>

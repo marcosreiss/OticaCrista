@@ -31,7 +31,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddDbContextFactory<OticaCristaContext>(o 
-    => o.UseMySQL(builder.Configuration.GetConnectionString("MysqlConnection")));
+    => o.UseMySQL(builder.Configuration.GetConnectionString("LocalHostConnection")));
+
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 builder.Services.AddCors(options =>

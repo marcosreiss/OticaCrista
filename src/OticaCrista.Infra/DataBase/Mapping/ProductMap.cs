@@ -8,7 +8,7 @@ namespace SistOtica.Data.Mapping
         public ProductMap(EntityTypeBuilder<ProductModel> tb)
         {
             tb.HasKey(x => x.Id);
-            tb.HasOne(x => x.brand).WithMany(x => x.Products).HasForeignKey(x => x.BrandId);
+            tb.HasOne(x => x.Brand).WithMany(x => x.Products).HasForeignKey(x => x.BrandId);
             tb.Property(x => x.Name).IsRequired().HasMaxLength(255);
         }
     }

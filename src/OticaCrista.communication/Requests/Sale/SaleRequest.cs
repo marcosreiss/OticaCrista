@@ -1,17 +1,12 @@
-﻿using SistOtica.Models.Client;
-using SistOtica.Models.Enums;
-using SistOtica.Models.Product;
-using SistOtica.Models.Service;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SistOtica.Models.Enums;
+using SistOtica.Models.Sale;
 
-namespace SistOtica.Models.Sale
+namespace OticaCrista.communication.Requests.Sale
 {
-    public class SaleModel
+    public class SaleRequest
     {
-
         #region Sale Infos
 
-        public int Id { get; set; }
         public DateOnly SaleDate { get; set; }
         public int ItemQt { get; set; }
         public double Discount { get; set; }
@@ -20,23 +15,12 @@ namespace SistOtica.Models.Sale
 
         #endregion
 
-        #region Client
-
-        [ForeignKey("ClientId")]
-        [InverseProperty("Sales")]
         public int ClientId { get; set; }
-        public ClientModel Client { get; set; } 
-
-        #endregion
 
         #region Product/Service and Payment
 
         public List<int>? ProducstId { get; set; }
-        public List<ProductModel>? Products { get; set; } 
-
         public List<int>? ServicesId { get; set; }
-        public List<ServiceModel>? Services { get; set; }
-
         public PaymentModel Payment { get; set; } = new();
 
         #endregion
@@ -75,6 +59,5 @@ namespace SistOtica.Models.Sale
         public string? Ref { get; set; }
 
         #endregion
-
     }
 }

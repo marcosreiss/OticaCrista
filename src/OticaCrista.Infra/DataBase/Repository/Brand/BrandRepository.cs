@@ -120,6 +120,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Brand
             }
             return null;
         }
+
         public async Task<int> CountBrandsAsync()
         {
             return await _context.Brands.CountAsync();

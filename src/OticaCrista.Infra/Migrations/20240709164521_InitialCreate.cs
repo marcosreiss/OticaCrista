@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace OticaCrista.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,7 @@ namespace OticaCrista.Infra.Migrations
                     Cpf = table.Column<string>(type: "longtext", nullable: false),
                     Rg = table.Column<string>(type: "longtext", nullable: true),
                     BornDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
                     FatherName = table.Column<string>(type: "longtext", nullable: true),
                     MotherName = table.Column<string>(type: "longtext", nullable: true),
                     SpouseName = table.Column<string>(type: "longtext", nullable: true),
@@ -155,6 +156,8 @@ namespace OticaCrista.Infra.Migrations
                     FinalPrice = table.Column<double>(type: "double", nullable: false),
                     Observation = table.Column<string>(type: "longtext", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false),
+                    ProducstId = table.Column<string>(type: "longtext", nullable: true),
+                    ServicesId = table.Column<string>(type: "longtext", nullable: true),
                     Book = table.Column<string>(type: "longtext", nullable: false),
                     Page = table.Column<string>(type: "longtext", nullable: false),
                     ServiceOrder = table.Column<int>(type: "int", nullable: false),
@@ -170,8 +173,8 @@ namespace OticaCrista.Infra.Migrations
                     OeDnp = table.Column<double>(type: "double", nullable: false),
                     Adicao = table.Column<double>(type: "double", nullable: false),
                     CentroOtico = table.Column<double>(type: "double", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Ref = table.Column<string>(type: "longtext", nullable: false)
+                    Type = table.Column<int>(type: "int", nullable: true),
+                    Ref = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {

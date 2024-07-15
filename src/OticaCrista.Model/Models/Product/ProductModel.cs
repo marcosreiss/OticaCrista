@@ -23,7 +23,7 @@ namespace SistOtica.Models.Product
         [InverseProperty("Products")]
         public required int BrandId { get; set; }
 
-        public virtual BrandModel brand { get; set; }
+        public virtual BrandModel Brand { get; set; } = null!;
 
         [JsonIgnore]
         public ICollection<SaleModel>? Sales { get; set; }
