@@ -12,7 +12,12 @@ namespace OticaCrista.Application.UseCases.Sale
     {
         public async Task<Response<SaleModel>> Execute(SaleRequest request)
         {
-            return null;
+            var sale = await _repository.CreateSaleAsync(request);
+            if (sale != null)
+            {
+                return new Response<SaleModel>(sale, 201, "Atendimento Cadastrado com sucesso!");
+            }
+            return new Response<SaleModel>(null, 500, "Erro no repositório ao tentar cadastrar atendimento, verifique os logs da aplicação");
         }
     }
 }

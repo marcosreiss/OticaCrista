@@ -50,13 +50,30 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             try
             {
                 var sale = SaleMap(request);
+                if(request.ProductItems?.Count > 0)
+                { 
+                    sale.ProductItemId = new List<int>();
+                    foreach (var product in request.ProductItems)
+                    {
+                        var newProduct = await context.SalesProducts.AddAsync(product);
+                        await context.SaveChangesAsync();
+                        sale.ProductItemId.Add(newProduct.Entity.Id);
+                    }
+                }
+                if(request.ServiceItems?.Count > 0)
+                {
+                    sale.ServiceItemId = new List<int>();
+                    foreach (var services in request.ServiceItems)
+                    {
+                        var newService = await context.SalesServices.AddAsync(services);
+                        await context.SaveChangesAsync();
+                        sale.ServiceItemId.Add(newService.Entity.Id);
+                    }
+                }
+
                 await context.Sales.AddAsync(sale);
                 await context.SaveChangesAsync();
                 return sale;
-                foreach(var product in request.ProductItems)
-                {
-                     
-                }
             }
             catch (Exception ex)
             {
