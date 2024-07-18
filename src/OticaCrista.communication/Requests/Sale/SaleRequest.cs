@@ -1,42 +1,27 @@
-﻿using SistOtica.Models.Enums;
+﻿using OticaCrista.Model.Models.Sale;
+using SistOtica.Models.Enums;
 using SistOtica.Models.Sale;
 
 namespace OticaCrista.communication.Requests.Sale
 {
     public class SaleRequest
     {
-        #region Sale Infos
 
         public DateOnly SaleDate { get; set; }
-        public int ItemQt { get; set; }
-        public double Discount { get; set; }
-        public double FinalPrice { get; set; }
-        public string Observation { get; set; } = string.Empty;
-
-        #endregion
 
         public int ClientId { get; set; }
 
-        #region Product/Service and Payment
+        public List<SaleProductItem>? ProductItems { get; set; }
+        public List<SaleServiceItem>? ServiceItems { get; set; }
 
-        public List<int>? ProducstId { get; set; }
-        public List<int>? ServicesId { get; set; }
-        public PaymentModel Payment { get; set; } = new();
-
-        #endregion
-
-        #region Sale Protocol
-
-        public string Book { get; set; } = string.Empty;
-        public string Page { get; set; } = string.Empty;
+        public string? Book { get; set; } 
+        public string? Page { get; set; } 
         public int ServiceOrder { get; set; }
-
-        #endregion
 
         #region Prescription
 
-        public string DoctorName { get; set; } = string.Empty;
-        public string Crm { get; set; } = string.Empty;
+        public string? DoctorName { get; set; }
+        public string? Crm { get; set; } 
 
         public double OdEsferico { get; set; }
         public double OdCilindrico { get; set; }

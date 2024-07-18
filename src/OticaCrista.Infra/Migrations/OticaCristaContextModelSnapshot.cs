@@ -44,7 +44,7 @@ namespace OticaCrista.Infra.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("SaleProductItem");
+                    b.ToTable("SalesProducts");
                 });
 
             modelBuilder.Entity("OticaCrista.Model.Models.Sale.SaleServiceItem", b =>
@@ -72,7 +72,7 @@ namespace OticaCrista.Infra.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("SaleServiceItem");
+                    b.ToTable("SalesServices");
                 });
 
             modelBuilder.Entity("SaleModelSaleProductItem", b =>

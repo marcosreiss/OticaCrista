@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using OticaCrista.communication.Requests.Sale;
 using SistOtica.Models.Sale;
 
 namespace OticaCrista.Infra.DataBase.Repository.Sale
@@ -11,13 +12,51 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
     {
         private readonly OticaCristaContext context = contextFactory.CreateDbContext();
 
-        public async Task<SaleModel?> CreateSaleAsync(SaleModel model)
+        private static SaleModel SaleMap(SaleRequest request)
+        {
+            var sale = new SaleModel
+            {
+                SaleDate = request.SaleDate,
+                ClientId = request.ClientId,
+                
+                Book = request.Book ?? string.Empty,
+                Page = request.Page ?? string.Empty,
+                ServiceOrder = request.ServiceOrder,
+                DoctorName = request.DoctorName,
+                Crm = request.Crm,
+
+                OdEsferico = request.OdEsferico,
+                OdCilindrico = request.OdCilindrico,
+                OdEixo = request.OdEixo,
+                OdDnp = request.OdDnp,
+
+                OeEsferico = request.OeEsferico,
+                OeCilindrico = request.OeCilindrico,
+                OeEixo = request.OeEixo,
+                OeDnp = request.OeDnp,
+
+                Adicao = request.Adicao,
+                CentroOtico = request.CentroOtico,
+
+                Type = request.Type,
+                Ref = request.Ref
+            };
+
+            return sale;
+        }
+
+        public async Task<SaleModel?> CreateSaleAsync(SaleRequest request)
         {
             try
             {
-                await context.AddAsync(model);
+                var sale = SaleMap(request);
+                await context.Sales.AddAsync(sale);
                 await context.SaveChangesAsync();
-                return model;
+                return sale;
+                foreach(var product in request.ProductItems)
+                {
+                     
+                }
             }
             catch (Exception ex)
             {
@@ -39,10 +78,10 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
 
                 #region Mapping Data
                 sale.SaleDate = model.SaleDate;
-                //sale.ItemQt = model.ItemQt;
-                //sale.Discount = model.Discount;
-                //sale.FinalPrice = model.FinalPrice;
-                //sale.Observation = model.Observation;
+                //sale.ItemQt = request.ItemQt;
+                //sale.Discount = request.Discount;
+                //sale.FinalPrice = request.FinalPrice;
+                //sale.Observation = request.Observation;
                 sale.ClientId = model.ClientId;
                 sale.Products = model.Products;
                 sale.Services = model.Services;

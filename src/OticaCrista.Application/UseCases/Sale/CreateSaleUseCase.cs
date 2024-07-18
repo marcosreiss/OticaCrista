@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using OticaCrista.communication.Requests.Sale;
 using OticaCrista.communication.Responses;
 using OticaCrista.Infra.DataBase.Repository.Sale;
 using SistOtica.Models.Sale;
@@ -9,9 +10,9 @@ namespace OticaCrista.Application.UseCases.Sale
         ISaleRepository _repository,
         ILogger<CreateSaleUseCase> _logger)
     {
-        public async Task<Response<SaleModel>> Execute()
+        public async Task<Response<SaleModel>> Execute(SaleRequest request)
         {
-
+            return null;
         }
     }
 }

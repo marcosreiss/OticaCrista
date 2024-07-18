@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using OticaCrista.Model.Models.Sale;
 using SistOtica.Data.Mapping;
 using SistOtica.Models.Client;
 using SistOtica.Models.Product;
@@ -28,6 +29,8 @@ namespace OticaCrista.Infra.DataBase
 
         //Sale
         public DbSet<SaleModel> Sales { get; set; }
+        public DbSet<SaleProductItem> SalesProducts { get; set; }
+        public DbSet<SaleServiceItem> SalesServices { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
 
 
