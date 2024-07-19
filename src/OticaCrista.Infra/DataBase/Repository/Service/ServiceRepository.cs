@@ -109,6 +109,11 @@ namespace OticaCrista.Infra.DataBase.Repository.Service
             }
             return null;
         }
+        public async Task<int> CountServiceAsync()
+        {
+            return await context.Services.CountAsync();
+        }
+
         
     }
 }

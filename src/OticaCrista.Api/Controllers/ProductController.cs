@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using OticaCrista.Application.UseCases.Product;
 using OticaCrista.communication.Requests.Product;
 using OticaCrista.communication.Responses;
@@ -23,45 +24,55 @@ namespace OticaCrista.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<Response<ProductModel>> Update(ProductRequest input, int id,
+        public async Task<IActionResult> Update(ProductRequest request, int id,
             [FromServices] UpdateProductUseCase useCase)
         {
-            var response = await useCase.Execute(input, id);
-            return response;
+            var response = await useCase.Execute(request, id);
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
         }
 
         [HttpDelete("{id}")]
-        public async Task<Response<ProductModel>> Delete(int id,
+        public async Task<IActionResult> Delete(int id,
             [FromServices] DeleteProductUseCase useCase)
         {
             var response = await useCase.Execute(id);
-            return response;
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<Response<ProductModel>> GetById(int id,
+        public async Task<IActionResult> GetById(int id,
             [FromServices] GetProductByIdUseCase useCase)
         {
             var response = await useCase.Execute(id);
-            return response;
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
         }
 
         [HttpGet]
-        public async Task<PagedResponse<List<ProductModel>>> GetAll(
+        public async Task<IActionResult> GetAll(
             [FromServices] GetAllProductsPagedUseCase useCase,
             [FromQuery]int currentPage)
         {
             var take = 100;
             var skip = (currentPage - 1) * take;
 
-            var result = await useCase.Execute(skip, take);
-
-            return result;
+            var response = await useCase.Execute(skip, take);
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
         }
-
-
-
-
-
     }
 }

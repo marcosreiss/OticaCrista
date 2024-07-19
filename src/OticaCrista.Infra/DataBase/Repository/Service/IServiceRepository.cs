@@ -9,6 +9,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Service
         Task<ServiceModel?> DeleteServiceAsync(int id);
         Task<ServiceModel?> GetServiceByIdAsync(int id);
         Task<List<ServiceModel>?> GetAllServicesPaginadedAsync(int skip, int take);
+        Task<int> CountServiceAsync();
 
     }
 }
