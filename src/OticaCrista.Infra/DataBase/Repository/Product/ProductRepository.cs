@@ -13,9 +13,24 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
     {
         private readonly OticaCristaContext _context = factory.CreateDbContext();
 
-
-        public async Task<ProductModel?> CreateProductAsync(ProductModel product)
+        private static ProductModel MapProduct(ProductRequest request)
         {
+            var product = new ProductModel
+            {
+                Name = request.Name,
+                BuyPrice = request.BuyPrice,
+                Addition = request.Additon,
+                SalePrice = request.SalePrice,
+                Quantity = request.Quantity,
+                BrandId = request.BrandId,
+            };
+            return product;
+        }
+
+
+        public async Task<ProductModel?> CreateProductAsync(ProductRequest request)
+        {
+            var product = MapProduct(request);
             try
             {
                 await _context.Products.AddAsync(product);

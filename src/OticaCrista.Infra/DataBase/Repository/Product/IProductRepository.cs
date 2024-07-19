@@ -5,7 +5,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
 {
     public interface IProductRepository
     {
-        Task<ProductModel?> CreateProductAsync(ProductModel product);
+        Task<ProductModel?> CreateProductAsync(ProductRequest product);
         Task<ProductModel?> UpdateProductAsync(ProductRequest model, int id);
         Task<ProductModel?> DeleteProductAsync(int id);
         Task<ProductModel?> GetProductByIdAsync(int id);

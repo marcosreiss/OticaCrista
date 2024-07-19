@@ -11,11 +11,15 @@ namespace OticaCrista.Api.Controllers
     public class ProductController : ControllerBase
     {
         [HttpPost]
-        public async Task<Response<ProductModel>> Post([FromBody] ProductRequest input,
+        public async Task<IActionResult> Create([FromBody] ProductRequest request,
             [FromServices] CreateProductUseCase useCase)
         {
-            var response = await useCase.Execute(input);
-            return response;
+            var response = await useCase.Execute(request);
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
         }
 
         [HttpPut("{id}")]

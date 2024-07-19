@@ -13,16 +13,8 @@ namespace OticaCrista.Application.UseCases.Product
             //Validate(request);
             try
             {
-                var product = new ProductModel
-                {
-                    Name = request.Name,
-                    BuyPrice = request.BuyPrice,
-                    Addition = request.Additon,
-                    SalePrice = request.SalePrice,
-                    Quantity = request.Quantity,
-                    BrandId = request.BrandId,
-                };
-                var response = await _repository.CreateProductAsync(product);
+                
+                var response = await _repository.CreateProductAsync(request);
                 if (response != null)
                     return new Response<ProductModel>(response, 200, "Produto cadastrado com sucesso!");
                 else
