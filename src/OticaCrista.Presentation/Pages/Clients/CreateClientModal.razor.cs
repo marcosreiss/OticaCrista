@@ -107,7 +107,6 @@ namespace OticaCrista.Presentation.Pages.Clients
             references.Add(reference);
         }
 
-
         #endregion
     }
 }

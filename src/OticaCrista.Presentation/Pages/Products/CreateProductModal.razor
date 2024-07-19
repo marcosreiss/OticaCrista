@@ -1,0 +1,57 @@
+﻿@using OticaCrista.communication.Requests.Product
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="CreateForm" @bind-IsValid="Success" @bind-Errors="ErrorMessages">
+            <MudTextField T="string"
+                          Label="Nome do Produto"
+                                Required
+                           RequiredError="Insira o Nome do Produto"
+                           @bind-Value="input.Name" />
+
+             <MudTextField T="decimal"
+                           Label="Preço de Compra"
+                                Required
+                           RequiredError="Insira o Preço de Compra"
+                           @bind-Value="input.BuyPrice" />
+
+             <MudTextField T="decimal"
+                           Label="Acréscimo"
+                                Required
+                           RequiredError="Insira o Acréscimo"
+                           @bind-Value="input.Addition" />
+
+             <MudTextField T="decimal"
+                           Label="Preço de Venda"
+                                Required
+                           RequiredError="Insira o Preço de Venda"
+                           @bind-Value="input.SalePrice" />
+
+             <MudTextField T="int"
+                           Label="Quantidade"
+                                Required
+                           RequiredError="Insira a Quantidade"
+                           @bind-Value="input.Quantity" />
+
+        </MudForm>
+    </DialogContent>
+</MudDialog>
+
+
+@code {
+    public ProductRequest input { get; set; }
+    public bool IsBusy = false;
+
+    [CascadingParameter]
+    public MudDialogInstance ModalInstance { get; set; } = null!;
+
+    public MudForm CreateForm { get; set; } = null!;
+    public bool Success { get; set; }
+    public string[] ErrorMessages { get; set; } = [];
+
+    [Inject] ISnackbar Snackbar { get; set; } = null!;
+
+
+    public void Cancel() => ModalInstance.Close();
+
+}

@@ -19,7 +19,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
             {
                 Name = request.Name,
                 BuyPrice = request.BuyPrice,
-                Addition = request.Additon,
+                Addition = request.Addition,
                 SalePrice = request.SalePrice,
                 Quantity = request.Quantity,
                 BrandId = request.BrandId,
@@ -55,10 +55,11 @@ namespace OticaCrista.Infra.DataBase.Repository.Product
                     _logger.LogError("(ProductRepository.UpdateProductAsync): id pasado inválido, product não encontrada");
                     return null;
                 }
+                var updateProduct = MapProduct(request);
 
                 product.Name = request.Name;
                 product.BuyPrice = request.BuyPrice;
-                product.Addition = request.Additon;
+                product.Addition = request.Addition;
                 product.SalePrice = request.SalePrice;
                 product.Quantity = request.Quantity;
                 product.BrandId = request.BrandId;

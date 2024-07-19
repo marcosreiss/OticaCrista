@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using OticaCrista.communication.Responses;
+using OticaCrista.Presentation.Pages.Brands;
+using OticaCrista.Presentation.Pages.Products;
 using RestSharp;
 using SistOtica.Models.Client;
 using SistOtica.Models.Product;
