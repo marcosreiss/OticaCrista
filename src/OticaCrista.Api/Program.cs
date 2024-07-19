@@ -3,6 +3,7 @@ using OticaCrista.Application.UseCases.Brand;
 using OticaCrista.Application.UseCases.Client;
 using OticaCrista.Application.UseCases.Product;
 using OticaCrista.Application.UseCases.Sale;
+using OticaCrista.Application.UseCases.Service;
 using OticaCrista.Infra.DataBase;
 using OticaCrista.Infra.DataBase.Repository.Brand;
 using OticaCrista.Infra.DataBase.Repository.Client;
@@ -66,7 +67,7 @@ builder.Services.AddScoped<DeleteProductUseCase>();
 
 // -> Service
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
-builder.Services.AddScoped<CreateSaleUseCase>();
+builder.Services.AddScoped<CreateServiceUseCase>();
 
 // -> Client
 builder.Services.AddScoped<IClientRepository, ClientRepository>();

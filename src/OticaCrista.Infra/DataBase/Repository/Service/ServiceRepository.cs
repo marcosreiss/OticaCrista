@@ -52,7 +52,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Service
             }
             return null;
         }
-
         public async Task<ServiceModel?> DeleteServiceAsync(int id)
         {
             try
@@ -97,7 +96,6 @@ namespace OticaCrista.Infra.DataBase.Repository.Service
             }
             return null;
         }
-
         public async Task<List<ServiceModel>?> GetAllServicesPaginadedAsync(int skip, int take)
         {
             try
