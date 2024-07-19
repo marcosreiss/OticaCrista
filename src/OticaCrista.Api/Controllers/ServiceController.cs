@@ -20,5 +20,17 @@ namespace OticaCrista.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(ServiceModel request, int id,
+            [FromServices] UpdateServiceUseCase useCase)
+        {
+            var response = await useCase.Execute(request, id);
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
+        }
     }
 }

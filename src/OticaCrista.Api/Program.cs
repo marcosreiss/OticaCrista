@@ -68,6 +68,10 @@ builder.Services.AddScoped<DeleteProductUseCase>();
 // -> Service
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<CreateServiceUseCase>();
+builder.Services.AddScoped<UpdateServiceUseCase>();
+builder.Services.AddScoped<DeleteServiceUseCase>();
+builder.Services.AddScoped<GetServiceByIdUseCase>();
+builder.Services.AddScoped<GetAllServicesPagedUseCase>();
 
 // -> Client
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
