@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OticaCrista.communication.Requests.Sale;
+using OticaCrista.Model.Models.Sale;
 using SistOtica.Models.Sale;
 
 namespace OticaCrista.Infra.DataBase.Repository.Sale
@@ -12,7 +13,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
     {
         private readonly OticaCristaContext context = contextFactory.CreateDbContext();
 
-        private static SaleModel SaleMap(SaleRequest request)
+        private SaleModel SaleMap(SaleRequest request)
         {
             var sale = new SaleModel
             {
@@ -42,34 +43,62 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
                 Ref = request.Ref
             };
 
+            if (request.ProductItems?.Count > 0)
+            {
+                sale.Products = new List<SaleProductItem>();
+                foreach (var productRequest in request.ProductItems)
+                {
+                    var product = ProductMap(productRequest);
+                    sale.Products.Add(product);
+                }
+            }
+            if (request.ServiceItems?.Count > 0)
+            {
+                sale.Services = new List<SaleServiceItem>();
+                foreach (var serviceRequest in request.ServiceItems)
+                {
+                    var service = ServiceMap(serviceRequest);
+                    sale.Services.Add(service);
+                }
+            }
+
             return sale;
         }
+        private SaleProductItem ProductMap(SaleProductRequest request)
+        {
+            var product = new SaleProductItem
+            {
+                ProductId = request.ProductId,
+                Amount = request.Amount,
+                Discount = request.Discount,
+                FinalPrice = request.FinalPrice,
+                Observation = request.Observation,
+            };
+            var stock =  context.Products.FirstOrDefault( x => x.Id == request.ProductId );
+            stock.Quantity -= product.Amount;
+            context.Products.Update(stock);
+            return product;
+        }
+        private static SaleServiceItem ServiceMap(SaleServiceRequest request)
+        {
+            var service = new SaleServiceItem
+            {
+                ServiceId = request.ServiceId,
+                Discount = request.Discount,
+                Amount = request.Amount,
+                FinalPrice = request.FinalPrice,
+                Observation = request?.Observation,
+            };
+            return service;
+        }
+
 
         public async Task<SaleModel?> CreateSaleAsync(SaleRequest request)
         {
             try
             {
                 var sale = SaleMap(request);
-                if(request.ProductItems?.Count > 0)
-                { 
-                    sale.ProductItemId = new List<int>();
-                    foreach (var product in request.ProductItems)
-                    {
-                        var newProduct = await context.SalesProducts.AddAsync(product);
-                        await context.SaveChangesAsync();
-                        sale.ProductItemId.Add(newProduct.Entity.Id);
-                    }
-                }
-                if(request.ServiceItems?.Count > 0)
-                {
-                    sale.ServiceItemId = new List<int>();
-                    foreach (var services in request.ServiceItems)
-                    {
-                        var newService = await context.SalesServices.AddAsync(services);
-                        await context.SaveChangesAsync();
-                        sale.ServiceItemId.Add(newService.Entity.Id);
-                    }
-                }
+                
 
                 await context.Sales.AddAsync(sale);
                 await context.SaveChangesAsync();

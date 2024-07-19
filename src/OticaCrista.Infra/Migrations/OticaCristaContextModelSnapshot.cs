@@ -40,9 +40,14 @@ namespace OticaCrista.Infra.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SaleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("SaleId");
 
                     b.ToTable("SalesProducts");
                 });
@@ -65,44 +70,19 @@ namespace OticaCrista.Infra.Migrations
                     b.Property<string>("Observation")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("SaleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SaleId");
+
                     b.HasIndex("ServiceId");
 
                     b.ToTable("SalesServices");
-                });
-
-            modelBuilder.Entity("SaleModelSaleProductItem", b =>
-                {
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SalesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductsId", "SalesId");
-
-                    b.HasIndex("SalesId");
-
-                    b.ToTable("SaleModelSaleProductItem");
-                });
-
-            modelBuilder.Entity("SaleModelSaleServiceItem", b =>
-                {
-                    b.Property<int>("SalesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServicesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SalesId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("SaleModelSaleServiceItem");
                 });
 
             modelBuilder.Entity("SistOtica.Models.Client.ClientContact", b =>
@@ -352,17 +332,11 @@ namespace OticaCrista.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ProductItemId")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Ref")
                         .HasColumnType("longtext");
 
                     b.Property<DateOnly>("SaleDate")
                         .HasColumnType("date");
-
-                    b.Property<string>("ServiceItemId")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("ServiceOrder")
                         .HasColumnType("int");
@@ -403,48 +377,34 @@ namespace OticaCrista.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SistOtica.Models.Sale.SaleModel", "Sale")
+                        .WithMany("Products")
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
+
+                    b.Navigation("Sale");
                 });
 
             modelBuilder.Entity("OticaCrista.Model.Models.Sale.SaleServiceItem", b =>
                 {
+                    b.HasOne("SistOtica.Models.Sale.SaleModel", "Sale")
+                        .WithMany("Services")
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SistOtica.Models.Service.ServiceModel", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Sale");
+
                     b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("SaleModelSaleProductItem", b =>
-                {
-                    b.HasOne("OticaCrista.Model.Models.Sale.SaleProductItem", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SistOtica.Models.Sale.SaleModel", null)
-                        .WithMany()
-                        .HasForeignKey("SalesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SaleModelSaleServiceItem", b =>
-                {
-                    b.HasOne("SistOtica.Models.Sale.SaleModel", null)
-                        .WithMany()
-                        .HasForeignKey("SalesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OticaCrista.Model.Models.Sale.SaleServiceItem", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SistOtica.Models.Client.ClientContact", b =>
@@ -520,6 +480,10 @@ namespace OticaCrista.Infra.Migrations
                 {
                     b.Navigation("Payment")
                         .IsRequired();
+
+                    b.Navigation("Products");
+
+                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

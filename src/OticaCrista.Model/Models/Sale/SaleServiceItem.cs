@@ -1,6 +1,7 @@
 ﻿using SistOtica.Models.Product;
 using SistOtica.Models.Sale;
 using SistOtica.Models.Service;
+using System.Text.Json.Serialization;
 
 namespace OticaCrista.Model.Models.Sale
 {
@@ -14,7 +15,10 @@ namespace OticaCrista.Model.Models.Sale
         public double FinalPrice { get; set; }
         public string? Observation { get; set; }
 
-        public List<SaleModel>? Sales { get; set; }
+        [JsonIgnore]
+        public SaleModel Sale { get; set; }
+        public int SaleId { get; set; }
+
 
     }
 }

@@ -4,6 +4,8 @@ using OticaCrista.communication.Requests.Sale;
 
 namespace OticaCrista.Api.Controllers
 {
+    [Route("[Controller]")]
+    [ApiController]
     public class SaleController : ControllerBase
     {
         [HttpPost]

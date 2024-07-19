@@ -11,8 +11,8 @@ namespace OticaCrista.communication.Requests.Sale
 
         public int ClientId { get; set; }
 
-        public List<SaleProductItem>? ProductItems { get; set; }
-        public List<SaleServiceItem>? ServiceItems { get; set; }
+        public List<SaleProductRequest>? ProductItems { get; set; }
+        public List<SaleServiceRequest>? ServiceItems { get; set; }
 
         public string? Book { get; set; } 
         public string? Page { get; set; } 

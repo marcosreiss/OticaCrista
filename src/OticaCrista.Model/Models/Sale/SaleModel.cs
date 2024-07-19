@@ -26,10 +26,8 @@ namespace SistOtica.Models.Sale
 
         #region Product/Service and Payment
 
-        public List<int>? ProductItemId { get; set; }
         public List<SaleProductItem>? Products { get; set; } 
 
-        public List<int>? ServiceItemId { get; set; }
         public List<SaleServiceItem>? Services { get; set; }
 
         public PaymentModel Payment { get; set; } = new();

@@ -13,6 +13,7 @@ using OticaCrista.Infra.DataBase.Repository.Sale;
 using OticaCrista.Infra.DataBase.Repository.Service;
 using Serilog;
 using Serilog.Events;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,11 @@ builder.Host.UseSerilog((ctx, lc) => lc
 builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
 builder.Services.AddMvc();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -86,6 +91,11 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
 // -> Sale
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+builder.Services.AddScoped<CreateSaleUseCase>();
+builder.Services.AddScoped<UpdateSaleUseCase>();
+builder.Services.AddScoped<DeleteSaleUseCase>();
+builder.Services.AddScoped<GetSaleByIdUseCase>();
+builder.Services.AddScoped<GetAllSalesPagedUseCase>();
 
 
 var app = builder.Build();

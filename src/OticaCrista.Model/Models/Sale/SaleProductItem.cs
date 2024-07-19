@@ -15,6 +15,7 @@ namespace OticaCrista.Model.Models.Sale
         public string? Observation { get; set; }
 
         [JsonIgnore]
-        public List<SaleModel>? Sales { get; set; }
+        public SaleModel Sale { get; set; }
+        public int SaleId { get; set; }
     }
 }
