@@ -46,6 +46,11 @@ namespace OticaCrista.Infra.DataBase
                 client.Property(x => x.BornDate)
                     .HasConversion<DateOnlyConverter, DateOnlyComparer>();
             });
+            modelBuilder.Entity<SaleModel>(sale =>
+            {
+                sale.Property(x => x.SaleDate)
+                .HasConversion<DateOnlyConverter, DateOnlyComparer>();
+            });
 
             base.OnModelCreating(modelBuilder);
         }

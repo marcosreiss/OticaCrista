@@ -189,7 +189,11 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
         {
             try
             {
-                var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == id);
+                var sale = await context.Sales
+                    .Include(x => x.Products)
+                    .Include(x => x.Services)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
                 if (sale == null)
                 {
                     logger.LogError("(SaleRepository.GetSaleByIdAsync): id pasado inválido, sale não encontrada");

@@ -20,5 +20,17 @@ namespace OticaCrista.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id, [FromServices] GetSaleByIdUseCase useCase)
+        {
+            var response = await useCase.Execute(id);
+            if (response.StatusCode is >= 200 and <= 299)
+            {
+                return Created("", response);
+            }
+            return BadRequest(response);
+        }
+
     }
 }
