@@ -111,11 +111,14 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             return null;
         }
 
-        public async Task<SaleModel?> UpdateSaleAsync(int id, SaleModel model)
+        public async Task<SaleModel?> UpdateSaleAsync(int id, SaleRequest request)
         {
             try
             {
-                var sale = await context.Sales.FirstOrDefaultAsync(x => x.Id == id);
+                var sale = await context.Sales
+                    .Include(s => s.Products)
+                    .Include(s => s.Services)
+                    .FirstOrDefaultAsync(x => x.Id == id);
                 if (sale == null)
                 {
                     logger.LogError("(SaleRepository.UpdateSaleAsync): id pasado inválido, sale não encontrada");
@@ -123,32 +126,89 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
                 }
 
                 #region Mapping Data
-                sale.SaleDate = model.SaleDate;
-                //sale.ItemQt = request.ItemQt;
-                //sale.Discount = request.Discount;
-                //sale.FinalPrice = request.FinalPrice;
-                //sale.Observation = request.Observation;
-                sale.ClientId = model.ClientId;
-                sale.Products = model.Products;
-                sale.Services = model.Services;
-                sale.Book = model.Book;
-                sale.Page = model.Page;
-                sale.ServiceOrder = model.ServiceOrder;
-                sale.DoctorName = model.DoctorName;
-                sale.Crm = model.Crm;
-                sale.OdEsferico = model.OdEsferico;
-                sale.OdCilindrico = model.OdCilindrico;
-                sale.OdEixo = model.OdEixo;
-                sale.OdDnp = model.OdDnp;
-                sale.OeEsferico = model.OeEsferico;
-                sale.OeCilindrico = model.OeCilindrico;
-                sale.OeEixo = model.OeEixo;
-                sale.OeDnp = model.OeDnp;
-                sale.Adicao = model.Adicao;
-                sale.CentroOtico = model.CentroOtico;
-                sale.Type = model.Type;
-                sale.Ref = model.Ref;
+                    sale.SaleDate = request.SaleDate;
+                    sale.ClientId = request.ClientId;
+                    sale.Book = request.Book;
+                    sale.Page = request.Page;
+                    sale.ServiceOrder = request.ServiceOrder;
+                    sale.DoctorName = request.DoctorName;
+                    sale.Crm = request.Crm;
+                    sale.OdEsferico = request.OdEsferico;
+                    sale.OdCilindrico = request.OdCilindrico;
+                    sale.OdEixo = request.OdEixo;
+                    sale.OdDnp = request.OdDnp;
+                    sale.OeEsferico = request.OeEsferico;
+                    sale.OeCilindrico = request.OeCilindrico;
+                    sale.OeEixo = request.OeEixo;
+                    sale.OeDnp = request.OeDnp;
+                    sale.Adicao = request.Adicao;
+                    sale.CentroOtico = request.CentroOtico;
+                    sale.Type = request.Type;
+                    sale.Ref = request.Ref;
                 #endregion
+
+                foreach(var productRequest in request.ProductItems)
+                {
+                    var existingProduct = sale.Products
+                        .FirstOrDefault(p => p.ProductId == productRequest.ProductId);
+
+                    if (existingProduct != null)
+                    {
+                        existingProduct.Amount = productRequest.Amount;
+                        existingProduct.Discount = productRequest.Discount;
+                        existingProduct.FinalPrice = productRequest.FinalPrice;
+                        existingProduct.Observation = productRequest.Observation ?? existingProduct.Observation;
+                    }
+                    else
+                    {
+                        var newProduct = new SaleProductItem 
+                        { 
+                            ProductId = productRequest.ProductId,
+                            Amount = productRequest.Amount,
+                            Discount = productRequest.Discount,
+                            FinalPrice = productRequest.FinalPrice,
+                            Observation = productRequest.Observation,
+                            SaleId = sale.Id
+                        };
+                        sale.Products.Add(newProduct);
+                    }
+                }
+
+                foreach (var serviceRequest in request.ServiceItems)
+                {
+                    var existingService = sale.Services
+                        .FirstOrDefault(s => s.ServiceId == serviceRequest.ServiceId);
+
+                    if (existingService != null)
+                    {
+                        // Atualizar o serviço existente
+                        existingService.Amount = serviceRequest.Amount;
+                        existingService.Discount = serviceRequest.Discount;
+                        existingService.FinalPrice = serviceRequest.FinalPrice;
+                        existingService.Observation = serviceRequest.Observation ?? existingService.Observation;
+                    }
+                    else
+                    {
+                        // Adicionar um novo serviço
+                        var newService = new SaleServiceItem
+                        {
+                            ServiceId = serviceRequest.ServiceId,
+                            Amount = serviceRequest.Amount,
+                            Discount = serviceRequest.Discount,
+                            FinalPrice = serviceRequest.FinalPrice,
+                            Observation = serviceRequest.Observation,
+                            SaleId = sale.Id
+                        };
+                        sale.Services.Add(newService);
+                    }
+                }
+
+                var productIds = request.ProductItems.Select(p => p.ProductId).ToList();
+                sale.Products.RemoveAll(p => !productIds.Contains(p.ProductId));
+
+                var serviceIds = request.ServiceItems.Select(s => s.ServiceId).ToList();
+                sale.Services.RemoveAll(s => !serviceIds.Contains(s.ServiceId));
+
 
                 context.Sales.Update(sale);
                 await context.SaveChangesAsync();
@@ -185,7 +245,7 @@ namespace OticaCrista.Infra.DataBase.Repository.Sale
             return null;
         }
 
-        public async Task<SaleModel?> GetSaleByIdAsync(int id)
+        public async Task<SaleModel?> GetSaleByIdAsync(int id) 
         {
             try
             {
