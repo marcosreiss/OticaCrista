@@ -1,0 +1,45 @@
+﻿@page "/produtos"
+@inherits HomeProductsPage
+
+<PageTitle>Produtos</PageTitle>
+
+<MudTable Items="@Products" Style="margin: 10px; height: 600px; overflow:auto" Hover="true" Loading="LoadingTable" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>Nome</MudTh>
+        <MudTh>Preço de Compra</MudTh>
+        <MudTh>Preço de Venda</MudTh>
+        <MudTh>Quantidade</MudTh>
+        <MudTh>
+            <MudButton IconClass="@Icons.Material.Filled.Add"
+                       OnClick="OnCreateClickAsync"
+                       Variant="Variant.Filled">
+                Novo Produto
+            </MudButton>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        @if (Products.Count != 0)
+        {
+            <MudTd DataLabel="#">@context.position</MudTd>
+            <MudTd DataLabel="Nome">@context.product.Name</MudTd>
+            <MudTd DataLabel="Preço de Compra">@context.product.BuyPrice</MudTd>
+            <MudTd DataLabel="Preço de Venda">@context.product.SalePrice</MudTd>
+            <MudTd DataLabel="Quantidade">@context.product.Quantity</MudTd>
+            <MudTd>
+                @* <MudIconButton Icon="@Icons.Material.Filled.Info"
+                               OnClick="() => OnDetailsClick(context.product)" />
+
+                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                               OnClick="() => OnEditClickAsync(context.product, context.position)" /> *@
+
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               OnClick="() => OnDeleteClickAsync(context.product.Id, context.product.Name)" />
+            </MudTd>
+        }
+        else
+        {
+            <h3>Nenhum Produto Cadastrado</h3>
+        }
+    </RowTemplate>
+</MudTable>

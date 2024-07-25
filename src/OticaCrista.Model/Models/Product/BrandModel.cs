@@ -6,6 +6,6 @@ namespace SistOtica.Models.Product
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public ICollection<ProductModel>? Products { get; set; } = new List<ProductModel>();
+        public List<ProductModel>? Products { get; set; } = new List<ProductModel>();
     }
 }

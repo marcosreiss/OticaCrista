@@ -28,11 +28,11 @@ builder.Host.UseSerilog((ctx, lc) => lc
 builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
 builder.Services.AddMvc();
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    });
+builder.Services.AddControllers();
+    //.AddJsonOptions(options =>
+    //{
+    //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    //});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

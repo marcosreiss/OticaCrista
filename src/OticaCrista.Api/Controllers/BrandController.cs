@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Crypto.Modes.Gcm;
 using OticaCrista.Application.UseCases.Brand;
 using OticaCrista.communication.Requests.Product;
-using OticaCrista.Infra.DataBase.Repository;
-using SistOtica.Models.Product;
 
 namespace OticaCrista.Api.Controllers
 {
